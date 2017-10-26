@@ -1,18 +1,22 @@
-import React from 'react';
-import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Text,
+		 View,
+		 ImageBackground,
+		 StyleSheet,
+		 KeyboardAvoidingView,
+		 TextInput,
+		 Button,
+		 TouchableWithoutFeedback,
+		 Keyboard } from 'react-native'
 import { RectangleButton } from 'react-native-button-component'
+import { updateTableNumber } from '../store/actions/action.session'
 
-export default class LoginScreen extends React.Component {
-	
-	constructor(props) {
-		super(props);
-		this.state = {
-			tableNumber: 0,
-		};
-	}
+export class LoginScreen extends Component {
 	
 	onPress(){
-		alert(`${this.state.tableNumber}`)
+		alert(`${this.props.number}`)
 	}
 	
 	render() {
@@ -28,10 +32,9 @@ export default class LoginScreen extends React.Component {
 							>
 							<TextInput
 								placeholder="Table Number"
-								value={this.state.tableNumber.toString()}
 								style={styles.textInput}
 								keyboardType='numeric'
-								onChangeText={(tableNumber) => this.setState({ tableNumber })}
+								onChangeText={(number) => {this.props.updateNumber({number}); }}
 								/>
 							<RectangleButton
 								title="Entrar"
@@ -56,7 +59,6 @@ const styles = StyleSheet.create({
 	image: {
 		width: '100%',
 		height: '100%',
-		padding: 40,
 		backgroundColor: 'lightblue',
 	},
 	content: {
@@ -82,3 +84,18 @@ const styles = StyleSheet.create({
 		minWidth: 250,
 	},
 });
+
+const mapStateToProps = state => {
+	return {
+		number: state.number
+	};
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		dispatch,
+		updateNumber: (number) => dispatch(updateTableNumber(number))
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
