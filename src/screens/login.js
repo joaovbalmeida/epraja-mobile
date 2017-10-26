@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Text,
 		 View,
@@ -14,11 +13,7 @@ import { RectangleButton } from 'react-native-button-component'
 import { updateTableNumber } from '../store/actions/action.session'
 
 export class LoginScreen extends Component {
-	
-	onPress(){
-		alert(`${this.props.number}`)
-	}
-	
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -30,6 +25,7 @@ export class LoginScreen extends Component {
 							style={styles.content}
 							keyboardVerticalOffset={150}
 							>
+							<Text>{this.props.number}</Text>
 							<TextInput
 								placeholder="Table Number"
 								style={styles.textInput}
@@ -38,7 +34,7 @@ export class LoginScreen extends Component {
 								/>
 							<RectangleButton
 								title="Entrar"
-								onPress={this.onPress.bind(this)}
+								onPress={() => this.props.navigation.navigate('drawerStack')}
 								style={styles.button}
 								color="black"
 								/>
