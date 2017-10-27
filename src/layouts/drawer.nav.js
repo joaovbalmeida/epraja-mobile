@@ -1,7 +1,7 @@
-import React from 'react'
-import { Text } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import DrawerStack from './drawer.stack'
+import React from 'react';
+import { Text } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import DrawerStack from './drawer.stack';
 
 const DrawerNav = StackNavigator({
 	drawerStack: { screen: DrawerStack }
@@ -20,6 +20,6 @@ const DrawerNav = StackNavigator({
 			}
 		}}>Menu</Text>,
 	})
-})
+});
 
-export default DrawerNav
+export default DrawerNav;

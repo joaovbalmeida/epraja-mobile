@@ -1,10 +1,10 @@
 const sessionReducer = (state = 0, action) => {
 	switch (action.type){
 		case 'UPDATE_TABLE_NUMBER':
-			return action.number
+			return action.number;
 		default:
-			return state
+			return state;
 	}
-}
+};
 
-export default sessionReducer
+export default sessionReducer;

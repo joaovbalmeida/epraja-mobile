@@ -1,8 +1,8 @@
 
-import { Animated, Easing } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import LoginStack from './login'
-import DrawerNav from './drawer.nav'
+import { Animated, Easing } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import LoginStack from './login';
+import DrawerNav from './drawer.nav';
 
 const noTransitionConfig = () => ({
 	transitionSpec: {
@@ -10,7 +10,7 @@ const noTransitionConfig = () => ({
 		timing: Animated.timing,
 		easing: Easing.step0
 	}
-})
+});
 
 const MainNav = StackNavigator({
 	loginStack: { screen: LoginStack },
@@ -20,6 +20,6 @@ const MainNav = StackNavigator({
 	title: 'Main',
 	initialRouteName: 'loginStack',
 	transitionConfig: noTransitionConfig
-})
+});
 
-export default MainNav
+export default MainNav;

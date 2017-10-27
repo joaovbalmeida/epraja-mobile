@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
-//import { connect } from 'react-redux'
+import React, { Component } from 'react';;
 import { Text,
 		View,
-		StyleSheet } from 'react-native'
+		StyleSheet } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Category1 from '../components/category1.js';
+import Category2 from '../components/category2.js';
+import Category3 from '../components/category3.js';
+
 
 export default class HomeScreen extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
-				<Text>Olá seja bem vindo</Text>
-			</View>
+			<ScrollableTabView >
+				<Category1 tabLabel="Category 1" />
+				<Category2 tabLabel="Category 2" />
+				<Category3 tabLabel="Category 3" />
+			</ScrollableTabView>
 		);
 	}
 }
@@ -22,18 +28,3 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 });
-
-/*const mapStateToProps = state => {
-	return {
-		number: state.number
-	};
-}
-
-const mapDispatchToProps = dispatch => {
-	return {
-		dispatch,
-		updateNumber: (number) => dispatch(updateTableNumber(number))
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);*/

@@ -1,6 +1,6 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { NavigationActions } from 'react-navigation'
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 export default class DrawerContainer extends React.Component {
 
@@ -9,12 +9,12 @@ export default class DrawerContainer extends React.Component {
 			index: 0,
 			key: null,
 			actions: [NavigationActions.navigate({ routeName: 'loginStack' })]
-		})
-		this.props.navigation.dispatch(actionToDispatch)
+		});
+		this.props.navigation.dispatch(actionToDispatch);
 	}
 
 	render() {
-		const { navigation } = this.props
+		const { navigation } = this.props;
 		return (
 			<View style={styles.container}>
 				<Text
@@ -37,7 +37,7 @@ export default class DrawerContainer extends React.Component {
 					Log Out
 				</Text>
 			</View>
-		)
+		);
 	}
 }
 
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		textAlign: 'center'
 	}
-})
+});
