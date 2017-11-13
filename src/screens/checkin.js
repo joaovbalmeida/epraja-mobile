@@ -43,6 +43,7 @@ export default class CheckinScreen extends Component {
         style={styles.container}
         data={this.state.data}
         renderItem={({item}) => this.renderFlatListItem(item)}
+        keyExtractor={item => item.email}
         ItemSeparatorComponent={this.renderSeparator}
         ListFooterComponent={this.renderFooter}
         onRefresh={this.handleRefresh}
