@@ -44,9 +44,11 @@ export default class RestaurantItem extends Component {
             </Text>
           </View>
           <View style={styles.secondSection}>
-            <Text>
-              {this.props.description}
-            </Text>
+            <View style={styles.descriptionView}>
+              <Text>
+                {this.props.description}
+              </Text>
+            </View>
             <View style={styles.infoView}>
               <CircleButton
                 style={styles.info}
@@ -76,13 +78,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 0,
     flexDirection: 'row',
-    height: 150,
+    height: 180,
     width: '100%',
-    backgroundColor: 'lightblue'
+    backgroundColor: 'black'
   },
   leftPanel: {
     flex: 1,
-    height: 150,
+    height: 180,
     justifyContent: 'center',
   },
   image: {
@@ -96,8 +98,8 @@ const styles = StyleSheet.create({
   },
   rightPanel: {
     flex: 2,
-    height: 150,
-    backgroundColor: 'green'
+    height: 180,
+    backgroundColor: 'white'
   },
   firstSection: {
     flex: 1,
@@ -130,7 +132,11 @@ const styles = StyleSheet.create({
   checkin:{
     marginRight: '10%',
   },
+  descriptionView: {
+    flex: 5,
+  },
   infoView: {
+    flex: 1,
     justifyContent: 'center',
     marginRight: '5%',
   },

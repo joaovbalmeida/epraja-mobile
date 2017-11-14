@@ -15,8 +15,6 @@ export default class CheckinScreen extends Component {
     this.state = {
       loading: false,
       data: [],
-      page: 1,
-      seed: 1,
       error: null,
       refreshing: false
     };
@@ -27,12 +25,17 @@ export default class CheckinScreen extends Component {
   }
 
   renderFlatListItem(item) {
+    var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
+    description.split("\n").map(i => {
+      return <div>{i}</div>;
+    })
+
     return (
       <RestaurantItem
-        name={`${item.name.first} ${item.name.last}`}
-        description={`${item.email}`}
-        price={`${item.gender}`}
-        image={`${item.picture.medium}`}
+        name={`${item.name}`}
+        description={description}
+        price={`${item.price}`}
+        image={`${item.image}`}
       />
     )
   }
@@ -55,23 +58,24 @@ export default class CheckinScreen extends Component {
   }
 
   makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    const url = `http://10.0.0.79:3030/businesses/`;
     this.setState({ loading: true });
 
     fetch(url)
-      .then(res => res.json())
-      .then(res => {
-      this.setState({
-        data: page === 1 ? res.results : [...this.state.data, ...res.results],
-        error: res.error || null,
-        loading: false,
-        refreshing: false
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          data: json.data,
+          error: json.error || null,
+          loading: false,
+          refreshing: false
+        });
+      }).catch(error => {
+        this.setState({ error, loading: false });
       });
-    }).catch(error => {
-      this.setState({ error, loading: false });
-    });
-  };
+
+    console.log(this.props.data)
+    };
 
   handleRefresh = () => {
     this.setState(
