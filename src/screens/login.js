@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Text,
 		 View,
 		 ImageBackground,
@@ -8,9 +8,9 @@ import { Text,
 		 TextInput,
 		 Button,
 		 TouchableWithoutFeedback,
-		 Keyboard } from 'react-native'
-import { RectangleButton } from 'react-native-button-component'
-import { updateTableNumber } from '../store/actions/action.session'
+		 Keyboard } from 'react-native';
+import { RectangleButton } from 'react-native-button-component';
+import { updateTableNumber } from '../store/actions/action.session';
 
 export class LoginScreen extends Component {
 
@@ -85,13 +85,13 @@ const mapStateToProps = state => {
 	return {
 		number: state.number
 	};
-}
+};
 
 const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		updateNumber: (number) => dispatch(updateTableNumber(number))
 	};
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

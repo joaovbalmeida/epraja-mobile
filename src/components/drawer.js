@@ -1,43 +1,33 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { NavigationActions } from 'react-navigation'
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import { RectangleButton } from 'react-native-button-component';
 
 export default class DrawerContainer extends React.Component {
 
-	logout = () => {
-		const actionToDispatch = NavigationActions.reset({
-			index: 0,
-			key: null,
-			actions: [NavigationActions.navigate({ routeName: 'loginStack' })]
-		})
-		this.props.navigation.dispatch(actionToDispatch)
-	}
-
 	render() {
-		const { navigation } = this.props
+		const { navigation } = this.props;
 		return (
 			<View style={styles.container}>
+        <RectangleButton
+          title="Entrar"
+          onPress={() => this.props.navigation.navigate('drawerStack')}
+          style={styles.button}
+          color="black"
+          height={25}
+          width={50}
+          />
 				<Text
-					onPress={() => navigation.navigate('homeScreen')}
-					style={styles.drawerItem}>
-					Screen 1
+				onPress={() => navigation.navigate('homeScreen')}
+				style={styles.drawerItem}>
+					FALE CONOSCO
 				</Text>
 				<Text
-
-					style={styles.drawerItem}>
-					Screen 2
-				</Text>
-				<Text
-
-					style={styles.drawerItem}>
-					Screen 3
-				</Text>
-				<Text
-					onPress={this.logout}>
-					Log Out
+				style={styles.drawerItem}>
+					TERMOS DE USO
 				</Text>
 			</View>
-		)
+		);
 	}
 }
 
@@ -58,5 +48,8 @@ const styles = StyleSheet.create({
 		borderColor: '#E73536',
 		borderWidth: 1,
 		textAlign: 'center'
-	}
-})
+	},
+  button: {
+    backgroundColor: 'white',
+ },
+});
