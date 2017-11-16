@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, Image, StyleSheet, View} from 'react-native'
+import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 
 export default class RestaurantItem extends Component {
@@ -11,7 +11,7 @@ export default class RestaurantItem extends Component {
       name: 'TT Burger',
       description: 'Hamburgeria',
       price: '',
-      image: '',
+      image: ''
     };
   }
 
@@ -61,12 +61,12 @@ export default class RestaurantItem extends Component {
               style={styles.menu}
               height={25}
               width={50}
-            />
+              />
             <RectangleButton
               style={styles.checkin}
               height={25}
               width={50}
-            />
+              />
           </View>
         </View>
       </View>

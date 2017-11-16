@@ -5,7 +5,7 @@ import LoginScreen from './../screens/login.js';
 import CheckinDrawer from './checkin.drawer.js'
 
 export default CheckinStack = StackNavigator({
-  checkinDrawer: {screen: CheckinDrawer },
+  checkinDrawer: { screen: CheckinDrawer },
   loginScreen: { screen: LoginScreen },
 },{
   headerMode: 'float',

@@ -3,9 +3,10 @@ import { View,
         Text,
         StyleSheet,
         FlatList,
-        ActivityIndicator } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+        ActivityIndicator,
+        TouchableOpacity } from 'react-native';
 import RestaurantItem from '../components/restaurant';
+import { NavigationActions } from 'react-navigation';
 
 export default class CheckinScreen extends Component {
 
@@ -24,29 +25,32 @@ export default class CheckinScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  renderFlatListItem(item) {
+  renderItem(item, navigate){
     var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
     description.split("\n").map(i => {
       return <div>{i}</div>;
     })
 
     return (
-      <RestaurantItem
-        name={`${item.name}`}
-        description={description}
-        price={`${item.price}`}
-        image={`${item.image}`}
-      />
+      <TouchableOpacity onPress={() => navigate('loginScreen')} activeOpacity={0.8}>
+        <RestaurantItem
+          name={`${item.name}`}
+          description={description}
+          price={`${item.price}`}
+          image={`${item.image}`}
+          />
+      </TouchableOpacity>
     )
   }
 
-  render() {
+  render(){
+    const { navigate } = this.props.navigation
     return (
       <FlatList
         style={styles.container}
         data={this.state.data}
-        renderItem={({item}) => this.renderFlatListItem(item)}
-        keyExtractor={item => item.email}
+        renderItem={({item}) => this.renderItem(item, navigate)}
+        keyExtractor={item => item.name}
         ItemSeparatorComponent={this.renderSeparator}
         ListFooterComponent={this.renderFooter}
         onRefresh={this.handleRefresh}
@@ -73,65 +77,36 @@ export default class CheckinScreen extends Component {
       }).catch(error => {
         this.setState({ error, loading: false });
       });
-
-    console.log(this.props.data)
-    };
+  };
 
   handleRefresh = () => {
-    this.setState(
-      {
+    this.setState({
         page: 1,
         seed: this.state.seed + 1,
         refreshing: true
-      },
-      () => {
+      }, () => {
         this.makeRemoteRequest();
-      }
-    );
+      });
   };
 
   handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
+    this.setState({ page: this.state.page + 1 }, () => { this.makeRemoteRequest(); } );
   };
 
   renderSeparator = () => {
     return (
-      <View
-        style={{
-          height: 1,
-            width: "86%",
-              backgroundColor: "#CED0CE",
-                marginLeft: "14%"
-        }}
-        />
+      <View style={styles.separator}/>
     );
   };
 
   renderFooter = () => {
     if (!this.state.loading) return null;
-
     return (
-      <View
-        style={{
-          paddingVertical: 20,
-            borderTopWidth: 1,
-              borderColor: "#CED0CE"
-        }}
-        >
+      <View style={styles.footer}>
         <ActivityIndicator animating size="large" />
       </View>
     );
   };
-
-
-
 }
 
 const styles = StyleSheet.create({
@@ -140,4 +115,15 @@ const styles = StyleSheet.create({
       height: '100%',
       width: '100%',
     },
+  footer: {
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderColor: "#CED0CE",
+  },
+  separator: {
+    height: 1,
+    width: "86%",
+    backgroundColor: "#CED0CE",
+    marginLeft: "14%",
+  }
 });
