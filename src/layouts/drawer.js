@@ -1,11 +1,11 @@
 import { DrawerNavigator } from 'react-navigation';
-import HomeScreen from './../screens/home';
+import MenuScreen from './../screens/menu';
 import DrawerContainer from '../components/drawer';
 
 export default Drawer = DrawerNavigator({
-	homeScreen: { screen: HomeScreen },
+  menuScreen: { screen: MenuScreen },
 }, {
-	gesturesEnabled: false,
+  gesturesEnabled: false,
   contentComponent: DrawerContainer,
   drawerPosition: 'right',
 });

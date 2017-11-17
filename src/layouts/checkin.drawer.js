@@ -7,5 +7,5 @@ export default CheckinDrawer = DrawerNavigator({
 }, {
   gesturesEnabled: false,
   contentComponent: DrawerContainer,
-  drawerPosition: 'right',
+  drawerPosition: 'right'
 });

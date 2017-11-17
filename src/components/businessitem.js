@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 
-export default class RestaurantItem extends Component {
+export default class BusinessItem extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      name: 'TT Burger',
-      description: 'Hamburgeria',
+      name: '',
+      description: '',
       price: '',
       image: ''
     };
@@ -91,10 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: undefined,
     width: undefined,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 10,
   },
   rightPanel: {
     flex: 2,
@@ -140,7 +136,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: '5%',
   },
-  menu: {
-
-  }
 });
