@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
+import PropTypes from 'prop-types';
 
 export default class FoodItem extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: '',
-      description: '',
-      price: '',
-      image: ''
-    };
-  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -52,6 +42,13 @@ export default class FoodItem extends Component {
     );
   }
 }
+
+FoodItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  description : PropTypes.string,
+  price: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

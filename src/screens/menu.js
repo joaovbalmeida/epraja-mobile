@@ -4,13 +4,14 @@ import { Text,
          StyleSheet,
          TouchableOpacity,
          FlatList,
-         ActivityIndicator } from 'react-native';
+         ActivityIndicator,
+         Picker } from 'react-native';
+import { connect } from 'react-redux';
 import FoodItem from '../components/fooditem';
 
+export class MenuScreen extends Component {
 
-export default class MenuScreen extends Component {
-
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.state = {
@@ -27,11 +28,11 @@ export default class MenuScreen extends Component {
 
   renderItem(item, navigate){
     return (
-      <TouchableOpacity >
+      <TouchableOpacity activeOpacity={0.8}>
         <FoodItem
           name={`${item.name}`}
           description={item.description}
-          price={`${item.price}`}
+          price={`${this.props.number}`}
           image={`${item.image}`}
           />
       </TouchableOpacity>
@@ -75,6 +76,8 @@ export default class MenuScreen extends Component {
   };
 
   handleRefresh = () => {
+    console.log(this.props.tableNumber)
+    console.log(this.props.businessID)
     this.setState({
       page: 1,
       seed: this.state.seed + 1,
@@ -104,10 +107,6 @@ export default class MenuScreen extends Component {
   };
 }
 
-
-
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,3 +114,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    tableNumber: state.tableNumber,
+    businessID: state.businessID
+  };
+};
+
+export default connect(mapStateToProps)(MenuScreen);

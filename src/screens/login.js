@@ -10,13 +10,21 @@ import { Text,
      TouchableWithoutFeedback,
      Keyboard } from 'react-native';
 import { RectangleButton } from 'react-native-button-component';
-import { updateTableNumber } from '../store/actions/action.session';
+import { updateTableNumber, updateBusinessID } from '../store/actions/action.session';
 
 export class LoginScreen extends Component {
 
   static navigationOptions = {
     headerRight: null,
   };
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      number: Number
+    }
+  }
 
   render() {
     return (
@@ -29,16 +37,16 @@ export class LoginScreen extends Component {
               style={styles.content}
               keyboardVerticalOffset={150}
               >
-              <Text>{this.props.number}</Text>
+              <Text>{this.state.number}</Text>
               <TextInput
                 placeholder="Table Number"
                 style={styles.textInput}
                 keyboardType='numeric'
-                onChangeText={(number) => {this.props.updateNumber({number}); }}
+                onChangeText={(tableNumber) => {this.setState({ number: tableNumber}) }}
                 />
               <RectangleButton
                 title="Entrar"
-                onPress={() => this.props.navigation.navigate('drawerStack')}
+                onPress={() => this.navigateToMenu()}
                 style={styles.button}
                 color="black"
                 />
@@ -47,6 +55,12 @@ export class LoginScreen extends Component {
         </ImageBackground>
       </View>
     );
+  }
+
+  navigateToMenu = () => {
+    this.props.updateBusinessID(this.props.navigation.state.params.id)
+    this.props.updateNumber(this.state.number);
+    this.props.navigation.navigate('drawerStack');
   }
 }
 
@@ -87,14 +101,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    number: state.number
+    tableNumber: state.tableNumber,
+    businessID: state.businessID
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    updateNumber: (number) => dispatch(updateTableNumber(number))
+    updateNumber: (number) => dispatch(updateTableNumber(number)),
+    updateBusinessID: (id) => dispatch(updateBusinessID(id))
   };
 };
 
