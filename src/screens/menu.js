@@ -1,26 +1,11 @@
 import React, { Component } from 'react';;
-import { Text,
-         View,
-         StyleSheet,
-         TouchableOpacity,
-         FlatList,
-         ActivityIndicator,
-         Picker } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import FoodItem from '../components/fooditem';
+import { fetchMenuItems } from '../store/actions/action.session'
+import api from '../api';
 
 export class MenuScreen extends Component {
-
-  constructor(props){
-    super(props);
-
-    this.state = {
-      loading: false,
-      data: [],
-      error: null,
-      refreshing: false
-    };
-  }
 
   componentDidMount() {
     this.makeRemoteRequest();
@@ -30,13 +15,13 @@ export class MenuScreen extends Component {
     return (
       <TouchableOpacity activeOpacity={0.8}>
         <FoodItem
-          name={`${item.name}`}
+          name={item.name}
           description={item.description}
-          price={`${this.props.number}`}
+          price={`${item.price}`}
           image={`${item.image}`}
           />
       </TouchableOpacity>
-    )
+    );
   }
 
   render() {
@@ -44,65 +29,22 @@ export class MenuScreen extends Component {
     return (
       <FlatList
         style={styles.container}
-        data={this.state.data}
+        data={this.props.items}
         renderItem={({item}) => this.renderItem(item, navigate)}
         keyExtractor={item => item.name}
         ItemSeparatorComponent={this.renderSeparator}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
-        refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
         onEndReachedThreshold={50}
         />
     );
   }
 
-  makeRemoteRequest = () => {
-    const url = `http://10.0.0.79:3030/menu-items/`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-      this.setState({
-        data: json.data,
-        error: json.error || null,
-        loading: false,
-        refreshing: false
-      });
-    }).catch(error => {
-      this.setState({ error, loading: false });
-    });
-  };
-
-  handleRefresh = () => {
-    console.log(this.props.tableNumber)
-    console.log(this.props.businessID)
-    this.setState({
-      page: 1,
-      seed: this.state.seed + 1,
-      refreshing: true
-    }, () => {
-      this.makeRemoteRequest();
-    });
-  };
-
-  handleLoadMore = () => {
-    this.setState({ page: this.state.page + 1 }, () => { this.makeRemoteRequest(); } );
+  makeRemoteRequest() {
+    this.props.fetchMenuItems(this.props.businessID);
   };
 
   renderSeparator = () => {
     return (
       <View style={styles.separator}/>
-    );
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-    return (
-      <View style={styles.footer}>
-        <ActivityIndicator animating size="large" />
-      </View>
     );
   };
 }
@@ -115,11 +57,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    tableNumber: state.tableNumber,
-    businessID: state.businessID
-  };
-};
+const mapStateToProps = state => (
+  {
+    categories: state.sessionReducer.menuCategories,
+    businessID: state.sessionReducer.businessID,
+    items: state.sessionReducer.menuItems
+  }
+);
 
-export default connect(mapStateToProps)(MenuScreen);
+const mapDispatchToProps = dispatch => (
+  {
+    dispatch,
+    fetchMenuItems: (id) => dispatch(fetchMenuItems(id))
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);

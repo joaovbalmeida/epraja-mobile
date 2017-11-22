@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text,
-     View,
-     ImageBackground,
-     StyleSheet,
-     KeyboardAvoidingView,
-     TextInput,
-     Button,
-     TouchableWithoutFeedback,
-     Keyboard } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { RectangleButton } from 'react-native-button-component';
-import { updateTableNumber, updateBusinessID } from '../store/actions/action.session';
+import { updateTableNumber, updateBusinessID, fetchMenuCategories } from '../store/actions/action.session';
 
 export class LoginScreen extends Component {
 
@@ -37,16 +29,16 @@ export class LoginScreen extends Component {
               style={styles.content}
               keyboardVerticalOffset={150}
               >
-              <Text>{this.state.number}</Text>
+              <Text>{this.props.number}</Text>
               <TextInput
                 placeholder="Table Number"
                 style={styles.textInput}
                 keyboardType='numeric'
-                onChangeText={(tableNumber) => {this.setState({ number: tableNumber}) }}
+                onChangeText={(tableNumber) => {this.setState({ number: tableNumber })}}
                 />
               <RectangleButton
                 title="Entrar"
-                onPress={() => this.navigateToMenu()}
+                onPress={() => this.navigateToMenu(this.state.number)}
                 style={styles.button}
                 color="black"
                 />
@@ -57,11 +49,12 @@ export class LoginScreen extends Component {
     );
   }
 
-  navigateToMenu = () => {
-    this.props.updateBusinessID(this.props.navigation.state.params.id)
-    this.props.updateNumber(this.state.number);
+  navigateToMenu = (tableNumber) => {
+    this.props.fetchMenuCategories(this.props.navigation.state.params.id);
+    this.props.updateBusinessID(this.props.navigation.state.params.id);
+    this.props.updateNumber(tableNumber);
     this.props.navigation.navigate('drawerStack');
-  }
+  };
 }
 
 const styles = StyleSheet.create({
@@ -99,19 +92,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    tableNumber: state.tableNumber,
-    businessID: state.businessID
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => (
+  {
     dispatch,
     updateNumber: (number) => dispatch(updateTableNumber(number)),
-    updateBusinessID: (id) => dispatch(updateBusinessID(id))
-  };
-};
+    updateBusinessID: (id) => dispatch(updateBusinessID(id)),
+    fetchMenuCategories: (id) => dispatch(fetchMenuCategories(id))
+  }
+);
+
+const mapStateToProps = state => (
+  {
+    number: state.sessionReducer.tableNumber
+  }
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

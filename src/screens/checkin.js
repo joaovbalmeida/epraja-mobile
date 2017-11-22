@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { View,
-        Text,
-        StyleSheet,
-        FlatList,
-        ActivityIndicator,
-        TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import BusinessItem from '../components/businessitem';
+import api from '../api';
 
 export default class CheckinScreen extends Component {
 
@@ -25,22 +21,18 @@ export default class CheckinScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  makeRemoteRequest = () => {
-    const url = `http://10.0.0.79:3030/businesses/`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-      this.setState({
-        data: json.data,
-        error: json.error || null,
-        loading: false,
-        refreshing: false
+  makeRemoteRequest() {
+    api.business.find()
+      .then( json => {
+        this.setState({
+          data: json.data,
+          error: json.error || null,
+          loading: false,
+          refreshing: false
+        });
+      }, error => {
+        console.log(error)
       });
-    }).catch(error => {
-      this.setState({ error, loading: false });
-    });
   };
 
   render(){
