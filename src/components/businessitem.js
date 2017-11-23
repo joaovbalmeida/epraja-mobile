@@ -4,20 +4,6 @@ import { RectangleButton, CircleButton } from 'react-native-button-component';
 
 export default class BusinessItem extends Component {
 
-<<<<<<< HEAD:src/components/businessitem.js
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: '',
-      description: '',
-      price: '',
-      image: ''
-    };
-  }
-
-=======
->>>>>>> origin/restaurantlist:src/components/restaurant.js
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.name,
@@ -137,9 +123,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: '5%',
   },
-<<<<<<< HEAD:src/components/businessitem.js
-=======
-  menu: {
-  }
->>>>>>> origin/restaurantlist:src/components/restaurant.js
 });
