@@ -4,17 +4,6 @@ import { RectangleButton, CircleButton } from 'react-native-button-component';
 
 export default class RestaurantItem extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: 'TT Burger',
-      description: 'Hamburgeria',
-      price: '',
-      image: ''
-    };
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.name,
