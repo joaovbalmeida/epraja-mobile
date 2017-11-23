@@ -4,6 +4,7 @@ import { RectangleButton, CircleButton } from 'react-native-button-component';
 
 export default class BusinessItem extends Component {
 
+<<<<<<< HEAD:src/components/businessitem.js
   constructor(props) {
     super(props);
 
@@ -15,6 +16,8 @@ export default class BusinessItem extends Component {
     };
   }
 
+=======
+>>>>>>> origin/restaurantlist:src/components/restaurant.js
   componentWillReceiveProps(nextProps) {
     this.setState({
       name: nextProps.name,
@@ -74,6 +77,13 @@ export default class BusinessItem extends Component {
   }
 }
 
+const sectionStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginLeft: 5,
+  marginRight: 5,
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 0,
@@ -99,28 +109,19 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
     marginTop: 5,
-    marginRight: 10,
+    ...sectionStyle
   },
   secondSection: {
     flex: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
-    marginRight: 10,
     paddingTop: 5,
     paddingBottom: 5,
+    ...sectionStyle
   },
   thirdSection: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
-    marginRight: 10,
     marginBottom: 5,
+    ...sectionStyle
   },
   price: {
     marginRight: '10%',
@@ -136,4 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: '5%',
   },
+<<<<<<< HEAD:src/components/businessitem.js
+=======
+  menu: {
+  }
+>>>>>>> origin/restaurantlist:src/components/restaurant.js
 });
