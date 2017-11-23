@@ -74,6 +74,13 @@ export default class RestaurantItem extends Component {
   }
 }
 
+const sectionStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginLeft: 5,
+  marginRight: 5,
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 0,
@@ -103,28 +110,19 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
     marginTop: 5,
-    marginRight: 10,
+    ...sectionStyle
   },
   secondSection: {
     flex: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
-    marginRight: 10,
     paddingTop: 5,
     paddingBottom: 5,
+    ...sectionStyle
   },
   thirdSection: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 5,
-    marginRight: 10,
     marginBottom: 5,
+    ...sectionStyle
   },
   price: {
     marginRight: '10%',
@@ -141,6 +139,5 @@ const styles = StyleSheet.create({
     marginRight: '5%',
   },
   menu: {
-
   }
 });
