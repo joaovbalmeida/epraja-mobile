@@ -5,15 +5,6 @@ import PropTypes from 'prop-types';
 
 export default class BusinessItem extends Component {
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: nextProps.name,
-      description: nextProps.description,
-      price: nextProps.price,
-      image: nextProps.image,
-    });
-  }
-
   render(){
     return (
       <View style={styles.container}>

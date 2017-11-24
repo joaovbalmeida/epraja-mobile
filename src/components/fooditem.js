@@ -4,15 +4,6 @@ import PropTypes from 'prop-types';
 
 export default class FoodItem extends Component {
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: nextProps.name,
-      description: nextProps.description,
-      price: nextProps.price,
-      image: nextProps.image,
-    });
-  }
-
   render(){
     return (
       <View style={styles.container}>
@@ -73,16 +64,10 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     flex: 4.5,
-    marginLeft: 5,
-    marginTop: 5,
-    marginRight: 5,
-    marginLeft: 5
+    margin: 5,
   },
   secondSection: {
     flex: 1,
-    marginLeft: 5,
-    marginTop: 5,
-    marginRight: 5,
-    marginLeft: 5
+    margin: 5,
   },
 });
