@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types';
 
-export default class FoodItem extends Component {
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: nextProps.name,
-      description: nextProps.description,
-      price: nextProps.price,
-      image: nextProps.image,
-    });
-  }
+export default class FoodItem extends React.Component {
 
   render(){
     return (
@@ -50,13 +41,6 @@ FoodItem.propTypes = {
   image: PropTypes.string.isRequired,
 };
 
-const section = {
-  marginLeft: 5,
-  marginTop: 5,
-  marginRight: 5,
-  marginLeft: 5
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 0,
@@ -80,10 +64,10 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     flex: 4.5,
-    ...section
+    margin: 5,
   },
   secondSection: {
     flex: 1,
-    ...section
+    margin: 5,
   },
 });

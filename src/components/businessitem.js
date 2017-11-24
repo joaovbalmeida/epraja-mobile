@@ -1,18 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 import PropTypes from 'prop-types';
 
-export default class BusinessItem extends Component {
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: nextProps.name,
-      description: nextProps.description,
-      price: nextProps.price,
-      image: nextProps.image,
-    });
-  }
+export default class BusinessItem extends React.Component {
 
   render(){
     return (
