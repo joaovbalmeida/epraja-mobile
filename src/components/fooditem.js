@@ -50,6 +50,13 @@ FoodItem.propTypes = {
   image: PropTypes.string.isRequired,
 };
 
+const section = {
+  marginLeft: 5,
+  marginTop: 5,
+  marginRight: 5,
+  marginLeft: 5
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 0,
@@ -73,16 +80,10 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     flex: 4.5,
-    marginLeft: 5,
-    marginTop: 5,
-    marginRight: 5,
-    marginLeft: 5
+    ...section
   },
   secondSection: {
     flex: 1,
-    marginLeft: 5,
-    marginTop: 5,
-    marginRight: 5,
-    marginLeft: 5
+    ...section
   },
 });

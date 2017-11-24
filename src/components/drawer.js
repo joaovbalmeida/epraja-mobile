@@ -1,9 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Modal, TouchableHighlight } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { RectangleButton } from 'react-native-button-component';
 
 export default class DrawerContainer extends React.Component {
+
+  state = {
+    modalVisible: false,
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
   render() {
     const { navigation } = this.props;
@@ -18,14 +26,29 @@ export default class DrawerContainer extends React.Component {
           width={50}
           />
         <Text
-        onPress={() => navigation.navigate('homeScreen')}
-        style={styles.drawerItem}>
+          onPress={() => navigation.navigate('homeScreen')}
+          style={styles.drawerItem}>
           FALE CONOSCO
         </Text>
         <Text
-        style={styles.drawerItem}>
+          onPress={() => this.setModalVisible(true)}
+          style={styles.drawerItem}>
           TERMOS DE USO
         </Text>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+          <View style={{marginTop: 22}}>
+            <View>
+              <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
