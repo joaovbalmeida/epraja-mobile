@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 import PropTypes from 'prop-types';
 
-export default class BusinessItem extends Component {
+export default class BusinessItem extends React.Component {
 
   render(){
     return (

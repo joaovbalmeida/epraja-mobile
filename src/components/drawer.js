@@ -1,9 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Modal, TouchableHighlight } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { RectangleButton } from 'react-native-button-component';
+import ScrollableText from './scrollabletext';
 
 export default class DrawerContainer extends React.Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      modalVisible: false,
+    };
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
   render() {
     const { navigation } = this.props;
@@ -18,14 +31,47 @@ export default class DrawerContainer extends React.Component {
           width={50}
           />
         <Text
-        onPress={() => navigation.navigate('homeScreen')}
-        style={styles.drawerItem}>
+          onPress={() => navigation.navigate('homeScreen')}
+          style={styles.drawerItem}>
           FALE CONOSCO
         </Text>
         <Text
-        style={styles.drawerItem}>
+          onPress={() => this.setModalVisible(true)}
+          style={styles.drawerItem}>
           TERMOS DE USO
         </Text>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+          <View style={styles.modal}>
+            <View style={styles.top}>
+              <View style={styles.blankView}>
+                <TouchableHighlight
+                  onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                  <Text style={styles.closeButton}>&#10799;</Text>
+                </TouchableHighlight>
+              </View>
+              <Text style={styles.modalTitle}>
+                TERMOS DE USO
+              </Text>
+              <View style={styles.blankView}>
+
+              </View>
+            </View>
+            <ScrollableText
+              text={'Esses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja Native'}
+              />
+            <View style={styles.bottom}>
+              <TouchableHighlight
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                <Text style={styles.bottomButton}>SAIR</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -51,5 +97,41 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'white',
- },
+  },
+  modal: {
+    marginTop: 30,
+    paddingBottom: 50,
+    height: '100%',
+    width: '100%'
+  },
+  top: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 40,
+    width: '100%',
+    marginTop: 10,
+  },
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 30,
+    marginRight: 20,
+    paddingTop: 10
+  },
+  modalTitle: {
+    fontSize: 20,
+    color: 'red',
+  },
+  closeButton:{
+    width: 30,
+    fontSize: 30,
+  },
+  bottomButton:{
+    width: 50,
+    fontSize: 18,
+  },
+  blankView:{
+    width: 50,
+  }
 });
