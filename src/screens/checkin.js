@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { View,
-        Text,
-        StyleSheet,
-        FlatList,
-        ActivityIndicator,
-        TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import BusinessItem from '../components/businessitem';
+import api from '../api';
 
 export default class CheckinScreen extends Component {
 
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.state = {
@@ -25,23 +21,19 @@ export default class CheckinScreen extends Component {
     this.makeRemoteRequest();
   }
 
-  renderItem(item, navigate){
-    var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
-    description.split("\n").map(i => {
-      return <div>{i}</div>;
-    })
-
-    return (
-      <TouchableOpacity onPress={() => navigate('loginScreen')} activeOpacity={0.8}>
-        <BusinessItem
-          name={`${item.name}`}
-          description={description}
-          price={`${item.price}`}
-          image={`${item.image}`}
-          />
-      </TouchableOpacity>
-    )
-  }
+  makeRemoteRequest() {
+    api.business.find()
+      .then( json => {
+        this.setState({
+          data: json.data,
+          error: json.error || null,
+          loading: false,
+          refreshing: false
+        });
+      }, error => {
+        console.log(error)
+      });
+  };
 
   render(){
     const { navigate } = this.props.navigation
@@ -50,7 +42,7 @@ export default class CheckinScreen extends Component {
         style={styles.container}
         data={this.state.data}
         renderItem={({item}) => this.renderItem(item, navigate)}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item._id}
         ItemSeparatorComponent={this.renderSeparator}
         ListFooterComponent={this.renderFooter}
         onRefresh={this.handleRefresh}
@@ -61,36 +53,30 @@ export default class CheckinScreen extends Component {
     );
   }
 
-  makeRemoteRequest = () => {
-    const url = `http://10.0.0.79:3030/businesses/`;
-    this.setState({ loading: true });
+  renderItem = (item, navigate) => {
+    var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
+    description.split("\n").map(i => {
+      return <div>{i}</div>;
+    })
 
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        this.setState({
-          data: json.data || [],
-          error: json.error || null,
-          loading: false,
-          refreshing: false
-        });
-      }).catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
+    return (
+      <TouchableOpacity onPress={() => navigate('loginScreen', { id: item._id }, )} activeOpacity={0.8}>
+        <BusinessItem
+          name={`${item.name}`}
+          description={description}
+          price={`${item.price}`}
+          image={`${item.image}`}
+          />
+      </TouchableOpacity>
+    )
+  }
 
   handleRefresh = () => {
     this.setState({
-        page: 1,
-        seed: this.state.seed + 1,
         refreshing: true
       }, () => {
         this.makeRemoteRequest();
       });
-  };
-
-  handleLoadMore = () => {
-    this.setState({ page: this.state.page + 1 }, () => { this.makeRemoteRequest(); } );
   };
 
   renderSeparator = () => {

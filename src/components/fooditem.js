@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
+import PropTypes from 'prop-types';
 
 export default class FoodItem extends Component {
 
@@ -32,6 +33,13 @@ export default class FoodItem extends Component {
     );
   }
 }
+
+FoodItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  description : PropTypes.string,
+  price: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,91 +1,99 @@
 import React, { Component } from 'react';;
-import { Text,
-         View,
-         StyleSheet,
-         TouchableOpacity,
-         FlatList,
-         ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
 import FoodItem from '../components/fooditem';
+import { fetchMenuItems } from '../store/actions/action.session'
+import api from '../api';
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
+export class MenuScreen extends Component {
 
-export default class MenuScreen extends Component {
-
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.state = {
-      loading: false,
-      data: [],
-      error: null,
-      refreshing: false
+      data: this.props.items
     };
   }
 
   componentDidMount() {
     this.makeRemoteRequest();
+
   }
 
   renderItem(item, navigate){
     return (
-      <TouchableOpacity >
+      <TouchableOpacity activeOpacity={0.8}>
         <FoodItem
-          name={`${item.name}`}
+          name={item.name}
           description={item.description}
           price={`${item.price}`}
           image={`${item.image}`}
           />
       </TouchableOpacity>
-    )
-  }
-
-  render() {
-    const { navigate } = this.props.navigation
-    return (
-      <FlatList
-        style={styles.container}
-        data={this.state.data}
-        renderItem={({item}) => this.renderItem(item, navigate)}
-        keyExtractor={item => item.name}
-        ItemSeparatorComponent={this.renderSeparator}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
-        refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={50}
-        />
     );
   }
 
-  makeRemoteRequest = () => {
-    const url = `http://10.0.0.79:3030/menu-items/`;
-    this.setState({ loading: true });
+  render() {
+    const { navigate } = this.props.navigation;
+    const categories = this.props.categories.map((item) => {
+      return (
+        <MenuOption key={item.id} value={item.id}>
+          <Text>{item.name}</Text>
+        </MenuOption>
+      );
+    });
 
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
+    return (
+      <MenuContext style={styles.view}>
+        <View style={styles.container}>
+          <View style={styles.dropdownTitle}>
+            <Text>CATEGORIAS</Text>
+          </View>
+          <Menu onSelect={(value) => this.filterCategories(value)}>
+            <MenuTrigger>
+              <Text style={{ fontSize: 30}}>&#8942;</Text>
+            </MenuTrigger>
+            <MenuOptions>
+              <MenuOption value={0}>
+                <Text>Todos</Text>
+              </MenuOption>
+              {categories}
+            </MenuOptions>
+          </Menu>
+        </View>
+        <FlatList
+          style={styles.flatlist}
+          data={this.state.data}
+          renderItem={({item}) => this.renderItem(item, navigate)}
+          keyExtractor={item => item._id}
+          ItemSeparatorComponent={this.renderSeparator}
+          onEndReachedThreshold={50}
+          />
+      </MenuContext>
+    );
+  }
+
+  filterCategories = (id) => {
+    if (id == 0) {
       this.setState({
-        data: json.data || [],
-        error: json.error || null,
-        loading: false,
-        refreshing: false
+        data: this.props.items
       });
-    }).catch(error => {
-      this.setState({ error, loading: false });
-    });
+    } else {
+      this.setState({
+        data: this.props.items.filter( item => {
+          return item.menuCategory.match(id);
+        })
+      });
+    }
   };
 
-  handleRefresh = () => {
-    this.setState({
-      page: 1,
-      seed: this.state.seed + 1,
-      refreshing: true
-    }, () => {
-      this.makeRemoteRequest();
-    });
+  getCategories = () => {
+    this.props.categories.for
   };
 
-  handleLoadMore = () => {
-    this.setState({ page: this.state.page + 1 }, () => { this.makeRemoteRequest(); } );
+  makeRemoteRequest = () => {
+    this.props.fetchMenuItems(this.props.businessID);
   };
 
   renderSeparator = () => {
@@ -93,25 +101,39 @@ export default class MenuScreen extends Component {
       <View style={styles.separator}/>
     );
   };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-    return (
-      <View style={styles.footer}>
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
 }
 
-
-
-
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: '100%',
+  view: {
     width: '100%',
+    height: '100%',
   },
+  container: {
+    padding: 10,
+    flexDirection: 'row',
+    backgroundColor: 'lightblue'
+  },
+  dropdownTitle: {
+    flex:1
+  },
+  flatlist: {
+    flex: 1
+  }
 });
+
+const mapStateToProps = state => (
+  {
+    categories: state.sessionReducer.menuCategories,
+    businessID: state.sessionReducer.businessID,
+    items: state.sessionReducer.menuItems
+  }
+);
+
+const mapDispatchToProps = dispatch => (
+  {
+    dispatch,
+    fetchMenuItems: (id) => dispatch(fetchMenuItems(id))
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);

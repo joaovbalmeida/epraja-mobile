@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
+import PropTypes from 'prop-types';
 
 export default class BusinessItem extends Component {
 
@@ -53,6 +54,13 @@ export default class BusinessItem extends Component {
     );
   }
 }
+
+BusinessItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  description : PropTypes.string,
+  price: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+};
 
 const sectionStyle = {
   flexDirection: 'row',
