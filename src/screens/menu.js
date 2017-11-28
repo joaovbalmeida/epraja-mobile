@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { View,
-        Text,
-        StyleSheet,
-        FlatList,
-        ActivityIndicator,
-        TouchableOpacity } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import BusinessItem from '../components/businessitem';
+import React, { Component } from 'react';;
+import { Text,
+         View,
+         StyleSheet,
+         TouchableOpacity,
+         FlatList,
+         ActivityIndicator } from 'react-native';
+import FoodItem from '../components/fooditem';
 
-export default class CheckinScreen extends Component {
+
+export default class MenuScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -26,16 +26,11 @@ export default class CheckinScreen extends Component {
   }
 
   renderItem(item, navigate){
-    var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
-    description.split("\n").map(i => {
-      return <div>{i}</div>;
-    })
-
     return (
-      <TouchableOpacity onPress={() => navigate('loginScreen')} activeOpacity={0.8}>
-        <BusinessItem
+      <TouchableOpacity >
+        <FoodItem
           name={`${item.name}`}
-          description={description}
+          description={item.description}
           price={`${item.price}`}
           image={`${item.image}`}
           />
@@ -43,7 +38,7 @@ export default class CheckinScreen extends Component {
     )
   }
 
-  render(){
+  render() {
     const { navigate } = this.props.navigation
     return (
       <FlatList
@@ -57,36 +52,36 @@ export default class CheckinScreen extends Component {
         refreshing={this.state.refreshing}
         onEndReached={this.handleLoadMore}
         onEndReachedThreshold={50}
-      />
+        />
     );
   }
 
   makeRemoteRequest = () => {
-    const url = `http://10.0.0.79:3030/businesses/`;
+    const url = `http://10.0.0.79:3030/menu-items/`;
     this.setState({ loading: true });
 
     fetch(url)
       .then(response => response.json())
       .then(json => {
-        this.setState({
-          data: json.data || [],
-          error: json.error || null,
-          loading: false,
-          refreshing: false
-        });
-      }).catch(error => {
-        this.setState({ error, loading: false });
+      this.setState({
+        data: json.data || [],
+        error: json.error || null,
+        loading: false,
+        refreshing: false
       });
+    }).catch(error => {
+      this.setState({ error, loading: false });
+    });
   };
 
   handleRefresh = () => {
     this.setState({
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      }, () => {
-        this.makeRemoteRequest();
-      });
+      page: 1,
+      seed: this.state.seed + 1,
+      refreshing: true
+    }, () => {
+      this.makeRemoteRequest();
+    });
   };
 
   handleLoadMore = () => {
@@ -109,21 +104,14 @@ export default class CheckinScreen extends Component {
   };
 }
 
+
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-      height: '100%',
-      width: '100%',
-    },
-  footer: {
-    paddingVertical: 20,
-    borderTopWidth: 1,
-    borderColor: "#CED0CE",
+    height: '100%',
+    width: '100%',
   },
-  separator: {
-    height: 1,
-    width: "86%",
-    backgroundColor: "#CED0CE",
-    marginLeft: "14%",
-  }
 });

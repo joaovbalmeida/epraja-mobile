@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text } from 'react-native'
 import { StackNavigator } from 'react-navigation';
 import LoginScreen from './../screens/login.js';
 import CheckinDrawer from './checkin.drawer.js'
@@ -15,11 +15,11 @@ export default CheckinStack = StackNavigator({
     gesturesEnabled: false,
     headerTintColor: 'white',
     headerRight: <Text onPress={() => {
-      if (navigation.state.index === 0) {
-        navigation.navigate('DrawerOpen')
-      } else {
-        navigation.navigate('DrawerClose')
-      }
-    }}>Menu</Text>,
+        if (navigation.state.index === 0) {
+          navigation.navigate('DrawerOpen')
+        } else {
+          navigation.navigate('DrawerClose')
+        }
+      }}>Menu</Text>
   })
 });
