@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default class ScrollableText extends React.Component {
+export default class ScrollableText extends React {
   render() {
     return (
       <ScrollView style={styles.scrollView}>
