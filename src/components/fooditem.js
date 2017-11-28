@@ -2,36 +2,33 @@ import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types';
 
-export default class FoodItem extends React.Component {
-
-  render(){
-    return (
-      <View style={styles.container}>
-        <View style={styles.topPanel}>
-          <Image
-            style={styles.image}
-            resizeMode="contain"
-            source={{uri: this.props.image}}
-            />
+export default FoodItem = ({ name, description, price, image }) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.topPanel}>
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{uri: image}}
+          />
+      </View>
+      <View style={styles.bottomPanel}>
+        <View style={styles.firstSection}>
+          <Text>
+            {name}
+          </Text>
+          <Text >
+            {description}
+          </Text>
         </View>
-        <View style={styles.bottomPanel}>
-          <View style={styles.firstSection}>
-            <Text>
-              {this.props.name}
-            </Text>
-            <Text >
-              {this.props.description}
-            </Text>
-          </View>
-          <View style={styles.secondSection}>
-            <Text>
-              {this.props.price}
-            </Text>
-          </View>
+        <View style={styles.secondSection}>
+          <Text>
+            {price}
+          </Text>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 FoodItem.propTypes = {

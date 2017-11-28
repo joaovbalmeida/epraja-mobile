@@ -3,56 +3,53 @@ import { Text, Image, StyleSheet, View } from 'react-native'
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 import PropTypes from 'prop-types';
 
-export default class BusinessItem extends React.Component {
-
-  render(){
-    return (
-      <View style={styles.container}>
-        <View style={styles.leftPanel}>
-          <Image
-            style={styles.image}
-            resizeMode="contain"
-            source={{uri: this.props.image}}
+export default BusinessItem = ({ name, description, price, image }) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.leftPanel}>
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{uri: image}}
+          />
+      </View>
+      <View style={styles.rightPanel}>
+        <View style={styles.firstSection}>
+          <Text>
+            {name}
+          </Text>
+          <Text style={styles.price}>
+            {price}
+          </Text>
+        </View>
+        <View style={styles.secondSection}>
+          <View style={styles.descriptionView}>
+            <Text>
+              {description}
+            </Text>
+          </View>
+          <View style={styles.infoView}>
+            <CircleButton
+              style={styles.info}
+              size={30}
+              />
+          </View>
+        </View>
+        <View style={styles.thirdSection}>
+          <RectangleButton
+            style={styles.menu}
+            height={25}
+            width={50}
+            />
+          <RectangleButton
+            style={styles.checkin}
+            height={25}
+            width={50}
             />
         </View>
-        <View style={styles.rightPanel}>
-          <View style={styles.firstSection}>
-            <Text>
-              {this.props.name}
-            </Text>
-            <Text style={styles.price}>
-              {this.props.price}
-            </Text>
-          </View>
-          <View style={styles.secondSection}>
-            <View style={styles.descriptionView}>
-              <Text>
-                {this.props.description}
-              </Text>
-            </View>
-            <View style={styles.infoView}>
-              <CircleButton
-                style={styles.info}
-                size={30}
-                />
-            </View>
-          </View>
-          <View style={styles.thirdSection}>
-            <RectangleButton
-              style={styles.menu}
-              height={25}
-              width={50}
-              />
-            <RectangleButton
-              style={styles.checkin}
-              height={25}
-              width={50}
-              />
-          </View>
-        </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 BusinessItem.propTypes = {

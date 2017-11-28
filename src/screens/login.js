@@ -14,7 +14,7 @@ export class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      number: Number
+      number: 0,
     };
   }
 
@@ -29,7 +29,9 @@ export class LoginScreen extends React.Component {
               style={styles.content}
               keyboardVerticalOffset={150}
               >
-              <Text>{this.props.number}</Text>
+              <Text>
+              {this.props.number}
+              </Text>
               <TextInput
                 placeholder="Table Number"
                 style={styles.textInput}
