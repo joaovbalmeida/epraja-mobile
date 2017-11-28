@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, Modal, TouchableHighlight } from 'react-
 import { NavigationActions } from 'react-navigation';
 import { RectangleButton } from 'react-native-button-component';
 import ScrollableText from './scrollabletext';
+import faqTexts from '../utils/faqtexts';
 
 export default class DrawerContainer extends React.Component {
 
@@ -23,15 +24,15 @@ export default class DrawerContainer extends React.Component {
     return (
       <View style={styles.container}>
         <RectangleButton
-          title="Entrar"
+          title="EN"
           onPress={() => this.props.navigation.navigate('drawerStack')}
           style={styles.button}
           color="black"
-          height={25}
+          height={30}
           width={50}
           />
         <Text
-          onPress={() => navigation.navigate('homeScreen')}
+          onPress={() => navigation.navigate('faqStack')}
           style={styles.drawerItem}>
           FALE CONOSCO
         </Text>
@@ -44,7 +45,6 @@ export default class DrawerContainer extends React.Component {
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
           >
           <View style={styles.modal}>
             <View style={styles.top}>
@@ -58,11 +58,10 @@ export default class DrawerContainer extends React.Component {
                 TERMOS DE USO
               </Text>
               <View style={styles.blankView}>
-
               </View>
             </View>
             <ScrollableText
-              text={'Esses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja Native'}
+              text={faqTexts.termsOfUse.text}
               />
             <View style={styles.bottom}>
               <TouchableHighlight
@@ -97,6 +96,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'white',
+    marginBottom: 20,
+    marginLeft: 5
   },
   modal: {
     marginTop: 30,

@@ -78,8 +78,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     minWidth: 250,
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingHorizontal: 20,
     borderColor: 'black',
     borderWidth: 1,
     borderStyle: 'solid',
