@@ -1,12 +1,12 @@
-import React, { Component } from 'react';;
+import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import FoodItem from '../components/fooditem';
-import { fetchMenuItems } from '../store/actions/action.session'
+import { fetchMenuItems } from '../store/actions/action.session';
 import api from '../api';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
-export class MenuScreen extends Component {
+export class MenuScreen extends React.Component {
 
   constructor(props){
     super(props);
@@ -18,7 +18,6 @@ export class MenuScreen extends Component {
 
   componentDidMount() {
     this.makeRemoteRequest();
-
   }
 
   renderItem(item, navigate){
