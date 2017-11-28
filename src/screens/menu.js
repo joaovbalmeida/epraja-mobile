@@ -64,7 +64,7 @@ export default class MenuScreen extends Component {
       .then(response => response.json())
       .then(json => {
       this.setState({
-        data: json.data,
+        data: json.data || [],
         error: json.error || null,
         loading: false,
         refreshing: false
