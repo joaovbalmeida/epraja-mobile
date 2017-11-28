@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableHighlight, StyleSheet, KeyboardAvoidingView, TextInput, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native';
+import { ScrollView, Text, View, TouchableHighlight, StyleSheet, KeyboardAvoidingView, TextInput, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import ScrollableText from '../components/scrollabletext';
-import faqTexts from '../utils/faqtexts'
+import faqTexts from '../utils/faqtexts';
 
 export default class FAQScreen extends React.Component {
 
@@ -26,81 +26,83 @@ export default class FAQScreen extends React.Component {
 
   render(){
     return(
-      <View style={styles.container}>
+      <View style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
           <KeyboardAvoidingView
-            behavior="padding"
             style={{flex: 1}}
+            behavior="padding"
             >
-            <View style={styles.top}>
-              <View style={styles.blankView}>
-                <TouchableHighlight
-                  onPress={() => this.props.navigation.dispatch(NavigationActions.back()) }>
-                  <Text style={styles.closeButton}>&#10799;</Text>
-                </TouchableHighlight>
-              </View>
-              <Text style={styles.title}>
-                FALE CONOSCO
-              </Text>
-              <View style={styles.blankView}>
-              </View>
-            </View>
-            <View style={styles.mid}>
-              <View style={styles.firstSection}>
-                <Text style={{marginBottom: 15}}>
-                  AJUDA AO CLIENTE
+            <View style={styles.container}>
+              <View style={styles.top}>
+                <View style={styles.blankView}>
+                  <TouchableHighlight
+                    onPress={() => this.props.navigation.dispatch(NavigationActions.back()) }>
+                    <Text style={styles.closeButton}>&#10799;</Text>
+                  </TouchableHighlight>
+                </View>
+                <Text style={styles.title}>
+                  FALE CONOSCO
                 </Text>
-                <Text style={styles.subtitles}>
-                  PEDIDO:
-                </Text>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderReview.title, faqTexts.orderReview.text)}>
-                  <Text>COMO AVALIAR UM PEDIDO?</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderLate.title, faqTexts.orderLate.text)}>
-                  <Text>ESTÁ ATRASADO?</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderMissing.title, faqTexts.orderMissing.text)}>
-                  <Text>O PEDIDO CHEGOU ERRADO OU ESTÁ FALTANDO ITENS?</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.cancellation.title, faqTexts.cancellation.text)}>
-                  <Text>CANCELAMENTO</Text>
-                </TouchableHighlight>
+                <View style={styles.blankView}>
+                </View>
               </View>
-              <View style={styles.secondSection}>
-                <Text style={styles.subtitles}>
-                  SOBRE O TAPSTER:
-                </Text>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.tapsterJobs.title, faqTexts.tapsterJobs.text)}>
-                  <Text>QUERO TRABALHAR NO TAPSTER</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.touchableText}
-                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.howWorks.title, faqTexts.howWorks.text)}>
-                  <Text>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
-                </TouchableHighlight>
+              <View style={styles.underTop}>
+                <View>
+                  <Text style={{marginBottom: 15}}>
+                    AJUDA AO CLIENTE
+                  </Text>
+                  <Text style={styles.subtitles}>
+                    PEDIDO:
+                  </Text>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderReview.title, faqTexts.orderReview.text)}>
+                    <Text>COMO AVALIAR UM PEDIDO?</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderLate.title, faqTexts.orderLate.text)}>
+                    <Text>ESTÁ ATRASADO?</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderMissing.title, faqTexts.orderMissing.text)}>
+                    <Text>O PEDIDO CHEGOU ERRADO OU ESTÁ FALTANDO ITENS?</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.cancellation.title, faqTexts.cancellation.text)}>
+                    <Text>CANCELAMENTO</Text>
+                  </TouchableHighlight>
+                </View>
+                <View>
+                  <Text style={styles.subtitles}>
+                    SOBRE O TAPSTER:
+                  </Text>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.tapsterJobs.title, faqTexts.tapsterJobs.text)}>
+                    <Text>QUERO TRABALHAR NO TAPSTER</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.touchableText}
+                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.howWorks.title, faqTexts.howWorks.text)}>
+                    <Text>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
+                  </TouchableHighlight>
+                </View>
+                <View>
+                  <Text style={{marginBottom: 10}}>MINHA DÚVIDA NÃO ESTÁ AQUI</Text>
+                  <Text style={{marginBottom: 2}}>ENVIAR SOLICITAÇÃO</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    multiline={true}
+                    returnKeyType={'done'}
+                    />
+                  <TouchableHighlight style={styles.bottom}>
+                    <Text style={styles.bottomButton}>ENVIAR</Text>
+                  </TouchableHighlight>
+                </View>
               </View>
-              <View style={styles.thirdSection}>
-                <Text style={{marginBottom: 10}}>MINHA DÚVIDA NÃO ESTÁ AQUI</Text>
-                <Text>ENVIAR SOLICITAÇÃO</Text>
-                <TextInput
-                  style={styles.textInput}
-                  />
-              </View>
-            </View>
-            <View style={styles.bottom}>
-              <TouchableHighlight>
-                <Text>ENVIAR</Text>
-              </TouchableHighlight>
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
@@ -142,42 +144,42 @@ export default class FAQScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
-  },
-  modal: {
-    marginTop: 30,
-    paddingBottom: 50,
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 20,
     height: '100%',
-    width: '100%'
   },
   top: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 40,
-    width: '100%',
-    marginTop: 10,
+    height: '10%',
   },
-  mid: {
-    flex: 1,
+  underTop: {
     justifyContent: 'space-between',
-    marginTop: 20,
-    marginHorizontal: 20,
-    marginBottom: 10
+    marginHorizontal: 10,
+    paddingTop: 10,
+    height: '90%',
   },
   bottom: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     height: 30,
     marginRight: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
-  touchableText:{
+  modal: {
+    marginTop: 30,
+    paddingBottom: 50,
+    height: '100%',
+    width: '100%',
+  },
+  touchableText: {
     margin: 5,
-    paddingVertical: 3
+    paddingVertical: 3,
   },
-  subtitles:{
-    paddingVertical: 5
+  subtitles: {
+    paddingVertical: 5,
   },
   title: {
     fontSize: 18,
@@ -185,27 +187,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'red',
   },
-  closeButton:{
+  closeButton: {
     width: 30,
     fontSize: 30,
     paddingLeft: 10,
   },
   textInput: {
     fontSize: 14,
-    paddingHorizontal: 20,
-    minHeight: 60,
-    minWidth: 250,
+    height: 60,
     borderColor: 'black',
     borderWidth: 1,
     borderStyle: 'solid',
     borderRadius: 1,
     color: 'black',
   },
-  bottomButton:{
+  bottomButton: {
     width: 50,
-    fontSize: 18,
+    fontSize: 16,
+    marginTop: 15,
   },
-  blankView:{
+  blankView: {
     width: 50,
   }
 });
