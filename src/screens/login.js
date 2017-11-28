@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { RectangleButton } from 'react-native-button-component';
 import { updateTableNumber, updateBusinessID, fetchMenuCategories } from '../store/actions/action.session';
 
-export class LoginScreen extends Component {
+export class LoginScreen extends React.Component {
 
   static navigationOptions = {
     headerRight: null,
   };
 
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       number: Number
-    }
+    };
   }
 
   render() {

@@ -8,7 +8,7 @@ import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-n
 
 export class MenuScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,7 +20,7 @@ export class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  renderItem(item, navigate){
+  renderItem(item, navigate) {
     return (
       <TouchableOpacity activeOpacity={0.8}>
         <FoodItem

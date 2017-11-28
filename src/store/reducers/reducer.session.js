@@ -3,7 +3,7 @@ const initialState = {
   menuCategories: [],
   businessID: '',
   menuItems: [],
-}
+};
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type){

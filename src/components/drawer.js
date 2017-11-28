@@ -7,8 +7,8 @@ import faqTexts from '../utils/faqtexts';
 
 export default class DrawerContainer extends React.Component {
 
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalVisible: false,
@@ -134,5 +134,5 @@ const styles = StyleSheet.create({
   },
   blankView:{
     width: 50,
-  }
+  },
 });

@@ -6,8 +6,8 @@ import faqTexts from '../utils/faqtexts';
 
 export default class FAQScreen extends React.Component {
 
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalVisible: false,
@@ -24,7 +24,7 @@ export default class FAQScreen extends React.Component {
     });
   }
 
-  render(){
+  render() {
     return(
       <View style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>

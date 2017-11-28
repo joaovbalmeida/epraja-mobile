@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import BusinessItem from '../components/businessitem';
 import api from '../api';
 
-export default class CheckinScreen extends Component {
+export default class CheckinScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
