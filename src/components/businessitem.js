@@ -1,65 +1,69 @@
 import React from 'react';
-import { Text, Image, StyleSheet, View } from 'react-native'
+import { Text, Image, StyleSheet, View } from 'react-native';
 import { RectangleButton, CircleButton } from 'react-native-button-component';
 import PropTypes from 'prop-types';
 
-export default class BusinessItem extends React.Component {
-
-  render(){
-    return (
-      <View style={styles.container}>
-        <View style={styles.leftPanel}>
-          <Image
-            style={styles.image}
-            resizeMode="contain"
-            source={{uri: this.props.image}}
-            />
+const BusinessItem = ({
+  name,
+  description,
+  price,
+  image,
+}) => (
+  <View style={styles.container}>
+    <View style={styles.leftPanel}>
+      <Image
+        style={styles.image}
+        resizeMode="contain"
+        source={{ uri: image }}
+      />
+    </View>
+    <View style={styles.rightPanel}>
+      <View style={styles.firstSection}>
+        <Text>
+          {name}
+        </Text>
+        <Text style={styles.price}>
+          {price}
+        </Text>
+      </View>
+      <View style={styles.secondSection}>
+        <View style={styles.descriptionView}>
+          <Text>
+            {description}
+          </Text>
         </View>
-        <View style={styles.rightPanel}>
-          <View style={styles.firstSection}>
-            <Text>
-              {this.props.name}
-            </Text>
-            <Text style={styles.price}>
-              {this.props.price}
-            </Text>
-          </View>
-          <View style={styles.secondSection}>
-            <View style={styles.descriptionView}>
-              <Text>
-                {this.props.description}
-              </Text>
-            </View>
-            <View style={styles.infoView}>
-              <CircleButton
-                style={styles.info}
-                size={30}
-                />
-            </View>
-          </View>
-          <View style={styles.thirdSection}>
-            <RectangleButton
-              style={styles.menu}
-              height={25}
-              width={50}
-              />
-            <RectangleButton
-              style={styles.checkin}
-              height={25}
-              width={50}
-              />
-          </View>
+        <View style={styles.infoView}>
+          <CircleButton
+            style={styles.info}
+            size={30}
+          />
         </View>
       </View>
-    );
-  }
-}
+      <View style={styles.thirdSection}>
+        <RectangleButton
+          style={styles.menu}
+          height={25}
+          width={50}
+        />
+        <RectangleButton
+          style={styles.checkin}
+          height={25}
+          width={50}
+        />
+      </View>
+    </View>
+  </View>
+);
 
 BusinessItem.propTypes = {
   name: PropTypes.string.isRequired,
-  description : PropTypes.string,
+  description: PropTypes.string,
   price: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
+};
+
+BusinessItem.defaultProps = {
+  description: '',
 };
 
 const sectionStyle = {
@@ -67,7 +71,7 @@ const sectionStyle = {
   justifyContent: 'space-between',
   marginLeft: 5,
   marginRight: 5,
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 180,
     width: '100%',
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
   leftPanel: {
     flex: 1,
@@ -90,28 +94,28 @@ const styles = StyleSheet.create({
   rightPanel: {
     flex: 2,
     height: 180,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   firstSection: {
     flex: 1,
     marginTop: 5,
-    ...sectionStyle
+    ...sectionStyle,
   },
   secondSection: {
     flex: 3,
     paddingTop: 5,
     paddingBottom: 5,
-    ...sectionStyle
+    ...sectionStyle,
   },
   thirdSection: {
     flex: 1,
     marginBottom: 5,
-    ...sectionStyle
+    ...sectionStyle,
   },
   price: {
     marginRight: '10%',
   },
-  checkin:{
+  checkin: {
     marginRight: '10%',
   },
   descriptionView: {
@@ -123,3 +127,5 @@ const styles = StyleSheet.create({
     marginRight: '5%',
   },
 });
+
+export default BusinessItem;
