@@ -8,19 +8,19 @@ import { AsyncStorage } from 'react-native';
 
 const socket = io(process.env.BASE_URL, {
   transports: ['websocket'],
-  forceNew: true
+  forceNew: true,
 });
 
 const feathersClient = feathers()
-.configure(hooks())
-.configure(socketio(socket))
-.configure(auth({
-  storage: AsyncStorage,
-}));
+  .configure(hooks())
+  .configure(socketio(socket))
+  .configure(auth({
+    storage: AsyncStorage,
+  }));
 
 export default {
   auth: feathersClient.authenticate,
   business: feathersClient.service('businesses'),
   menuCategories: feathersClient.service('menu-categories'),
-  menuItems: feathersClient.service('menu-items')
+  menuItems: feathersClient.service('menu-items'),
 };
