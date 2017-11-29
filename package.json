@@ -14,7 +14,7 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
+    "start": "BASE_URL=http://10.0.0.79:3030/ react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
@@ -24,6 +24,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "babel-polyfill": "^6.26.0",
     "expo": "^21.0.0",
     "feathers": "^2.2.3",

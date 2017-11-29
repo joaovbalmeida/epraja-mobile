@@ -6,7 +6,7 @@ import auth from 'feathers-authentication-client';
 import hooks from 'feathers-hooks';
 import { AsyncStorage } from 'react-native';
 
-const socket = io('http://10.0.0.79:3030/', {
+const socket = io(process.env.BASE_URL, {
   transports: ['websocket'],
   forceNew: true
 });
