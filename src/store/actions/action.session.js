@@ -1,65 +1,58 @@
-import api from './../../api'
+import api from './../../api';
 
-export const updateTableNumber = tableNumber => {
-  return {
+export const updateTableNumber = tableNumber => (
+  {
     type: 'UPDATE_TABLE_NUMBER',
-    tableNumber
-  };
-};
+    tableNumber,
+  }
+);
 
-export const updateMenuCategories = menuCategories => {
-  return {
+export const updateMenuCategories = menuCategories => (
+  {
     type: 'UPDATE_MENU_CATEGORIES',
-    menuCategories
-  };
-};
+    menuCategories,
+  }
+);
 
-export const updateBusinessID = businessID => {
-  return {
+export const updateBusinessID = businessID => (
+  {
     type: 'UPDATE_BUSINESS_ID',
-    businessID
-  };
-};
+    businessID,
+  }
+);
 
-export const updateMenuItems = menuItems => {
-  return {
+export const updateMenuItems = menuItems => (
+  {
     type: 'UPDATE_MENU_ITEMS',
-    menuItems
-  };
-};
+    menuItems,
+  }
+);
 
 export const fetchMenuCategories = businessID => (
   (dispatch) => {
     const categories = [];
 
     return api.menuCategories.find({ query: { business: businessID } })
-      .then( response => {
-        response.data.forEach( function (item){
-          let newCategory = {};
-          newCategory['id'] = item._id;
-          newCategory['name'] = item.name;
+      .then((response) => {
+        response.data.forEach((item) => {
+          const newCategory = {};
+          newCategory.id = item._id;
+          newCategory.name = item.name;
           categories.push(newCategory);
         });
         dispatch(updateMenuCategories(categories));
         return response;
-      }, (error) => {
-        return error;
-      }).catch( (error) => {
-        return error;
-      });
+      }, error => error)
+      .catch(error => error);
   }
 );
 
 export const fetchMenuItems = businessID => (
   (dispatch) => {
-
-    return api.menuItems.find({ query: { business: businessID }})
-      .then( json => {
-        console.log(json.data);
+    api.menuItems.find({ query: { business: businessID } })
+      .then((json) => {
         dispatch(updateMenuItems(json.data));
         return json.data;
-      }, error => {
-        return error;
-      })
+      }, error => error);
   }
-)
+);
