@@ -1,8 +1,8 @@
 import { Animated, Easing } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CheckinStack from './checkin.stack';
-import DrawerStack from './drawer.stack';
-import FAQStack from './faq';
+import MenuStack from './menu.stack';
+import FAQStack from './faq.stack';
 
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -14,7 +14,7 @@ const noTransitionConfig = () => ({
 
 const MainNav = StackNavigator({
   checkinStack: { screen: CheckinStack },
-  drawerStack: { screen: DrawerStack },
+  menuStack: { screen: MenuStack },
   faqStack: { screen: FAQStack },
 }, {
   headerMode: 'none',

@@ -33,7 +33,7 @@ class CheckinScreen extends React.Component {
         onPress={() => (
           navigate('loginScreen', { id: item._id })
         )}
-        activeOpacity={0.8}
+        activeOpacity={0.9}
       >
         <BusinessItem
           name={`${item.name}`}

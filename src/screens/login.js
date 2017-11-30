@@ -21,7 +21,7 @@ export class LoginScreen extends React.Component {
     this.props.fetchMenuCategories(this.props.navigation.state.params.id);
     this.props.updateBusinessID(this.props.navigation.state.params.id);
     this.props.updateNumber(tableNumber);
-    this.props.navigation.navigate('drawerStack');
+    this.props.navigation.navigate('menuStack');
   }
 
   render() {

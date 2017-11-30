@@ -1,8 +1,8 @@
 import { DrawerNavigator } from 'react-navigation';
-import MenuScreen from './../screens/menu';
 import DrawerContainer from '../components/drawer';
+import MenuScreen from '../screens/menu';
 
-const Drawer = DrawerNavigator({
+const MenuDrawer = DrawerNavigator({
   menuScreen: { screen: MenuScreen },
 }, {
   gesturesEnabled: false,
@@ -10,4 +10,4 @@ const Drawer = DrawerNavigator({
   drawerPosition: 'right',
 });
 
-export default Drawer;
+export default MenuDrawer;

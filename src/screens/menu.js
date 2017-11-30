@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import { connect } from 'react-redux';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import PropTypes from 'prop-types';
-import FoodItem from '../components/fooditem';
+import MenuItem from '../components/menuitem';
 import { fetchMenuItems } from '../store/actions/action.session';
 
 export class MenuScreen extends React.Component {
@@ -36,8 +36,18 @@ export class MenuScreen extends React.Component {
 
   renderItem(item, navigate) {
     return (
-      <TouchableOpacity activeOpacity={0.8}>
-        <FoodItem
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={() => (
+          navigate('itemScreen', {
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            image: item.image,
+          })
+        )}
+      >
+        <MenuItem
           name={item.name}
           description={item.description}
           price={`${item.price}`}
@@ -67,7 +77,7 @@ export class MenuScreen extends React.Component {
           </View>
           <Menu onSelect={value => this.filterCategories(value)}>
             <MenuTrigger>
-              <Text style={{ fontSize: 25 }}>ABRIR</Text>
+              <Text style={{ fontSize: 18 }}>ABRIR</Text>
             </MenuTrigger>
             <MenuOptions>
               <MenuOption value={0}>

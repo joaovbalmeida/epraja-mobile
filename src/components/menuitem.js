@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-const FoodItem = ({
+const MenuItem = ({
   name,
   description,
   price,
@@ -34,14 +34,14 @@ const FoodItem = ({
   </View>
 );
 
-FoodItem.propTypes = {
+MenuItem.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   price: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
 };
 
-FoodItem.defaultProps = {
+MenuItem.defaultProps = {
   description: '',
 };
 
@@ -76,5 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FoodItem;
-
+export default MenuItem;

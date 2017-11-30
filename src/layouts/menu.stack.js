@@ -1,16 +1,17 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Drawer from './drawer';
+import MenuDrawer from './menu.drawer';
+import ItemScreen from '../screens/item';
 
-const DrawerStack = StackNavigator({
-  drawerStack: { screen: Drawer },
+const MenuStack = StackNavigator({
+  menuDrawer: { screen: MenuDrawer },
+  itemScreen: { screen: ItemScreen },
 }, {
   headerMode: 'float',
   navigationOptions: ({ navigation }) => ({
     headerStyle: { backgroundColor: '#4C3E54' },
-    title: 'Home',
-    gesturesEnabled: false,
+    gesturesEnabled: true,
     headerTintColor: 'white',
     headerRight: (
       <Text onPress={() => {
@@ -20,11 +21,11 @@ const DrawerStack = StackNavigator({
             navigation.navigate('DrawerClose');
           }
         }}
-      >
+        >
         Menu
       </Text>
     ),
   }),
 });
 
-export default DrawerStack;
+export default MenuStack;
