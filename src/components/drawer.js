@@ -1,21 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Modal, TouchableHighlight } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { StyleSheet, Text, View, Modal, TouchableHighlight } from 'react-native';
 import { RectangleButton } from 'react-native-button-component';
+import PropTypes from 'prop-types';
 import ScrollableText from './scrollabletext';
+import faqTexts from '../utils/faqtexts';
 
 export default class DrawerContainer extends React.Component {
-
-  constructor(props){
-    super(props)
-
+  constructor(props) {
+    super(props);
     this.state = {
       modalVisible: false,
     };
   }
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
 
   render() {
@@ -23,50 +22,51 @@ export default class DrawerContainer extends React.Component {
     return (
       <View style={styles.container}>
         <RectangleButton
-          title="Entrar"
-          onPress={() => this.props.navigation.navigate('drawerStack')}
+          title="EN"
+          onPress={() => navigation.navigate('drawerStack')}
           style={styles.button}
           color="black"
-          height={25}
+          height={30}
           width={50}
-          />
+        />
         <Text
-          onPress={() => navigation.navigate('homeScreen')}
-          style={styles.drawerItem}>
+          onPress={() => navigation.navigate('faqStack')}
+          style={styles.drawerItem}
+        >
           FALE CONOSCO
         </Text>
         <Text
           onPress={() => this.setModalVisible(true)}
-          style={styles.drawerItem}>
+          style={styles.drawerItem}
+        >
           TERMOS DE USO
         </Text>
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-          >
+        >
           <View style={styles.modal}>
             <View style={styles.top}>
               <View style={styles.blankView}>
                 <TouchableHighlight
-                  onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                >
                   <Text style={styles.closeButton}>&#10799;</Text>
                 </TouchableHighlight>
               </View>
               <Text style={styles.modalTitle}>
                 TERMOS DE USO
               </Text>
-              <View style={styles.blankView}>
-
-              </View>
+              <View style={styles.blankView} />
             </View>
             <ScrollableText
-              text={'Esses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja NativeEsses vão ser os termos de uso do Tapster, aplicativo mobile android e ios feito em Reactsdopajsopdjaopsjdpoajsdpoajspdoja Native'}
-              />
+              text={faqTexts.termsOfUse.text}
+            />
             <View style={styles.bottom}>
               <TouchableHighlight
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}
+              >
                 <Text style={styles.bottomButton}>SAIR</Text>
               </TouchableHighlight>
             </View>
@@ -77,12 +77,22 @@ export default class DrawerContainer extends React.Component {
   }
 }
 
+DrawerContainer.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f6f6f6',
     paddingTop: 40,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   drawerItem: {
     fontSize: 18,
@@ -93,16 +103,18 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#E73536',
     borderWidth: 1,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
     backgroundColor: 'white',
+    marginBottom: 20,
+    marginLeft: 5,
   },
   modal: {
     marginTop: 30,
     paddingBottom: 50,
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
   top: {
     flexDirection: 'row',
@@ -117,21 +129,21 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     height: 30,
     marginRight: 20,
-    paddingTop: 10
+    paddingTop: 10,
   },
   modalTitle: {
     fontSize: 20,
     color: 'red',
   },
-  closeButton:{
+  closeButton: {
     width: 30,
     fontSize: 30,
   },
-  bottomButton:{
+  bottomButton: {
     width: 50,
     fontSize: 18,
   },
-  blankView:{
+  blankView: {
     width: 50,
-  }
+  },
 });

@@ -2,18 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default class ScrollableText extends React.Component {
-
-  render() {
-    return (
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.text}>
-          {this.props.text}
-        </Text>
-      </ScrollView>
-    );
-  }
-}
+const ScrollableText = ({ text }) => (
+  <ScrollView style={styles.scrollView}>
+    <Text style={styles.text}>
+      {text}
+    </Text>
+  </ScrollView>
+);
 
 ScrollableText.propTypes = {
   text: PropTypes.string.isRequired,
@@ -28,6 +23,9 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     padding: 15,
     margin: 5,
-    textAlign: 'center'
+    textAlign: 'center',
   },
 });
+
+export default ScrollableText;
+

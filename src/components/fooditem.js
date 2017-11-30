@@ -1,44 +1,48 @@
 import React from 'react';
-import { Text, Image, StyleSheet, View } from 'react-native'
+import { Text, Image, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default class FoodItem extends React.Component {
-
-  render(){
-    return (
-      <View style={styles.container}>
-        <View style={styles.topPanel}>
-          <Image
-            style={styles.image}
-            resizeMode="contain"
-            source={{uri: this.props.image}}
-            />
-        </View>
-        <View style={styles.bottomPanel}>
-          <View style={styles.firstSection}>
-            <Text>
-              {this.props.name}
-            </Text>
-            <Text >
-              {this.props.description}
-            </Text>
-          </View>
-          <View style={styles.secondSection}>
-            <Text>
-              {this.props.price}
-            </Text>
-          </View>
-        </View>
+const FoodItem = ({
+  name,
+  description,
+  price,
+  image,
+}) => (
+  <View style={styles.container}>
+    <View style={styles.topPanel}>
+      <Image
+        style={styles.image}
+        resizeMode="contain"
+        source={{ uri: image }}
+      />
+    </View>
+    <View style={styles.bottomPanel}>
+      <View style={styles.firstSection}>
+        <Text>
+          {name}
+        </Text>
+        <Text >
+          {description}
+        </Text>
       </View>
-    );
-  }
-}
+      <View style={styles.secondSection}>
+        <Text>
+          {price}
+        </Text>
+      </View>
+    </View>
+  </View>
+);
 
 FoodItem.propTypes = {
   name: PropTypes.string.isRequired,
-  description : PropTypes.string,
+  description: PropTypes.string,
   price: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
+};
+
+FoodItem.defaultProps = {
+  description: '',
 };
 
 const styles = StyleSheet.create({
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
   bottomPanel: {
     flexDirection: 'row',
     height: 70,
-    backgroundColor: 'lightblue'
+    backgroundColor: 'lightblue',
   },
   firstSection: {
     flex: 4.5,
@@ -71,3 +75,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
 });
+
+export default FoodItem;
+

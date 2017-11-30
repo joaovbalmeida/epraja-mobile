@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import React from 'react';
+import { StyleSheet, FlatList, TouchableOpacity, View } from 'react-native';
+import PropTypes from 'prop-types';
 import BusinessItem from '../components/businessitem';
 import api from '../api';
 
-export default class CheckinScreen extends Component {
-
-  constructor(props){
+class CheckinScreen extends React.Component {
+  constructor(props) {
     super(props);
-
     this.state = {
-      loading: false,
       data: [],
-      error: null,
-      refreshing: false
     };
   }
 
@@ -23,93 +18,78 @@ export default class CheckinScreen extends Component {
 
   makeRemoteRequest() {
     api.business.find()
-      .then( json => {
+      .then((json) => {
         this.setState({
-          data: json.data,
-          error: json.error || null,
-          loading: false,
-          refreshing: false
+          data: json.data || [],
         });
-      }, error => {
-        console.log(error)
-      });
-  };
-
-  render(){
-    const { navigate } = this.props.navigation
-    return (
-      <FlatList
-        style={styles.container}
-        data={this.state.data}
-        renderItem={({item}) => this.renderItem(item, navigate)}
-        keyExtractor={item => item._id}
-        ItemSeparatorComponent={this.renderSeparator}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
-        refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={50}
-      />
-    );
+      }, error => console.log(error));
   }
 
-  renderItem = (item, navigate) => {
-    var description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
-    description.split("\n").map(i => {
-      return <div>{i}</div>;
-    })
-
+  renderItem(item, navigate) {
+    const description = `${item.adress}\n${item.type}\n${item.businessHours}\n${item.deliveryArea}`;
+    description.split('\n').map(i => <div>{i}</div>);
     return (
-      <TouchableOpacity onPress={() => navigate('loginScreen', { id: item._id }, )} activeOpacity={0.8}>
+      <TouchableOpacity
+        onPress={() => (
+          navigate('loginScreen', { id: item._id })
+        )}
+        activeOpacity={0.8}
+      >
         <BusinessItem
           name={`${item.name}`}
           description={description}
           price={`${item.price}`}
           image={`${item.image}`}
-          />
+        />
       </TouchableOpacity>
-    )
+    );
   }
 
-  handleRefresh = () => {
-    this.setState({
-        refreshing: true
-      }, () => {
-        this.makeRemoteRequest();
-      });
-  };
+  renderSeparator() {
+    return <View style={styles.separator} />;
+  }
 
-  renderSeparator = () => {
+  render() {
+    const { navigate } = this.props.navigation;
     return (
-      <View style={styles.separator}/>
+      <FlatList
+        style={styles.container}
+        data={this.state.data}
+        renderItem={({ item }) => this.renderItem(item, navigate)}
+        keyExtractor={item => item._id}
+        ItemSeparatorComponent={this.renderSeparator}
+      />
     );
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-    return (
-      <View style={styles.footer}>
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
+  }
 }
+
+CheckinScreen.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-      height: '100%',
-      width: '100%',
-    },
+    height: '100%',
+    width: '100%',
+  },
   footer: {
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderColor: "#CED0CE",
+    borderColor: '#CED0CE',
   },
   separator: {
     height: 1,
-    width: "86%",
-    backgroundColor: "#CED0CE",
-    marginLeft: "14%",
-  }
+    width: '86%',
+    backgroundColor: '#CED0CE',
+    marginLeft: '14%',
+  },
 });
+
+export default CheckinScreen;

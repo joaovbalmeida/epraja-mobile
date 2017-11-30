@@ -1,18 +1,16 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+import PropTypes from 'prop-types';
 import FoodItem from '../components/fooditem';
 import { fetchMenuItems } from '../store/actions/action.session';
-import api from '../api';
-import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
 export class MenuScreen extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-
     this.state = {
-      data: this.props.items
+      data: this.props.items,
     };
   }
 
@@ -20,7 +18,23 @@ export class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  renderItem(item, navigate){
+  filterCategories(id) {
+    if (id === 0) {
+      this.setState({
+        data: this.props.items,
+      });
+    } else {
+      this.setState({
+        data: this.props.items.filter(item => item.menuCategory.match(id)),
+      });
+    }
+  }
+
+  makeRemoteRequest() {
+    this.props.fetchMenuItems(this.props.businessID);
+  }
+
+  renderItem(item, navigate) {
     return (
       <TouchableOpacity activeOpacity={0.8}>
         <FoodItem
@@ -28,20 +42,22 @@ export class MenuScreen extends React.Component {
           description={item.description}
           price={`${item.price}`}
           image={`${item.image}`}
-          />
+        />
       </TouchableOpacity>
     );
   }
 
+  renderSeparator() {
+    return <View style={styles.separator} />;
+  }
+
   render() {
     const { navigate } = this.props.navigation;
-    const categories = this.props.categories.map((item) => {
-      return (
-        <MenuOption key={item.id} value={item.id}>
-          <Text>{item.name}</Text>
-        </MenuOption>
-      );
-    });
+    const categories = this.props.categories.map(item => (
+      <MenuOption key={item.id} value={item.id}>
+        <Text>{item.name}</Text>
+      </MenuOption>
+    ));
 
     return (
       <MenuContext style={styles.view}>
@@ -49,9 +65,9 @@ export class MenuScreen extends React.Component {
           <View style={styles.dropdownTitle}>
             <Text>CATEGORIAS</Text>
           </View>
-          <Menu onSelect={(value) => this.filterCategories(value)}>
+          <Menu onSelect={value => this.filterCategories(value)}>
             <MenuTrigger>
-              <Text style={{ fontSize: 30}}>&#8942;</Text>
+              <Text style={{ fontSize: 30 }}>&#8942;</Text>
             </MenuTrigger>
             <MenuOptions>
               <MenuOption value={0}>
@@ -64,43 +80,29 @@ export class MenuScreen extends React.Component {
         <FlatList
           style={styles.flatlist}
           data={this.state.data}
-          renderItem={({item}) => this.renderItem(item, navigate)}
+          renderItem={({ item }) => this.renderItem(item, navigate)}
           keyExtractor={item => item._id}
           ItemSeparatorComponent={this.renderSeparator}
           onEndReachedThreshold={50}
-          />
+        />
       </MenuContext>
     );
   }
-
-  filterCategories = (id) => {
-    if (id == 0) {
-      this.setState({
-        data: this.props.items
-      });
-    } else {
-      this.setState({
-        data: this.props.items.filter( item => {
-          return item.menuCategory.match(id);
-        })
-      });
-    }
-  };
-
-  getCategories = () => {
-    this.props.categories.for
-  };
-
-  makeRemoteRequest = () => {
-    this.props.fetchMenuItems(this.props.businessID);
-  };
-
-  renderSeparator = () => {
-    return (
-      <View style={styles.separator}/>
-    );
-  };
 }
+
+MenuScreen.propTypes = {
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fetchMenuItems: PropTypes.func.isRequired,
+  businessID: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   view: {
@@ -110,29 +112,30 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flexDirection: 'row',
-    backgroundColor: 'lightblue'
+    backgroundColor: 'lightblue',
   },
   dropdownTitle: {
-    flex:1
+    flex: 1,
   },
   flatlist: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 const mapStateToProps = state => (
   {
     categories: state.sessionReducer.menuCategories,
     businessID: state.sessionReducer.businessID,
-    items: state.sessionReducer.menuItems
+    items: state.sessionReducer.menuItems,
   }
 );
 
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    fetchMenuItems: (id) => dispatch(fetchMenuItems(id))
+    fetchMenuItems: id => dispatch(fetchMenuItems(id)),
   }
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+
