@@ -67,7 +67,7 @@ export class MenuScreen extends React.Component {
           </View>
           <Menu onSelect={value => this.filterCategories(value)}>
             <MenuTrigger>
-              <Text style={{ fontSize: 30 }}>&#8942;</Text>
+              <Text style={{ fontSize: 25 }}>ABRIR</Text>
             </MenuTrigger>
             <MenuOptions>
               <MenuOption value={0}>
