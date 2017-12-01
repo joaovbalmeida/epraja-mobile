@@ -22,7 +22,7 @@ middlewares.push(thunk);
 
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(createLogger({
-    collapsed: true,
+    collapsed: false,
   }));
 }
 

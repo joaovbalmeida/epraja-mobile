@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, Image, KeyboardAvoidingView, Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { RectangleButton } from 'react-native-button-component';
+import { connect } from 'react-redux';
+import { addToCart } from '../store/actions/action.session';
 
-export default class ItemScreen extends React.Component {
+export class ItemScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.name,
     headerRight: null,
@@ -27,6 +29,11 @@ export default class ItemScreen extends React.Component {
         itemQty: this.state.itemQty - 1,
       });
     }
+  }
+
+  addItemToCart() {
+    this.props.addToCart(this.props.navigation.state.params.id, this.state.itemQty);
+    this.props.navigation.goBack();
   }
 
   render() {
@@ -82,6 +89,7 @@ export default class ItemScreen extends React.Component {
               <RectangleButton
                 text="INCLUIR AO PEDIDO"
                 buttonStyle={styles.button}
+                onPress={() => this.addItemToCart()}
                 width={175}
                 height={50}
                 />
@@ -156,3 +164,12 @@ const styles = StyleSheet.create({
     backgroundColor: ['black'],
   },
 });
+
+const mapDispatchToProps = dispatch => (
+  {
+    dispatch,
+    addToCart: (id, qty) => dispatch(addToCart(id, qty)),
+  }
+);
+
+export default connect(null, mapDispatchToProps)(ItemScreen);

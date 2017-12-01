@@ -21,7 +21,7 @@ const MenuStack = StackNavigator({
             navigation.navigate('DrawerClose');
           }
         }}
-        >
+      >
         Menu
       </Text>
     ),

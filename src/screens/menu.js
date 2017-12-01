@@ -44,6 +44,7 @@ export class MenuScreen extends React.Component {
             description: item.description,
             price: item.price,
             image: item.image,
+            id: item._id,
           })
         )}
       >
