@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { RectangleButton } from 'react-native-button-component';
+import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { updateTableNumber, updateBusinessID, fetchMenuCategories } from '../store/actions/action.session';
 
@@ -37,7 +37,7 @@ export class LoginScreen extends React.Component {
               keyboardVerticalOffset={150}
             >
               <Text>
-                {this.props.number}
+                {this.state.number}
               </Text>
               <TextInput
                 placeholder="Table Number"
@@ -45,10 +45,10 @@ export class LoginScreen extends React.Component {
                 keyboardType="numeric"
                 onChangeText={tableNumber => this.setState({ number: tableNumber })}
               />
-              <RectangleButton
+              <Button
                 title="Entrar"
                 onPress={() => this.navigateToMenu(this.state.number)}
-                style={styles.button}
+                buttonStyle={styles.button}
                 color="black"
               />
             </KeyboardAvoidingView>

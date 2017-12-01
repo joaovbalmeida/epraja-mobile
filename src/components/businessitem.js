@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
-import { RectangleButton, CircleButton } from 'react-native-button-component';
+import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
 
 const BusinessItem = ({
@@ -33,22 +33,23 @@ const BusinessItem = ({
           </Text>
         </View>
         <View style={styles.infoView}>
-          <CircleButton
-            style={styles.info}
+          <Button
+            title="i"
+            buttonStyle={styles.info}
             size={30}
           />
         </View>
       </View>
       <View style={styles.thirdSection}>
-        <RectangleButton
-          style={styles.menu}
-          height={25}
-          width={50}
+        <Button
+          title="Acesse nosso cardápio"
+          fontSize={13}
+          buttonStyle={styles.menu}
         />
-        <RectangleButton
-          style={styles.checkin}
-          height={25}
-          width={50}
+        <Button
+          title="CHECK-IN"
+          fontSize={13}
+          buttonStyle={styles.checkin}
         />
       </View>
     </View>
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
   },
   leftPanel: {
     flex: 1,
-    height: 180,
     justifyContent: 'center',
   },
   image: {
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
   },
   rightPanel: {
     flex: 2,
-    height: 180,
     backgroundColor: 'white',
   },
   firstSection: {
@@ -109,17 +108,22 @@ const styles = StyleSheet.create({
   },
   thirdSection: {
     flex: 1,
-    marginBottom: 5,
+    alignItems: 'center',
     ...sectionStyle,
   },
   price: {
     marginRight: '10%',
   },
   checkin: {
-    marginRight: '10%',
+    height: 10,
   },
   descriptionView: {
     flex: 5,
+  },
+  menu: {
+    height: 10,
+  },
+  info: {
   },
   infoView: {
     flex: 1,

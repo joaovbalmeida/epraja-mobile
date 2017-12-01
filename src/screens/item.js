@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, KeyboardAvoidingView, Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
-import { RectangleButton } from 'react-native-button-component';
+import { Button } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { addToCart } from '../store/actions/action.session';
 
@@ -62,21 +62,17 @@ export class ItemScreen extends React.Component {
               <Text>
                 Marcar a quantidade desejada
               </Text>
-              <RectangleButton
-                text="+"
+              <Button
+                title="+"
                 buttonStyle={styles.stepper}
-                width={40}
-                height={40}
                 onPress={() => this.counterAdd()}
               />
               <Text style={styles.qty}>
                 {this.state.itemQty}
               </Text>
-              <RectangleButton
-                text="-"
+              <Button
+                title="-"
                 buttonStyle={styles.stepper}
-                width={40}
-                height={40}
                 onPress={() => this.counterDecrease()}
               />
             </View>
@@ -86,12 +82,10 @@ export class ItemScreen extends React.Component {
               placeholder="Deixe sua observação em relação a detalhes de seu pedido que tentaremos atende-lo"
             />
             <View style={styles.thirdSection}>
-              <RectangleButton
-                text="INCLUIR AO PEDIDO"
+              <Button
+                title="INCLUIR AO PEDIDO"
                 buttonStyle={styles.button}
                 onPress={() => this.addItemToCart()}
-                width={175}
-                height={50}
                 />
             </View>
           </KeyboardAvoidingView>
@@ -137,7 +131,8 @@ const styles = StyleSheet.create({
 
   },
   stepper: {
-    backgroundColor: ['black'],
+    height: 40,
+    width: 40,
   },
   qty: {
     fontSize: 18,
@@ -161,7 +156,8 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: 10,
     marginVertical: 5,
-    backgroundColor: ['black'],
+    width: 175,
+    height: 50,
   },
 });
 

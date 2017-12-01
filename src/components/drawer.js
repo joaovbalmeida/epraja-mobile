@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal, TouchableHighlight } from 'react-native';
-import { RectangleButton } from 'react-native-button-component';
+import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import ScrollableText from './scrollabletext';
 import faqTexts from '../utils/faqtexts';
@@ -21,7 +21,7 @@ export default class DrawerContainer extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <RectangleButton
+        <Button
           title="EN"
           onPress={() => navigation.navigate('drawerStack')}
           style={styles.button}

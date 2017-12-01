@@ -14,12 +14,17 @@ const CheckinStack = StackNavigator({
     gesturesEnabled: false,
     headerTintColor: 'white',
     headerRight: (
-      <Text onPress={() => {
+      <Text
+        onPress={() => {
           if (navigation.state.index === 0) {
             navigation.navigate('DrawerOpen');
           } else {
             navigation.navigate('DrawerClose');
           }
+        }}
+        style={{
+          fontSize: 16,
+          marginRight: 10,
         }}
       >
         Menu

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import PropTypes from 'prop-types';
+import { SearchBar, Button } from 'react-native-elements';
 import MenuItem from '../components/menuitem';
 import { fetchMenuItems } from '../store/actions/action.session';
 
@@ -11,6 +12,7 @@ export class MenuScreen extends React.Component {
     super(props);
     this.state = {
       data: this.props.items,
+      modalVisible: false,
     };
   }
 
@@ -62,6 +64,10 @@ export class MenuScreen extends React.Component {
     return <View style={styles.separator} />;
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const categories = this.props.categories.map(item => (
@@ -72,6 +78,21 @@ export class MenuScreen extends React.Component {
 
     return (
       <MenuContext style={styles.view}>
+        <View style={styles.searchBar}>
+          <SearchBar
+            lightTheme
+            containerStyle={styles.searchContainer}
+            placeholder="Buscar"
+          />
+          <TouchableHighlight
+            style={styles.cart}
+            onPress={() => this.setModalVisible(true)}
+          >
+            <Text style={{textAlign: 'right', paddingRight: 10, fontSize: 20,}}>
+              PEDIDOS
+            </Text>
+          </TouchableHighlight>
+        </View>
         <View style={styles.container}>
           <View style={styles.dropdownTitle}>
             <Text>CATEGORIAS</Text>
@@ -96,6 +117,35 @@ export class MenuScreen extends React.Component {
           ItemSeparatorComponent={this.renderSeparator}
           onEndReachedThreshold={50}
         />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          >
+          <View style={styles.modal}>
+            <View style={styles.top}>
+              <TouchableHighlight
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                >
+                <Text style={styles.closeButton}>&#10799;</Text>
+              </TouchableHighlight>
+              <View>
+                <Text style={styles.closeButton}>&#128651;</Text>
+              </View>
+            </View>
+            <View style={styles.bottom}>
+              <Button
+                title="MONTAGEM DO SEU PEDIDO"
+              />
+              <Button
+                title="PEDIDOS PENDENTES"
+              />
+              <Button
+                title="CONTA"
+              />
+            </View>
+          </View>
+        </Modal>
       </MenuContext>
     );
   }
@@ -117,12 +167,26 @@ MenuScreen.propTypes = {
 
 const styles = StyleSheet.create({
   view: {
+    flex: 1,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
-    height: '100%',
+  },
+  searchContainer: {
+    flex: 1,
+  },
+  cart: {
+    flex: 1,
+    width: '50%',
+    justifyContent: 'flex-end',
   },
   container: {
-    padding: 10,
     flexDirection: 'row',
+    height: 45,
+    padding: 10,
     backgroundColor: 'lightblue',
   },
   dropdownTitle: {
@@ -130,6 +194,30 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     flex: 1,
+  },
+  modal: {
+    flex: 1,
+    marginTop: 30,
+    paddingBottom: 50,
+  },
+  top: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 20,
+    marginHorizontal: 15,
+    marginTop: 10,
+  },
+  bottom: {
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+    height: '50%',
+    marginHorizontal: 30,
+    paddingVertical: 20,
+  },
+  closeButton: {
+    width: 30,
+    fontSize: 30,
   },
 });
 
