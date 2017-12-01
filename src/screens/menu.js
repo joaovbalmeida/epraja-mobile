@@ -20,6 +20,10 @@ export class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   filterCategories(id) {
     if (id === 0) {
       this.setState({
@@ -32,8 +36,28 @@ export class MenuScreen extends React.Component {
     }
   }
 
+  filterItems(text) {
+    this.setState({
+      data: this.props.items.filter((item) => {
+        const name = item.name.toLowerCase();
+        const description = item.description.toLowerCase();
+        return name.includes(text) || description.includes(text);
+      }),
+    });
+  }
+
   makeRemoteRequest() {
     this.props.fetchMenuItems(this.props.businessID);
+  }
+
+  searchBarCleared() {
+    this.setState({
+      data: this.props.items,
+    });
+  }
+
+  renderSeparator() {
+    return <View style={styles.separator} />;
   }
 
   renderItem(item, navigate) {
@@ -49,23 +73,15 @@ export class MenuScreen extends React.Component {
             id: item._id,
           })
         )}
-      >
+        >
         <MenuItem
           name={item.name}
           description={item.description}
           price={`${item.price}`}
           image={`${item.image}`}
-        />
+          />
       </TouchableOpacity>
     );
-  }
-
-  renderSeparator() {
-    return <View style={styles.separator} />;
-  }
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
   }
 
   render() {
@@ -81,6 +97,8 @@ export class MenuScreen extends React.Component {
         <View style={styles.searchBar}>
           <SearchBar
             lightTheme
+            onChangeText={text => this.filterItems(text.toLowerCase())}
+            onClearText={() => this.searchBarCleared()}
             containerStyle={styles.searchContainer}
             placeholder="Buscar"
           />
