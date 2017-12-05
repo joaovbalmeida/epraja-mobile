@@ -28,21 +28,37 @@ export const updateMenuItems = menuItems => (
   }
 );
 
-export const addToCart = (id, qty) => (
+export const addToCart = (id, qty, name, price) => (
   {
     type: 'ADD_TO_CART',
+    id,
+    qty,
+    name,
+    price,
+  }
+);
+
+export const updateCart = (id, qty) => (
+  {
+    type: 'UPDATE_CART',
     id,
     qty,
   }
 );
 
-export const removeFromCart = (id, qty) => (
+export const removeFromCart = id => (
   {
     type: 'REMOVE_FROM_CART',
     id,
-    qty,
   }
 );
+
+export const updateModal = modalVisible => (
+  {
+    type: 'UPDATE_MODAL',
+    modalVisible,
+  }
+)
 
 export const fetchMenuCategories = businessID => (
   (dispatch) => {

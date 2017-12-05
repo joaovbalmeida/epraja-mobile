@@ -13,10 +13,13 @@ const socket = io(process.env.BASE_URL, {
 
 const feathersClient = feathers()
   .configure(hooks())
-  .configure(socketio(socket))
+  .configure(socketio(socket, {
+    timeout: 5000
+  }))
   .configure(auth({
     storage: AsyncStorage,
-  }));
+  }))
+
 
 export default {
   auth: feathersClient.authenticate,

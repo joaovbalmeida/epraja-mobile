@@ -1,12 +1,248 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, FlatList, StyleSheet, Text, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { removeFromCart, updateCart, updateModal } from '../store/actions/action.session';
 
-export default class AssemblyScreen extends React.Component {
-  render() {
+class AssemblyScreen extends React.Component {
+  static navigationOptions = {
+    title: 'MONTAGEM DO PEDIDO',
+  };
+
+  constructor(props) {
+    super(props);
+    var price = 0;
+    this.props.cart.forEach(item => price += (item.qty * item.price))
+    this.state = {
+      totalPrice: price,
+    };
+  }
+
+  counterAdd(id, qty, price) {
+    this.props.updateCart(id, qty + 1);
+    this.setState({
+      totalPrice: this.state.totalPrice + price,
+    });
+  }
+
+  counterDecrease(id, qty, price) {
+    if (qty > 1) {
+      this.props.updateCart(id, qty - 1);
+      this.setState({
+        totalPrice: this.state.totalPrice - price,
+      });
+    }
+  }
+
+  removeItem(id) {
+    Alert.alert(
+      'Atenção',
+      'Deseja remover este item do seu pedido?',
+      [
+        {text: 'Remover', onPress: () => this.props.removeFromCart(id)},
+        {text: 'Cancelar', style: 'cancel'},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  renderSeparator() {
+    return <View style={styles.separator} />;
+  }
+
+  renderItem(item) {
     return (
-      <View>
+      <View style={styles.listContainer}>
+        <Button
+          title="X"
+          buttonStyle={styles.stepper}
+          onPress={() => this.removeItem(item.id)}
+        />
+        <Text style={styles.name}>
+          {item.name}
+        </Text>
+        <View style={styles.middleSection}>
+          <Button
+            title="+"
+            buttonStyle={styles.stepper}
+            onPress={() => this.counterAdd(item.id, item.qty, item.price)}
+            />
+          <Text style={styles.qty}>
+            {item.qty}
+          </Text>
+          <Button
+            title="-"
+            buttonStyle={styles.stepper}
+            onPress={() => this.counterDecrease(item.id, item.qty, item.price)}
+            />
+        </View>
+        <Text style={styles.price}>
+          {item.price}
+        </Text>
+      </View>
+    );
+  }
 
+  render() {
+    if (this.props.cart.length < 1) {
+      return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>
+          VOCÊ AINDA NÃO TEM NENHUM PEDIDO EM SEU CARRINHO
+        </Text>
+      </View>
+      )
+    }
+    return (
+      <View style={styles.container}>
+        <Text style={styles.firstText}>
+          CONFIRA SUA LISTA DE PEDIDOS ANTES DE ENVIÁ-LA
+        </Text>
+        <FlatList
+          style={styles.flatlist}
+          data={this.props.cart}
+          renderItem={({ item }) => this.renderItem(item)}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={this.renderSeparator}
+          onEndReachedThreshold={50}
+        />
+        <View style={styles.firstSection}>
+          <Text>
+            TOTAL PARCIAL
+          </Text>
+          <Text>
+            {this.state.totalPrice}
+          </Text>
+        </View>
+        <View style={styles.secondSection}>
+          <Button
+            title="INCLUIR MAIS ITENS"
+            containerViewStyle={styles.backButton}
+            fontSize={14}
+            onPress={() => this.props.updateModal(false)}
+          />
+          <Button
+            title="ENVIAR"
+            containerViewStyle={styles.sendButton}
+          />
+        </View>
       </View>
     );
   }
 }
+
+AssemblyScreen.propTypes = {
+  cart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  updateCart: PropTypes.func.isRequired,
+  updateModal: PropTypes.func.isRequired,
+};
+
+const section = {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
+const sectionStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+};
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  firstSection: {
+    height: '10%',
+    paddingHorizontal: 5,
+    ...sectionStyle,
+  },
+  secondSection: {
+    height: '20%',
+    ...sectionStyle,
+  },
+  separator: {
+    height: 5,
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+  },
+  emptyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  emptyText: {
+    fontSize: 20,
+    fontWeight: '400',
+    margin: 20,
+    textAlign: 'center',
+  },
+  flatlist: {
+    width: '100%',
+    height: '60%',
+  },
+  firstText: {
+    height: '10%',
+    paddingTop: 5,
+  },
+  listContainer: {
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 100,
+    width: '100%',
+    borderColor: '#000000',
+    borderWidth: 1,
+  },
+  name: {
+    paddingLeft: 10,
+  },
+  middleSection: {
+    height: 100,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  price: {
+    paddingRight: 10,
+  },
+  sendButton: {
+    height: 30,
+    width: 80,
+  },
+  backButton: {
+    height: 30,
+    width: 200,
+  },
+  stepper: {
+    height: 40,
+    width: 40,
+  },
+  qty: {
+    fontSize: 18,
+  },
+});
+
+const mapStateToProps = state => (
+  {
+    cart: state.sessionReducer.cart,
+  }
+);
+
+const mapDispatchToProps = dispatch => (
+  {
+    dispatch,
+    removeFromCart: id => dispatch(removeFromCart(id)),
+    updateCart: (id, qty) => dispatch(updateCart(id, qty)),
+    updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AssemblyScreen);

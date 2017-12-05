@@ -4,6 +4,7 @@ const initialState = {
   businessID: '',
   menuItems: [],
   cart: [],
+  modalVisible: false,
 };
 
 const sessionReducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         tableNumber: action.tableNumber,
+        modalVisible: false,
       };
     case 'UPDATE_MENU_CATEGORIES':
       return {
@@ -27,6 +29,33 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         menuItems: action.menuItems,
+      };
+    case 'UPDATE_MODAL':
+      return {
+        ...state,
+        modalVisible: action.modalVisible,
+      };
+    case 'REMOVE_FROM_CART':
+      const cartWithoutItem = state.cart.filter(item => item.id !== action.id);
+      return {
+        ...state,
+        cart: cartWithoutItem,
+      };
+    case 'UPDATE_CART':
+      const updatedCart = state.cart.map((item) => {
+        if (item.id === action.id) {
+          return {
+            id: item.id,
+            qty: action.qty,
+            name: item.name,
+            price: item.price,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        cart: updatedCart,
       };
     case 'ADD_TO_CART':
       if (state.cart.length > 0) {
@@ -46,7 +75,12 @@ const sessionReducer = (state = initialState, action) => {
             cart: newCart,
           };
         }
-        newCart.push({ id: action.id, qty: action.qty });
+        newCart.push({
+          id: action.id,
+          qty: action.qty,
+          name: action.name,
+          price: action.price,
+        });
         return {
           ...state,
           cart: newCart,
@@ -54,7 +88,12 @@ const sessionReducer = (state = initialState, action) => {
       }
       return {
         ...state,
-        cart: [{ id: action.id, qty: action.qty }],
+        cart: [{
+          id: action.id,
+          qty: action.qty,
+          name: action.name,
+          price: action.price,
+        }],
       };
     default:
       return state;

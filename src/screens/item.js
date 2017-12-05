@@ -32,13 +32,18 @@ export class ItemScreen extends React.Component {
   }
 
   addItemToCart() {
-    this.props.addToCart(this.props.navigation.state.params.id, this.state.itemQty);
+    this.props.addToCart(
+      this.props.navigation.state.params.id,
+      this.state.itemQty,
+      this.props.navigation.state.params.name,
+      this.props.navigation.state.params.price
+    );
     this.props.navigation.goBack();
   }
 
   render() {
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
           <KeyboardAvoidingView
             behavior="padding"
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    addToCart: (id, qty) => dispatch(addToCart(id, qty)),
+    addToCart: (id, qty, name, price) => dispatch(addToCart(id, qty, name, price)),
   }
 );
 

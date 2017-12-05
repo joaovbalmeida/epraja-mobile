@@ -3,16 +3,16 @@ import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight,
 import { connect } from 'react-redux';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import PropTypes from 'prop-types';
-import { SearchBar, Button } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import MenuItem from '../components/menuitem';
-import { fetchMenuItems } from '../store/actions/action.session';
+import { fetchMenuItems, updateModal } from '../store/actions/action.session';
+import OrderStack from '../layouts/order.stack';
 
 export class MenuScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.items,
-      modalVisible: false,
     };
   }
 
@@ -20,8 +20,8 @@ export class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+  setModalVisible() {
+    this.props.updateModal(true);
   }
 
   filterCategories(id) {
@@ -104,7 +104,7 @@ export class MenuScreen extends React.Component {
           />
           <TouchableHighlight
             style={styles.cart}
-            onPress={() => this.setModalVisible(true)}
+            onPress={() => this.setModalVisible()}
           >
             <Text style={{textAlign: 'right', paddingRight: 10, fontSize: 20,}}>
               PEDIDOS
@@ -138,31 +138,9 @@ export class MenuScreen extends React.Component {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
-          >
-          <View style={styles.modal}>
-            <View style={styles.top}>
-              <TouchableHighlight
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}
-                >
-                <Text style={styles.closeButton}>&#10799;</Text>
-              </TouchableHighlight>
-              <View>
-                <Text style={styles.closeButton}>&#128651;</Text>
-              </View>
-            </View>
-            <View style={styles.bottom}>
-              <Button
-                title="MONTAGEM DO SEU PEDIDO"
-              />
-              <Button
-                title="PEDIDOS PENDENTES"
-              />
-              <Button
-                title="CONTA"
-              />
-            </View>
-          </View>
+          visible={this.props.modalVisible}
+        >
+          <OrderStack/>
         </Modal>
       </MenuContext>
     );
@@ -213,29 +191,11 @@ const styles = StyleSheet.create({
   flatlist: {
     flex: 1,
   },
-  modal: {
-    flex: 1,
-    marginTop: 30,
-    paddingBottom: 50,
-  },
-  top: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 20,
-    marginHorizontal: 15,
-    marginTop: 10,
-  },
-  bottom: {
-    justifyContent: 'space-around',
-    alignItems: 'flex-start',
-    height: '50%',
-    marginHorizontal: 30,
-    paddingVertical: 20,
-  },
-  closeButton: {
-    width: 30,
-    fontSize: 30,
+  separator: {
+    height: 1,
+    width: '86%',
+    backgroundColor: '#CED0CE',
+    marginLeft: '14%',
   },
 });
 
@@ -244,6 +204,7 @@ const mapStateToProps = state => (
     categories: state.sessionReducer.menuCategories,
     businessID: state.sessionReducer.businessID,
     items: state.sessionReducer.menuItems,
+    modalVisible: state.sessionReducer.modalVisible,
   }
 );
 
@@ -251,6 +212,7 @@ const mapDispatchToProps = dispatch => (
   {
     dispatch,
     fetchMenuItems: id => dispatch(fetchMenuItems(id)),
+    updateModal: modalVisible => dispatch(updateModal(modalVisible)),
   }
 );
 
