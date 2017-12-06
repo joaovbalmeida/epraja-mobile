@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 20,
-    marginHorizontal: 15,
+    marginHorizontal: 20,
     marginTop: 10,
   },
   bottom: {

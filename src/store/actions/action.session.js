@@ -14,6 +14,20 @@ export const updateMenuCategories = menuCategories => (
   }
 );
 
+export const updateItemStatuses = itemStatuses => (
+  {
+    type: 'UPDATE_ITEM_STATUSES',
+    itemStatuses,
+  }
+);
+
+export const updateBillStatuses = billStatuses => (
+  {
+    type: 'UPDATE_BILL_STATUSES',
+    billStatuses,
+  }
+);
+
 export const updateBusinessID = businessID => (
   {
     type: 'UPDATE_BUSINESS_ID',
@@ -75,6 +89,44 @@ export const fetchMenuCategories = businessID => (
         dispatch(updateMenuCategories(categories));
         return response;
       }, error => error)
+      .catch(error => error);
+  }
+);
+
+export const fetchItemStatuses = () => (
+  (dispatch) => {
+    const statuses = [];
+
+    return api.menuItemStatuses.find()
+      .then((response) => {
+        response.data.forEach((item) => {
+          const newStatus = {};
+          newStatus.id = item._id;
+          newStatus.name = item.name;
+          statuses.push(newStatus);
+        });
+        dispatch(updateItemStatuses(statuses));
+        return response;
+      }, error => error)
+      .catch(error => error);
+  }
+);
+
+export const fetchBillStatuses = () => (
+  (dispatch) => {
+    const statuses = [];
+
+    return api.billStatuses.find()
+      .then((response) => {
+      response.data.forEach((item) => {
+        const newStatus = {};
+        newStatus.id = item._id;
+        newStatus.name = item.name;
+        statuses.push(newStatus);
+      });
+      dispatch(updateBillStatuses(statuses));
+      return response;
+    }, error => error)
       .catch(error => error);
   }
 );

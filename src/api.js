@@ -14,16 +14,18 @@ const socket = io(process.env.BASE_URL, {
 const feathersClient = feathers()
   .configure(hooks())
   .configure(socketio(socket, {
-    timeout: 5000
+    timeout: 10000,
   }))
   .configure(auth({
     storage: AsyncStorage,
-  }))
-
+  }));
 
 export default {
   auth: feathersClient.authenticate,
   business: feathersClient.service('businesses'),
   menuCategories: feathersClient.service('menu-categories'),
   menuItems: feathersClient.service('menu-items'),
+  menuItemStatuses: feathersClient.service('menu-item-statuses'),
+  billStatuses: feathersClient.service('bill-statuses'),
+  bills: feathersClient.service('bills'),
 };

@@ -21,7 +21,7 @@ const MenuItem = ({
         <Text>
           {name}
         </Text>
-        <Text >
+        <Text style={{ fontSize: 12 }}>
           {description}
         </Text>
       </View>

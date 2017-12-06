@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { removeFromCart, updateCart, updateModal } from '../store/actions/action.session';
+import api from '../api';
 
 class AssemblyScreen extends React.Component {
   static navigationOptions = {
@@ -16,6 +17,7 @@ class AssemblyScreen extends React.Component {
     this.props.cart.forEach(item => price += (item.qty * item.price))
     this.state = {
       totalPrice: price,
+      emptyMessage: 'VOCÊ AINDA NÃO TEM NENHUM PEDIDO EM SEU CARRINHO',
     };
   }
 
@@ -35,16 +37,40 @@ class AssemblyScreen extends React.Component {
     }
   }
 
-  removeItem(id) {
+  removeItem(id, qty, price) {
     Alert.alert(
       'Atenção',
       'Deseja remover este item do seu pedido?',
       [
-        {text: 'Remover', onPress: () => this.props.removeFromCart(id)},
+        {text: 'Remover', onPress: () => {
+          this.props.removeFromCart(id);
+          this.setState({
+            totalPrice: this.state.totalPrice - (price * qty),
+          });
+        }},
         {text: 'Cancelar', style: 'cancel'},
       ],
       { cancelable: false }
     )
+  }
+
+  sendOrder() {
+    const bill = {};
+    bill.table = this.props.tableNumber;
+    bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
+    bill.business = this.props.businessID;
+    const newCart = this.props.cart.map(item => {
+      const newItem = {};
+      newItem.menuItem = item.id;
+      newItem.quantity = item.qty;
+      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Pendente'))[0].id;
+      return newItem;
+    });
+    bill.menuItems = newCart;
+    api.bills.create(bill)
+      .then((json) =>
+        console.log(json),
+      error => error);
   }
 
   renderSeparator() {
@@ -57,7 +83,7 @@ class AssemblyScreen extends React.Component {
         <Button
           title="X"
           buttonStyle={styles.stepper}
-          onPress={() => this.removeItem(item.id)}
+          onPress={() => this.removeItem(item.id, item.qty, item.price)}
         />
         <Text style={styles.name}>
           {item.name}
@@ -85,11 +111,12 @@ class AssemblyScreen extends React.Component {
   }
 
   render() {
+    console.log(this.props.itemStatuses)
     if (this.props.cart.length < 1) {
       return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>
-          VOCÊ AINDA NÃO TEM NENHUM PEDIDO EM SEU CARRINHO
+          {this.state.emptyMessage}
         </Text>
       </View>
       )
@@ -125,6 +152,7 @@ class AssemblyScreen extends React.Component {
           <Button
             title="ENVIAR"
             containerViewStyle={styles.sendButton}
+            onPress={() => this.sendOrder()}
           />
         </View>
       </View>
@@ -134,6 +162,8 @@ class AssemblyScreen extends React.Component {
 
 AssemblyScreen.propTypes = {
   cart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tableNumber: PropTypes.number.isRequired,
+  itemStatuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   removeFromCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   updateModal: PropTypes.func.isRequired,
@@ -233,6 +263,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => (
   {
     cart: state.sessionReducer.cart,
+    itemStatuses: state.sessionReducer.itemStatuses,
+    billStatuses: state.sessionReducer.billStatuses,
+    tableNumber: state.sessionReducer.tableNumber,
+    businessID: state.sessionReducer.businessID,
   }
 );
 

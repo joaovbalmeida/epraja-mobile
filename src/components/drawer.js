@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal, TouchableHighlight } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import ScrollableText from './scrollabletext';
 import faqTexts from '../utils/faqtexts';
@@ -24,10 +24,8 @@ export default class DrawerContainer extends React.Component {
         <Button
           title="EN"
           onPress={() => navigation.navigate('drawerStack')}
-          style={styles.button}
+          buttonStyle={styles.button}
           color="black"
-          height={30}
-          width={50}
         />
         <Text
           onPress={() => navigation.navigate('faqStack')}
@@ -45,6 +43,7 @@ export default class DrawerContainer extends React.Component {
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
+          onRequestClose={() => null}
         >
           <View style={styles.modal}>
             <View style={styles.top}>
@@ -109,6 +108,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 20,
     marginLeft: 5,
+    height: 30,
+    width: 50,
   },
   modal: {
     marginTop: 30,

@@ -14,9 +14,9 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "BASE_URL=http://10.0.0.79:3030/ react-native-scripts start",
+    "start": "BASE_URL=http://10.0.0.15:3030/ react-native-scripts start",
     "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
+    "android": "BASE_URL=http://10.0.0.15:3030/ react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch"
   },
@@ -38,6 +38,7 @@
     "react-native-menu": "^0.23.0",
     "react-navigation": "^1.0.0-beta.15",
     "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.4.0",
     "redux-thunk": "^2.2.0",

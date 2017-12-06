@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 const BusinessItem = ({
@@ -28,7 +28,7 @@ const BusinessItem = ({
       </View>
       <View style={styles.secondSection}>
         <View style={styles.descriptionView}>
-          <Text>
+          <Text style={{ fontSize: 12 }}>
             {description}
           </Text>
         </View>
@@ -36,19 +36,18 @@ const BusinessItem = ({
           <Button
             title="i"
             buttonStyle={styles.info}
-            size={30}
           />
         </View>
       </View>
       <View style={styles.thirdSection}>
         <Button
           title="Acesse nosso cardápio"
-          fontSize={13}
+          fontSize={10}
           buttonStyle={styles.menu}
         />
         <Button
           title="CHECK-IN"
-          fontSize={13}
+          fontSize={10}
           buttonStyle={styles.checkin}
         />
       </View>
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 0,
     flexDirection: 'row',
-    height: 180,
+    height: 200,
     width: '100%',
     backgroundColor: 'black',
   },
@@ -102,14 +101,13 @@ const styles = StyleSheet.create({
   },
   secondSection: {
     flex: 3,
-    paddingTop: 5,
-    paddingBottom: 5,
     ...sectionStyle,
   },
   thirdSection: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
-    ...sectionStyle,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   price: {
     marginRight: '10%',
@@ -124,6 +122,8 @@ const styles = StyleSheet.create({
     height: 10,
   },
   info: {
+    height: 30,
+    width: 30,
   },
   infoView: {
     flex: 1,

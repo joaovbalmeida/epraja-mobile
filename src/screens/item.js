@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   firstSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: '12,5%',
+    height: '12%',
     marginHorizontal: 10,
     marginVertical: 5,
   },
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingHorizontal: 5,
     fontSize: 14,
-    height: '12,5%',
+    height: '12%',
     borderColor: 'black',
     borderWidth: 1,
     borderStyle: 'solid',

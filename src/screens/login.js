@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
-import { updateTableNumber, updateBusinessID, fetchMenuCategories } from '../store/actions/action.session';
+import { updateTableNumber, updateBusinessID, fetchMenuCategories, fetchItemStatuses, fetchBillStatuses } from '../store/actions/action.session';
 
 export class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -13,13 +13,15 @@ export class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: '0',
+      number: 0,
     };
   }
 
   navigateToMenu(tableNumber) {
     this.props.fetchMenuCategories(this.props.navigation.state.params.id);
     this.props.updateBusinessID(this.props.navigation.state.params.id);
+    this.props.fetchItemStatuses();
+    this.props.fetchBillStatuses();
     this.props.updateNumber(tableNumber);
     this.props.navigation.navigate('menuStack');
   }
@@ -36,21 +38,24 @@ export class LoginScreen extends React.Component {
               style={styles.content}
               keyboardVerticalOffset={150}
             >
-              <Text>
-                {this.state.number}
-              </Text>
-              <TextInput
-                placeholder="Table Number"
-                style={styles.textInput}
-                keyboardType="numeric"
-                onChangeText={tableNumber => this.setState({ number: tableNumber })}
-              />
+              <View style={styles.view}>
+                <Text style={{ marginLeft: 30 }}>
+                  Nº DA MESA
+                </Text>
+                <TextInput
+                  placeholder=""
+                  style={styles.textInput}
+                  keyboardType="numeric"
+                  onChangeText={tableNumber => this.setState({ number: Number(tableNumber) })}
+                  />
+              </View>
               <Button
                 title="Entrar"
                 onPress={() => this.navigateToMenu(this.state.number)}
-                buttonStyle={styles.button}
+                containerViewStyle={styles.button}
+                textStyle={styles.buttonText}
                 color="black"
-              />
+                />
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
         </ImageBackground>
@@ -68,9 +73,11 @@ LoginScreen.propTypes = {
     state: PropTypes.object,
   }).isRequired,
   fetchMenuCategories: PropTypes.func.isRequired,
+  fetchItemStatuses: PropTypes.func.isRequired,
+  fetchBillStatuses: PropTypes.func.isRequired,
   updateBusinessID: PropTypes.func.isRequired,
   updateNumber: PropTypes.func.isRequired,
-  number: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -89,22 +96,37 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginBottom: 25,
   },
+  view: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderColor: 'grey',
+    borderWidth: 2,
+    height: 80,
+    width: '100%',
+  },
   textInput: {
-    minWidth: 250,
-    paddingHorizontal: 20,
-    borderColor: 'black',
-    borderWidth: 1,
+    backgroundColor: 'white',
+    height: 60,
+    width: '100%',
+    width: '50%',
+    paddingHorizontal: 10,
     borderStyle: 'solid',
     borderRadius: 5,
     color: 'black',
+    textAlign: 'right',
   },
   button: {
     backgroundColor: 'white',
-    minWidth: 250,
+    height: 46,
+    width: '50%',
   },
+  buttonText: {
+    textAlign: 'center',
+  }
 });
 
 const mapDispatchToProps = dispatch => (
@@ -113,6 +135,8 @@ const mapDispatchToProps = dispatch => (
     updateNumber: number => dispatch(updateTableNumber(number)),
     updateBusinessID: id => dispatch(updateBusinessID(id)),
     fetchMenuCategories: id => dispatch(fetchMenuCategories(id)),
+    fetchItemStatuses: () => dispatch(fetchItemStatuses()),
+    fetchBillStatuses: () => dispatch(fetchBillStatuses()),
   }
 );
 

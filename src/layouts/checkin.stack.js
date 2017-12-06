@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Constants } from 'expo';
 import LoginScreen from './../screens/login';
 import CheckinDrawer from './checkin.drawer';
 
@@ -10,7 +11,7 @@ const CheckinStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({ navigation }) => ({
-    headerStyle: { backgroundColor: '#4C3E54' },
+    headerStyle: { backgroundColor: '#4C3E54', marginTop: Constants.statusBarHeight },
     gesturesEnabled: false,
     headerTintColor: 'white',
     headerRight: (

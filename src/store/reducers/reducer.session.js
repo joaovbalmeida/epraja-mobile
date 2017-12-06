@@ -1,6 +1,8 @@
 const initialState = {
   tableNumber: 0,
   menuCategories: [],
+  itemStatuses: [],
+  billStatuses: [],
   businessID: '',
   menuItems: [],
   cart: [],
@@ -19,6 +21,16 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         menuCategories: action.menuCategories,
+      };
+    case 'UPDATE_ITEM_STATUSES':
+      return {
+        ...state,
+        itemStatuses: action.itemStatuses,
+      };
+    case 'UPDATE_BILL_STATUSES':
+      return {
+        ...state,
+        billStatuses: action.billStatuses,
       };
     case 'UPDATE_BUSINESS_ID':
       return {

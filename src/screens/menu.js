@@ -106,7 +106,7 @@ export class MenuScreen extends React.Component {
             style={styles.cart}
             onPress={() => this.setModalVisible()}
           >
-            <Text style={{textAlign: 'right', paddingRight: 10, fontSize: 20,}}>
+            <Text style={{textAlign: 'right', paddingRight: 10, fontSize: 18,}}>
               PEDIDOS
             </Text>
           </TouchableHighlight>
@@ -139,6 +139,7 @@ export class MenuScreen extends React.Component {
           animationType="slide"
           transparent={false}
           visible={this.props.modalVisible}
+          onRequestClose={() => null}
         >
           <OrderStack/>
         </Modal>
