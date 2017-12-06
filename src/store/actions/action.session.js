@@ -67,6 +67,12 @@ export const removeFromCart = id => (
   }
 );
 
+export const resetCart = () => (
+  {
+    type: 'RESET_CART',
+  }
+)
+
 export const updateModal = modalVisible => (
   {
     type: 'UPDATE_MODAL',

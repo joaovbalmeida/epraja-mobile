@@ -53,6 +53,11 @@ const sessionReducer = (state = initialState, action) => {
         ...state,
         cart: cartWithoutItem,
       };
+    case 'RESET_CART':
+      return {
+        ...state,
+        cart: [],
+      }
     case 'UPDATE_CART':
       const updatedCart = state.cart.map((item) => {
         if (item.id === action.id) {

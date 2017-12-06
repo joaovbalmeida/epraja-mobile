@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeFromCart, updateCart, updateModal } from '../store/actions/action.session';
+import { removeFromCart, updateCart, updateModal, resetCart } from '../store/actions/action.session';
 import api from '../api';
 
 class AssemblyScreen extends React.Component {
@@ -54,6 +54,17 @@ class AssemblyScreen extends React.Component {
     )
   }
 
+  cartSentAlert() {
+    Alert.alert(
+      'Pedido Enviado',
+      'Aguarde que você ja será servido.',
+      [
+        {text: 'Ok', onPress: () => this.props.updateModal(false)},
+      ],
+      { cancelable: false }
+    )
+  }
+
   sendOrder() {
     const bill = {};
     bill.table = this.props.tableNumber;
@@ -68,9 +79,13 @@ class AssemblyScreen extends React.Component {
     });
     bill.menuItems = newCart;
     api.bills.create(bill)
-      .then((json) =>
-        console.log(json),
-      error => error);
+      .then((json) => {
+      this.props.resetCart();
+      this.setState({
+        totalPrice: 0,
+      });
+      this.cartSentAlert();
+    }, error => error);
   }
 
   renderSeparator() {
@@ -276,6 +291,7 @@ const mapDispatchToProps = dispatch => (
     removeFromCart: id => dispatch(removeFromCart(id)),
     updateCart: (id, qty) => dispatch(updateCart(id, qty)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+    resetCart: () => dispatch(resetCart()),
   }
 );
 
