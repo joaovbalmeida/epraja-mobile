@@ -70,7 +70,7 @@ class AssemblyScreen extends React.Component {
       const newItem = {};
       newItem.menuItem = item.id;
       newItem.quantity = item.qty;
-      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Encaminhado'))[0].id;
+      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Pendente'))[0].id;
       return newItem;
     });
     if (this.props.bill === '') {

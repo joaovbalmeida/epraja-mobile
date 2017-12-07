@@ -30,23 +30,19 @@ console.ignoredYellowBox = ['Setting a timer'];
 
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);
-
+const route = [];
 const state = store.getState()
-
+if (state.sessionReducer.tableNumber !== 0) {
+  route.push(<BypassCheckinNav />);
+} else {
+  route.push(<MainNav />)
+}
+console.log(state);
 const App = () => {
-  if (state.tableNumber !== 0) {
-    return (
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <BypassCheckinNav />
-        </PersistGate>
-      </Provider>
-    );
-  }
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <MainNav />
+        {route}
       </PersistGate>
     </Provider>
   );
