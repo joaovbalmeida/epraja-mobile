@@ -9,36 +9,67 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import MainNav, { BypassCheckinNav } from './src/layouts/main';
 import sessionReducer from './src/store/reducers/reducer.session';
 
-const config = {
-  key: 'root',
-  storage: AsyncStorage,
-};
+console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in'];
 
-const reducer = persistCombineReducers(config, { sessionReducer });
-const middlewares = [];
+function configureStore() {
 
-middlewares.push(thunk);
+  const middlewares = [];
+  if (process.env.NODE_ENV === 'development') {
+    middlewares.push(createLogger({
+      collapsed: false,
+    }));
+    middlewares.push(thunk);
+  }
+  const reducer = persistCombineReducers(config, { sessionReducer });
+  const config = {
+    key: 'root',
+    storage: AsyncStorage,
+  };
 
-if (process.env.NODE_ENV === 'development') {
-  middlewares.push(createLogger());
+  const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
+  const persistor = persistStore(store);
+
+  const state = store.getState()
+  const route = [];
+
+  if (state.sessionReducer.tableNumber !== 0) {
+    route.push(<BypassCheckinNa/>)
+    return {store, persistor, route};
+  } else {
+    route.push(<MainNav/>)
+    return {store, persistor, route};
+  }
 }
 
-console.ignoredYellowBox = ['Setting a timer'];
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      store: null,
+      persistor: null,
+      route: null,
+    }
+  }
 
-const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
-const persistor = persistStore(store);
+  async componentWillMount () {
+    const {store, persistor, route} = await configureStore();
+    this.setState({
+      store: store,
+      persistor: persistor,
+      route: route,
+    });
+  }
 
-//if (store.getState().sessionReducer.tableNumber !== 0) {
-  //route.push(<BypassCheckinNav />);
-//} else {
-  //route.push();
-//}
-const App = () => (
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <MainNav />
-    </PersistGate>
-  </Provider>
-);
+  render {
+    return (
+      <Provider store={this.state.store}>
+        <PersistGate persistor={this.state.persistor}>
+          {this.state.route}
+        </PersistGate>
+      </Provider>
+    )
+  }
+}
 
 export default App;
+
