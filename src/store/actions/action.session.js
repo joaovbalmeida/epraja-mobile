@@ -154,7 +154,6 @@ export const fetchMenuItems = businessID => (
   (dispatch) => {
     api.menuItems.find({ query: { business: businessID } })
       .then((json) => {
-      console.log(json)
         dispatch(updateMenuItems(json.data));
         return json.data;
       }, error => error);

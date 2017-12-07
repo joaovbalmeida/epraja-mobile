@@ -92,7 +92,6 @@ class AssemblyScreen extends React.Component {
           const mergedCart = [ ...newCart, ...json.menuItems ]
           api.bills.patch(this.props.bill, { menuItems: mergedCart })
             .then((json) => {
-              console.log(json)
               this.props.resetCart();
               this.cartSentAlert();
             }, error => error);

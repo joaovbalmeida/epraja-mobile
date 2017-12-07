@@ -22,7 +22,7 @@ export class MenuScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( nextProps.tableNumber === 0 || nextProps.businessID === '' ) {
+    if ( nextProps.tableNumber === 0 && nextProps.businessID === '' ) {
       this.props.navigation.dispatch(NavigationActions.reset({
         index: 0,
         key: null,

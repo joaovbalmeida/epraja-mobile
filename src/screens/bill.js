@@ -3,7 +3,7 @@ import { View, Text, SectionList, StyleSheet, Modal, TouchableHighlight, TextInp
 import { Button, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { resetState } from '../store/actions/action.session';
+import { resetState, updateModal } from '../store/actions/action.session';
 import OrderItem from '../components/orderitem';
 import api from '../api';
 
@@ -405,6 +405,7 @@ const mapDispatchToProps = dispatch => (
   {
     dispatch,
     resetState: () => dispatch(resetState()),
+    updateModal: modalVisible => dispatch(updateModal(modalVisible)),
   }
 );
 
