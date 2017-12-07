@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import BusinessItem from '../components/businessitem';
 import api from '../api';
 
-class CheckinScreen extends React.Component {
+export default class CheckinScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +56,7 @@ class CheckinScreen extends React.Component {
         style={styles.container}
         data={this.state.data}
         renderItem={({ item }) => this.renderItem(item, navigate)}
-        keyExtractor={item => item}
+        keyExtractor={item => item._id}
         ItemSeparatorComponent={this.renderSeparator}
       />
     );
@@ -91,5 +91,3 @@ const styles = StyleSheet.create({
     marginLeft: '14%',
   },
 });
-
-export default CheckinScreen;

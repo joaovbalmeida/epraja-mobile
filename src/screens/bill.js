@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, SectionList, StyleSheet, Modal, TouchableHighlight, TextInput, Alert } from 'react-native';
 import { Button, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { updateModal, resetState } from '../store/actions/action.session';
+import { NavigationActions } from 'react-navigation';
+import { resetState } from '../store/actions/action.session';
 import OrderItem from '../components/orderitem';
 import api from '../api';
 
@@ -51,19 +52,12 @@ getKey() {
 }
 
 endSession() {
-  this.props.resetState();
   Alert.alert(
     'OBRIGADO',
     'Volte sempre.',
     [
       {text: 'Ok', onPress: () => {
-        this.props.navigation.dispatch(NavigationActions.reset({
-          index: 0,
-          key: null,
-          actions: [
-            NavigationActions.navigate({ routeName: 'checkinStack'})
-          ]
-        }));
+        this.props.resetState();
       }},
     ],
     { cancelable: false }
@@ -410,7 +404,6 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    updateModal: modalVisible => dispatch(updateModal(modalVisible)),
     resetState: () => dispatch(resetState()),
   }
 );

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import PropTypes from 'prop-types';
 import { SearchBar } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import MenuItem from '../components/menuitem';
 import { fetchMenuItems, updateModal } from '../store/actions/action.session';
 import OrderStack from '../layouts/order.stack';
@@ -18,6 +19,19 @@ export class MenuScreen extends React.Component {
 
   componentDidMount() {
     this.makeRemoteRequest();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if ( nextProps.tableNumber === 0 || nextProps.businessID === '' ) {
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'checkinStack'})
+        ]
+      }));
+    }
+    this.setState({ data: nextProps.items })
   }
 
   setModalVisible() {
@@ -208,6 +222,7 @@ const mapStateToProps = state => (
     businessID: state.sessionReducer.businessID,
     items: state.sessionReducer.menuItems,
     modalVisible: state.sessionReducer.modalVisible,
+    tableNumber: state.sessionReducer.tableNumber,
   }
 );
 
