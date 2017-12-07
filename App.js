@@ -15,37 +15,30 @@ const config = {
 };
 
 const reducer = persistCombineReducers(config, { sessionReducer });
-
 const middlewares = [];
 
 middlewares.push(thunk);
 
 if (process.env.NODE_ENV === 'development') {
-  middlewares.push(createLogger({
-    collapsed: false,
-  }));
+  middlewares.push(createLogger());
 }
 
-console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in'];
+console.ignoredYellowBox = ['Setting a timer'];
 
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);
-const route = [];
-const state = store.getState()
-if (state.sessionReducer.tableNumber !== 0) {
-  route.push(<BypassCheckinNav />);
-} else {
-  route.push(<MainNav />)
-}
-console.log(state);
-const App = () => {
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        {route}
-      </PersistGate>
-    </Provider>
-  );
-};
+
+//if (store.getState().sessionReducer.tableNumber !== 0) {
+  //route.push(<BypassCheckinNav />);
+//} else {
+  //route.push();
+//}
+const App = () => (
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <MainNav />
+    </PersistGate>
+  </Provider>
+);
 
 export default App;

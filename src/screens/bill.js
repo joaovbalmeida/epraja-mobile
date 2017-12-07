@@ -404,7 +404,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    resetState: () => dispatch(resetState()),
+    resetState: active => dispatch(resetState()),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
   }
 );

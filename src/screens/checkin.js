@@ -5,6 +5,11 @@ import BusinessItem from '../components/businessitem';
 import api from '../api';
 
 export default class CheckinScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Check-in',
+  };
+
+
   constructor(props) {
     super(props);
     this.state = {

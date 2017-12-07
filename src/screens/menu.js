@@ -6,10 +6,14 @@ import PropTypes from 'prop-types';
 import { SearchBar } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 import MenuItem from '../components/menuitem';
-import { fetchMenuItems, updateModal } from '../store/actions/action.session';
+import { fetchMenuItems, updateModal, resetState } from '../store/actions/action.session';
 import OrderStack from '../layouts/order.stack';
 
-export class MenuScreen extends React.Component {
+class MenuScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Menu',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,8 +25,8 @@ export class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ( nextProps.tableNumber === 0 && nextProps.businessID === '' ) {
+  componentDidUpdate() {
+    if ( this.props.sessionActive === 0 ) {
       this.props.navigation.dispatch(NavigationActions.reset({
         index: 0,
         key: null,
@@ -31,6 +35,9 @@ export class MenuScreen extends React.Component {
         ]
       }));
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
     this.setState({ data: nextProps.items })
   }
 
@@ -223,6 +230,7 @@ const mapStateToProps = state => (
     items: state.sessionReducer.menuItems,
     modalVisible: state.sessionReducer.modalVisible,
     tableNumber: state.sessionReducer.tableNumber,
+    sessionActive: state.sessionReducer.sessionActive,
   }
 );
 
@@ -231,6 +239,7 @@ const mapDispatchToProps = dispatch => (
     dispatch,
     fetchMenuItems: id => dispatch(fetchMenuItems(id)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+    resetState: () => dispatch(resetState()),
   }
 );
 

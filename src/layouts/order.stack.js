@@ -11,7 +11,7 @@ const OrderStack = StackNavigator({
   billScreen: { screen: BillScreen },
 }, {
   headerMode: 'screen',
-  navigationOptions: ({ navigation }) => ({
+  navigationOptions: () => ({
     headerStyle: { backgroundColor: '#4C3E54' },
     gesturesEnabled: true,
     headerTintColor: 'white',

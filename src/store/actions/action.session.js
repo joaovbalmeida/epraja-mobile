@@ -2,9 +2,16 @@ import api from './../../api';
 
 export const resetState = () => (
   {
-    type: 'RESET_STATE'
+    type: 'RESET_STATE',
   }
-)
+);
+
+export const updateSession = sessionActive => (
+  {
+    type: 'UPDATE_SESSION',
+    sessionActive,
+  }
+);
 
 export const updateTableNumber = tableNumber => (
   {
@@ -84,14 +91,14 @@ export const resetCart = () => (
   {
     type: 'RESET_CART',
   }
-)
+);
 
 export const updateModal = modalVisible => (
   {
     type: 'UPDATE_MODAL',
     modalVisible,
   }
-)
+);
 
 export const fetchMenuCategories = businessID => (
   (dispatch) => {
@@ -137,15 +144,15 @@ export const fetchBillStatuses = () => (
 
     return api.billStatuses.find()
       .then((response) => {
-      response.data.forEach((item) => {
-        const newStatus = {};
-        newStatus.id = item._id;
-        newStatus.name = item.name;
-        statuses.push(newStatus);
-      });
-      dispatch(updateBillStatuses(statuses));
-      return response;
-    }, error => error)
+        response.data.forEach((item) => {
+          const newStatus = {};
+          newStatus.id = item._id;
+          newStatus.name = item.name;
+          statuses.push(newStatus);
+        });
+        dispatch(updateBillStatuses(statuses));
+        return response;
+      }, error => error)
       .catch(error => error);
   }
 );

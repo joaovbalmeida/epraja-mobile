@@ -4,9 +4,9 @@ import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInpu
 import { NavigationActions } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
-import { updateTableNumber, updateBusinessID, fetchMenuCategories, fetchItemStatuses, fetchBillStatuses } from '../store/actions/action.session';
+import { updateTableNumber, updateBusinessID, fetchMenuCategories, fetchItemStatuses, fetchBillStatuses, updateSession } from '../store/actions/action.session';
 
-export class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
   static navigationOptions = {
     headerRight: null,
   };
@@ -19,6 +19,7 @@ export class LoginScreen extends React.Component {
   }
 
   navigateToMenu(tableNumber) {
+    this.props.updateSession(1);
     this.props.fetchMenuCategories(this.props.navigation.state.params.id);
     this.props.updateBusinessID(this.props.navigation.state.params.id);
     this.props.fetchItemStatuses();
@@ -143,6 +144,7 @@ const mapDispatchToProps = dispatch => (
     fetchMenuCategories: id => dispatch(fetchMenuCategories(id)),
     fetchItemStatuses: () => dispatch(fetchItemStatuses()),
     fetchBillStatuses: () => dispatch(fetchBillStatuses()),
+    updateSession: active => dispatch(updateSession(active)),
   }
 );
 

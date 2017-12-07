@@ -1,4 +1,5 @@
 const initialState = {
+  sessionActive: 0,
   tableNumber: 0,
   bill: '',
   menuCategories: [],
@@ -12,15 +13,16 @@ const initialState = {
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'RESET_STATE':
+    case 'UPDATE_SESSION':
       return {
-        ...initialState
+        ...state,
+        modalVisible: false,
+        sessionActive: action.sessionActive,
       };
     case 'UPDATE_TABLE_NUMBER':
       return {
         ...state,
         tableNumber: action.tableNumber,
-        modalVisible: false,
       };
     case 'UPDATE_BILL':
       return {
@@ -121,6 +123,10 @@ const sessionReducer = (state = initialState, action) => {
           name: action.name,
           price: action.price,
         }],
+      };
+    case 'RESET_STATE':
+      return {
+        ...initialState,
       };
     default:
       return state;
