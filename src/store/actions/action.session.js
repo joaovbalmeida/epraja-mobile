@@ -7,6 +7,13 @@ export const updateTableNumber = tableNumber => (
   }
 );
 
+export const updateBill = bill => (
+  {
+    type: 'UPDATE_BILL',
+    bill,
+  }
+);
+
 export const updateMenuCategories = menuCategories => (
   {
     type: 'UPDATE_MENU_CATEGORIES',

@@ -1,5 +1,6 @@
 const initialState = {
   tableNumber: 0,
+  bill: '',
   menuCategories: [],
   itemStatuses: [],
   billStatuses: [],
@@ -16,6 +17,11 @@ const sessionReducer = (state = initialState, action) => {
         ...state,
         tableNumber: action.tableNumber,
         modalVisible: false,
+      };
+    case 'UPDATE_BILL':
+      return {
+        ...state,
+        bill: action.bill,
       };
     case 'UPDATE_MENU_CATEGORIES':
       return {
@@ -57,7 +63,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: [],
-      }
+      };
     case 'UPDATE_CART':
       const updatedCart = state.cart.map((item) => {
         if (item.id === action.id) {

@@ -12,6 +12,17 @@ const noTransitionConfig = () => ({
   },
 });
 
+export const BypassCheckinNav = StackNavigator({
+  checkinStack: { screen: CheckinStack },
+  menuStack: { screen: MenuStack },
+  faqStack: { screen: FAQStack },
+}, {
+  headerMode: 'none',
+  title: 'Main',
+  initialRouteName: 'menuStack',
+  transitionConfig: noTransitionConfig,
+});
+
 const MainNav = StackNavigator({
   checkinStack: { screen: CheckinStack },
   menuStack: { screen: MenuStack },

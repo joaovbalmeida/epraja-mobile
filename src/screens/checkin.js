@@ -56,7 +56,7 @@ class CheckinScreen extends React.Component {
         style={styles.container}
         data={this.state.data}
         renderItem={({ item }) => this.renderItem(item, navigate)}
-        keyExtractor={item => item._id}
+        keyExtractor={item => item}
         ItemSeparatorComponent={this.renderSeparator}
       />
     );

@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import { persistCombineReducers, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import MainNav from './src/layouts/main';
+import MainNav, { BypassCheckinNav } from './src/layouts/main';
 import sessionReducer from './src/store/reducers/reducer.session';
 
 const config = {
@@ -26,15 +26,30 @@ if (process.env.NODE_ENV === 'development') {
   }));
 }
 
+console.ignoredYellowBox = ['Setting a timer'];
+
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);
 
-const App = () => (
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <MainNav />
-    </PersistGate>
-  </Provider>
-);
+const state = store.getState()
+
+const App = () => {
+  if (state.tableNumber !== 0) {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <BypassCheckinNav />
+        </PersistGate>
+      </Provider>
+    );
+  }
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <MainNav />
+      </PersistGate>
+    </Provider>
+  );
+};
 
 export default App;

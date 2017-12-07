@@ -36,7 +36,8 @@ export class ItemScreen extends React.Component {
       this.props.navigation.state.params.id,
       this.state.itemQty,
       this.props.navigation.state.params.name,
-      this.props.navigation.state.params.price
+      this.props.navigation.state.params.price,
+      this.props.navigation.state.params.menuCategory,
     );
     this.props.navigation.goBack();
   }

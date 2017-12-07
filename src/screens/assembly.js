@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeFromCart, updateCart, updateModal, resetCart } from '../store/actions/action.session';
+import { removeFromCart, updateCart, updateModal, resetCart, updateBill } from '../store/actions/action.session';
 import api from '../api';
 
 class AssemblyScreen extends React.Component {
@@ -66,26 +66,39 @@ class AssemblyScreen extends React.Component {
   }
 
   sendOrder() {
-    const bill = {};
-    bill.table = this.props.tableNumber;
-    bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
-    bill.business = this.props.businessID;
     const newCart = this.props.cart.map(item => {
       const newItem = {};
       newItem.menuItem = item.id;
       newItem.quantity = item.qty;
-      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Pendente'))[0].id;
+      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Encaminhado'))[0].id;
       return newItem;
     });
-    bill.menuItems = newCart;
-    api.bills.create(bill)
-      .then((json) => {
-      this.props.resetCart();
-      this.setState({
-        totalPrice: 0,
-      });
-      this.cartSentAlert();
-    }, error => error);
+    if (this.props.bill === '') {
+      const bill = {};
+      bill.table = this.props.tableNumber;
+      bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
+      bill.business = this.props.businessID;
+      bill.menuItems = newCart;
+      api.bills.create(bill)
+        .then((json) => {
+        this.props.updateBill(json._id);
+        this.props.resetCart();
+        this.cartSentAlert();
+      }, error => error)
+        .catch(error => error);
+    } else {
+      api.bills.get(this.props.bill)
+        .then((json) => {
+          const mergedCart = [ ...newCart, ...json.menuItems ]
+          api.bills.patch(this.props.bill, { menuItems: mergedCart })
+            .then((json) => {
+              console.log(json)
+              this.props.resetCart();
+              this.cartSentAlert();
+            }, error => error);
+        }, error => error)
+        .catch(error => error);
+    }
   }
 
   renderSeparator() {
@@ -126,7 +139,6 @@ class AssemblyScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.itemStatuses)
     if (this.props.cart.length < 1) {
       return (
       <View style={styles.emptyContainer}>
@@ -182,12 +194,6 @@ AssemblyScreen.propTypes = {
   removeFromCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   updateModal: PropTypes.func.isRequired,
-};
-
-const section = {
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
 };
 
 const sectionStyle = {
@@ -282,6 +288,7 @@ const mapStateToProps = state => (
     billStatuses: state.sessionReducer.billStatuses,
     tableNumber: state.sessionReducer.tableNumber,
     businessID: state.sessionReducer.businessID,
+    bill: state.sessionReducer.bill
   }
 );
 
@@ -290,6 +297,7 @@ const mapDispatchToProps = dispatch => (
     dispatch,
     removeFromCart: id => dispatch(removeFromCart(id)),
     updateCart: (id, qty) => dispatch(updateCart(id, qty)),
+    updateBill: (bill) => dispatch(updateBill(bill)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
     resetCart: () => dispatch(resetCart()),
   }

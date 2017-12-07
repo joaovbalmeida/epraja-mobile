@@ -9,30 +9,41 @@ const OrderItem = ({
   price,
 }) => (
   <View style={styles.container}>
-    <Text>
-      {countdown}
-    </Text>
-    <Text>
-      {qty}
-    </Text>
-    <Text>
-      {name}
-    </Text>
-    <Text>
-      {price}
-    </Text>
+    <View style={styles.firstSection}>
+      <Text>
+        {countdown}
+      </Text>
+    </View>
+    <View style={styles.secondsSection}>
+      <Text>
+        {qty}
+      </Text>
+    </View>
+    <View style={styles.thirdSection}>
+      <Text>
+        {name}
+      </Text>
+    </View>
+    <View style={styles.fourthSection}>
+      <Text>
+        {price}
+      </Text>
+    </View>
   </View>
 );
 
-MenuItem.propTypes = {
+OrderItem.propTypes = {
   countdown: PropTypes.string.isRequired,
   qty: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
 };
 
-MenuItem.defaultProps = {
-  description: '',
+const section = {
+  flex: 1,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const styles = StyleSheet.create({
@@ -42,6 +53,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 30,
     width: '100%',
+  },
+  firstSection: {
+    ...section,
+  },
+  secondSection: {
+    ...section,
+  },
+  thirdSection: {
+    ...section,
+  },
+  fourthSection: {
+    ...section,
   },
 });
 

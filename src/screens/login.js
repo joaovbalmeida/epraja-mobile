@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Button } from 'react-native-elements'
+import { NavigationActions } from 'react-navigation';
+import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { updateTableNumber, updateBusinessID, fetchMenuCategories, fetchItemStatuses, fetchBillStatuses } from '../store/actions/action.session';
 
@@ -23,7 +24,13 @@ export class LoginScreen extends React.Component {
     this.props.fetchItemStatuses();
     this.props.fetchBillStatuses();
     this.props.updateNumber(tableNumber);
-    this.props.navigation.navigate('menuStack');
+    this.props.navigation.dispatch(NavigationActions.reset({
+      index: 0,
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'menuStack'})
+      ]
+    }));
   }
 
   render() {
@@ -77,7 +84,6 @@ LoginScreen.propTypes = {
   fetchBillStatuses: PropTypes.func.isRequired,
   updateBusinessID: PropTypes.func.isRequired,
   updateNumber: PropTypes.func.isRequired,
-  number: PropTypes.number.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -140,10 +146,4 @@ const mapDispatchToProps = dispatch => (
   }
 );
 
-const mapStateToProps = state => (
-  {
-    number: state.sessionReducer.tableNumber,
-  }
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(null, mapDispatchToProps)(LoginScreen);
