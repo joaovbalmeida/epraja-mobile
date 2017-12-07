@@ -34,7 +34,7 @@ class RequestScreen extends React.Component {
     let price = 0;
     const billItems = json.menuItems.filter((billItem) => {
       return billItem.itemStatus.match(this.props.itemStatuses.find((item) => {
-        return item.name === "Encaminhado";
+        return item.name === 'Encaminhado';
       }).id);
     });
     const newItems = billItems.map((arrayItem) => {
@@ -47,7 +47,7 @@ class RequestScreen extends React.Component {
     });
     const foodItems = newItems.filter((foodItem) => {
       return foodItem.itemData.menuCategory.match(this.props.categories.find((item) => {
-        return item.name === "Comidas";
+        return item.name === 'Comidas';
       }).id);
     });
     const beverageItems = newItems.filter((beverageItem) => {
@@ -116,7 +116,7 @@ class RequestScreen extends React.Component {
         </View>
         <View style={styles.secondSection}>
           <Button
-            title="INCLUIR MAIS ITENS"
+            title="INCLUIR NOVOS ITENS"
             containerViewStyle={styles.backButton}
             fontSize={14}
             onPress={() => this.props.updateModal(false)}

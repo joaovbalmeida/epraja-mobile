@@ -12,6 +12,10 @@ const initialState = {
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return {
+        ...initialState
+      };
     case 'UPDATE_TABLE_NUMBER':
       return {
         ...state,

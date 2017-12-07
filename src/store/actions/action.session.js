@@ -1,5 +1,11 @@
 import api from './../../api';
 
+export const resetState = () => (
+  {
+    type: 'RESET_STATE'
+  }
+)
+
 export const updateTableNumber = tableNumber => (
   {
     type: 'UPDATE_TABLE_NUMBER',

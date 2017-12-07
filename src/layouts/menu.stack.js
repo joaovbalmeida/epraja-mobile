@@ -25,7 +25,7 @@ const MenuStack = StackNavigator({
         }}
         style={{
           fontSize: 16,
-            marginRight: 10,
+          marginRight: 10,
         }}
         >
         Menu
