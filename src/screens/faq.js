@@ -95,7 +95,7 @@ export default class FAQScreen extends React.Component {
                     <Text>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
                   </TouchableHighlight>
                 </View>
-                <View>
+                <View style={{paddingBottom: 20}}>
                   <Text style={{ marginBottom: 10 }}>MINHA DÚVIDA NÃO ESTÁ AQUI</Text>
                   <Text style={{ marginBottom: 2 }}>ENVIAR SOLICITAÇÃO</Text>
                   <TextInput
@@ -103,8 +103,8 @@ export default class FAQScreen extends React.Component {
                     multiline={true}
                     returnKeyType="done"
                   />
-                  <TouchableHighlight style={styles.bottom}>
-                    <Text style={styles.bottomButton}>ENVIAR</Text>
+                  <TouchableHighlight style={styles.sendBottom}>
+                    <Text style={styles.sendButton}>ENVIAR</Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -209,6 +209,15 @@ const styles = StyleSheet.create({
     fontSize: 30,
     paddingLeft: 10,
   },
+  sendButton: {
+    paddingTop: 10,
+  },
+  sendBottom: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 30,
+    marginRight: 20,
+  },
   textInput: {
     fontSize: 14,
     height: 60,
@@ -221,7 +230,6 @@ const styles = StyleSheet.create({
   bottomButton: {
     width: 50,
     fontSize: 16,
-    marginTop: 15,
   },
   blankView: {
     width: 50,

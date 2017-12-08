@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
   }));
 }
 
-console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in'];
+console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in', 'Warning: Can only update'];
 
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);

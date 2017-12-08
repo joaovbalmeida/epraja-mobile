@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     height: 30,
     marginRight: 20,
-    paddingTop: 10,
   },
   modalTitle: {
     fontSize: 20,
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
   },
   bottomButton: {
     width: 50,
-    fontSize: 18,
+    fontSize: 16,
   },
   blankView: {
     width: 50,

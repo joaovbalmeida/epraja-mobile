@@ -20,6 +20,12 @@ const feathersClient = feathers()
     storage: AsyncStorage,
   }));
 
+feathersClient.authenticate({
+  strategy: 'local',
+  email: 'teste@teste.com',
+  password: '123456'
+}).catch(error => console.error('Error authenticating!', error));
+
 export default {
   auth: feathersClient.authenticate,
   business: feathersClient.service('businesses'),

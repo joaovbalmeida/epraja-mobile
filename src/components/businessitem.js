@@ -8,6 +8,8 @@ const BusinessItem = ({
   description,
   price,
   image,
+  navigate,
+  id,
 }) => (
   <View style={styles.container}>
     <View style={styles.leftPanel}>
@@ -49,6 +51,7 @@ const BusinessItem = ({
           title="CHECK-IN"
           fontSize={10}
           buttonStyle={styles.checkin}
+          onPress={() => navigate('loginScreen', { id: id })}
         />
       </View>
     </View>

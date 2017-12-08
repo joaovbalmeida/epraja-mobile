@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SectionList, StyleSheet, Modal, TouchableHighlight, TextInput, Alert } from 'react-native';
+import { View, Text, SectionList, StyleSheet, Modal, TouchableHighlight, TextInput, Alert, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Button, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -181,73 +181,79 @@ render() {
         visible={this.state.modalVisible}
         onRequestClose={() => null}
         >
-        <View style={styles.modal}>
-          <View style={styles.top}>
-            <View style={styles.blankView}>
-              <TouchableHighlight
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}
-                >
-                <Text style={styles.closeButton}>&#10799;</Text>
-              </TouchableHighlight>
-            </View>
-            <Text style={styles.modalTitle}>
-              CONTA FECHADA
-            </Text>
-            <View style={styles.blankView} />
-          </View>
-          <View style={styles.center}>
-            <Text style={{fontSize: 16,}}>
-              AGUARDE SUA CONTA NA MESA PARA QUE SEJA FEITO O PAGAMENTO
-            </Text>
-            <View style={{alignItems: 'flex-end', width: '100%'}}>
-              <Text>
-                TOTAL DE: R$ {this.state.totalPrice}
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
+          <KeyboardAvoidingView
+            style={styles.modal}
+            behavior="position"
+            keyboardVerticalOffset={-600}
+          >
+            <View style={styles.top}>
+              <View style={styles.blankView}>
+                <TouchableHighlight
+                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                  >
+                  <Text style={styles.closeButton}>&#10799;</Text>
+                </TouchableHighlight>
+              </View>
+              <Text style={styles.modalTitle}>
+                CONTA FECHADA
               </Text>
+              <View style={styles.blankView} />
             </View>
-            <Text>
-              Dê sua opinião para nosso app:
-            </Text>
-            <CheckBox
-              title='Insatisfeito'
-              checked={this.state.checkbox[0]}
-              containerStyle={styles.checkbox}
-              onPress={() => this.manageCheckBox(0)}
-            />
-            <CheckBox
-              title='Pode melhorar'
-              checked={this.state.checkbox[1]}
-              containerStyle={styles.checkbox}
-              onPress={() => this.manageCheckBox(1)}
-            />
-            <CheckBox
-              title='Satisfeito'
-              checked={this.state.checkbox[2]}
-              containerStyle={styles.checkbox}
-              onPress={() => this.manageCheckBox(2)}
-            />
-            <CheckBox
-              title='Muito satisfeito'
-              checked={this.state.checkbox[3]}
-              containerStyle={styles.checkbox}
-              onPress={() => this.manageCheckBox(3)}
-            />
-          </View>
-          <View style={styles.bottom}>
-            <Text>
-              OBS:
-            </Text>
-            <TextInput
-              style={styles.textInput}
-              multiline={true}
-              returnKeyType="done"
-              />
-            <Button
-              buttonStyle={styles.bottomButton}
-              onPress={() => this.endSession()}
-              title="ENVIAR"
-            />
-          </View>
-        </View>
+            <View style={styles.center}>
+              <Text style={{fontSize: 16,}}>
+                AGUARDE SUA CONTA NA MESA PARA QUE SEJA FEITO O PAGAMENTO
+              </Text>
+              <View style={{alignItems: 'flex-end', width: '100%'}}>
+                <Text>
+                  TOTAL DE: R$ {this.state.totalPrice}
+                </Text>
+              </View>
+              <Text>
+                Dê sua opinião para nosso app:
+              </Text>
+              <CheckBox
+                title='Insatisfeito'
+                checked={this.state.checkbox[0]}
+                containerStyle={styles.checkbox}
+                onPress={() => this.manageCheckBox(0)}
+                />
+              <CheckBox
+                title='Pode melhorar'
+                checked={this.state.checkbox[1]}
+                containerStyle={styles.checkbox}
+                onPress={() => this.manageCheckBox(1)}
+                />
+              <CheckBox
+                title='Satisfeito'
+                checked={this.state.checkbox[2]}
+                containerStyle={styles.checkbox}
+                onPress={() => this.manageCheckBox(2)}
+                />
+              <CheckBox
+                title='Muito satisfeito'
+                checked={this.state.checkbox[3]}
+                containerStyle={styles.checkbox}
+                onPress={() => this.manageCheckBox(3)}
+                />
+            </View>
+            <View style={styles.bottom}>
+              <Text>
+                OBS:
+              </Text>
+              <TextInput
+                style={styles.textInput}
+                multiline={true}
+                returnKeyType="done"
+                />
+              <Button
+                buttonStyle={styles.bottomButton}
+                onPress={() => this.endSession()}
+                title="ENVIAR"
+                />
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -388,6 +394,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 1,
     color: 'black',
+    backgroundColor: 'white',
   },
 });
 

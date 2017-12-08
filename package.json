@@ -14,10 +14,10 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "BASE_URL=http://10.0.0.15:3030/ react-native-scripts start",
+    "start": "BASE_URL=http://api.tapster.mhalmeida.com/ react-native-scripts start",
     "eject": "react-native-scripts eject",
-    "android": "BASE_URL=http://10.0.0.15:3030/ react-native-scripts android",
-    "ios": "BASE_URL=http://10.0.0.15:3030/ react-native-scripts ios",
+    "android": "BASE_URL=http://api.tapster.mhalmeida.com/ react-native-scripts android",
+    "ios": "BASE_URL=http://api.tapster.mhalmeida.com/ react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch"
   },
   "jest": {

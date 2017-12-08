@@ -90,7 +90,7 @@ class MenuScreen extends React.Component {
             name: item.name,
             description: item.description,
             price: item.price,
-            image: item.image,
+            image: item.picture,
             id: item._id,
             price: item.price,
             menuCategory: item.menuCategory,
@@ -101,7 +101,7 @@ class MenuScreen extends React.Component {
           name={item.name}
           description={item.description}
           price={`${item.price}`}
-          image={`${item.image}`}
+          image={`${item.picture}`}
           />
       </TouchableOpacity>
     );
@@ -158,6 +158,9 @@ class MenuScreen extends React.Component {
           ItemSeparatorComponent={this.renderSeparator}
           onEndReachedThreshold={50}
         />
+        <View style={styles.advertise}>
+          <Text>PROPAGANDA</Text>
+        </View>
         <Modal
           animationType="slide"
           transparent={false}
@@ -214,6 +217,10 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     flex: 1,
+  },
+  advertise: {
+    height: 45,
+    backgroundColor: 'gray',
   },
   separator: {
     height: 1,
