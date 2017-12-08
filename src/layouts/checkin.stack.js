@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import LoginScreen from './../screens/login';
@@ -11,7 +11,7 @@ const CheckinStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({ navigation }) => ({
-    headerStyle: { backgroundColor: '#4C3E54', marginTop: Constants.statusBarHeight },
+    headerStyle: (Platform.OS === 'android' ? { backgroundColor: '#4C3E54', paddingTop: Constants.statusBarHeight, height: Constants.statusBarHeight + 56 } : { backgroundColor: '#4C3E54' }),
     gesturesEnabled: false,
     headerTintColor: 'white',
     headerRight: (
