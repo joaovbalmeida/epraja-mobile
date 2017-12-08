@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   },
   price: {
     flex: 1,
+    textAlign: 'center',
   },
   secondSection: {
     flexDirection: 'row',
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
   },
   qty: {
     fontSize: 18,
+    textAlign: 'center',
   },
   textInput: {
     marginVertical: 10,
