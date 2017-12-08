@@ -30,7 +30,12 @@ const BusinessItem = ({
       </View>
       <View style={styles.secondSection}>
         <View style={styles.descriptionView}>
-          <Text style={{ fontSize: 12 }}>
+          <Text
+            style={{ fontSize: 12 }}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            numberOfLines={7}
+          >
             {description}
           </Text>
         </View>
@@ -46,12 +51,14 @@ const BusinessItem = ({
           title="Acesse nosso cardápio"
           fontSize={10}
           buttonStyle={styles.menu}
+          allowFontScaling={false}
         />
         <Button
           title="CHECK-IN"
           fontSize={10}
           buttonStyle={styles.checkin}
           onPress={() => navigate('loginScreen', { id: id })}
+          allowFontScaling={false}
         />
       </View>
     </View>

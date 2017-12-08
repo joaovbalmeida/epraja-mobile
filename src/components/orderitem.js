@@ -20,7 +20,10 @@ const OrderItem = ({
       </Text>
     </View>
     <View style={styles.thirdSection}>
-      <Text>
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={1}
+      >
         {name}
       </Text>
     </View>
@@ -40,7 +43,6 @@ OrderItem.propTypes = {
 };
 
 const section = {
-  flex: 1,
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
@@ -56,15 +58,19 @@ const styles = StyleSheet.create({
   },
   firstSection: {
     ...section,
+    width: '18%',
   },
   secondSection: {
     ...section,
+    width: '12%',
   },
   thirdSection: {
     ...section,
+    width: '55%',
   },
   fourthSection: {
     ...section,
+    width: '15%',
   },
 });
 

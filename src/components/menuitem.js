@@ -21,7 +21,12 @@ const MenuItem = ({
         <Text>
           {name}
         </Text>
-        <Text style={{ fontSize: 12 }}>
+        <Text
+          style={{ fontSize: 12 }}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          numberOfLines={2}
+        >
           {description}
         </Text>
       </View>

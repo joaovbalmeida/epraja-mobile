@@ -112,7 +112,12 @@ class AssemblyScreen extends React.Component {
           buttonStyle={styles.stepper}
           onPress={() => this.removeItem(item.id, item.qty, item.price)}
         />
-        <Text style={styles.name}>
+        <Text
+          style={styles.name}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          numberOfLines={2}
+        >
           {item.name}
         </Text>
         <View style={styles.middleSection}>
@@ -121,7 +126,10 @@ class AssemblyScreen extends React.Component {
             buttonStyle={styles.stepper}
             onPress={() => this.counterAdd(item.id, item.qty, item.price)}
             />
-          <Text style={styles.qty}>
+          <Text
+            style={styles.qty}
+            allowFontScaling={false}
+          >
             {item.qty}
           </Text>
           <Button
@@ -130,7 +138,10 @@ class AssemblyScreen extends React.Component {
             onPress={() => this.counterDecrease(item.id, item.qty, item.price)}
             />
         </View>
-        <Text style={styles.price}>
+        <Text
+          style={styles.price}
+          allowFontScaling={false}
+        >
           {item.price}
         </Text>
       </View>
@@ -172,13 +183,16 @@ class AssemblyScreen extends React.Component {
           <Button
             title="INCLUIR MAIS ITENS"
             containerViewStyle={styles.backButton}
-            fontSize={14}
+            fontSize={13}
             onPress={() => this.props.updateModal(false)}
+            allowFontScaling={false}
           />
           <Button
             title="ENVIAR"
             containerViewStyle={styles.sendButton}
             onPress={() => this.sendOrder()}
+            fontSize={13}
+            allowFontScaling={false}
           />
         </View>
       </View>

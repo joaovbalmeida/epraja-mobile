@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 const ScrollableText = ({ text }) => (
   <ScrollView style={styles.scrollView}>
-    <Text style={styles.text}>
+    <Text
+      style={styles.text}
+      allowFontScaling={false}
+    >
       {text}
     </Text>
   </ScrollView>

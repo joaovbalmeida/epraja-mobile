@@ -57,7 +57,12 @@ export class ItemScreen extends React.Component {
               source={{ uri: this.props.navigation.state.params.image }}
               />
             <View style={styles.firstSection}>
-              <Text style={styles.description}>
+              <Text
+                style={styles.description}
+                allowFontScaling={false}
+                ellipsizeMode="tail"
+                numberOfLines={6}
+              >
                 {this.props.navigation.state.params.description}
               </Text>
               <Text style={styles.price}>
@@ -65,7 +70,9 @@ export class ItemScreen extends React.Component {
               </Text>
             </View>
             <View style={styles.secondSection}>
-              <Text>
+              <Text
+                allowFontScaling={false}
+              >
                 Marcar a quantidade desejada
               </Text>
               <Button
@@ -73,9 +80,11 @@ export class ItemScreen extends React.Component {
                 buttonStyle={styles.stepper}
                 onPress={() => this.counterAdd()}
               />
-              <Text style={styles.qty}>
-                {this.state.itemQty}
-              </Text>
+              <View style={{width: 30}}>
+                <Text style={styles.qty}>
+                  {this.state.itemQty}
+                </Text>
+              </View>
               <Button
                 title="-"
                 buttonStyle={styles.stepper}
@@ -92,6 +101,7 @@ export class ItemScreen extends React.Component {
                 title="INCLUIR AO PEDIDO"
                 buttonStyle={styles.button}
                 onPress={() => this.addItemToCart()}
+                allowFontScaling={false}
                 />
             </View>
           </KeyboardAvoidingView>

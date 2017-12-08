@@ -166,12 +166,14 @@ render() {
             containerViewStyle={styles.backButton}
             fontSize={12}
             onPress={() => this.props.updateModal(false)}
+            allowFontScaling={false}
             />
           <Button
             title="FECHAR CONTA"
             containerViewStyle={styles.sendButton}
             onPress={() => this.closeBill()}
             fontSize={12}
+            allowFontScaling={false}
             />
         </View>
       </View>
@@ -250,6 +252,7 @@ render() {
                 buttonStyle={styles.bottomButton}
                 onPress={() => this.endSession()}
                 title="ENVIAR"
+                allowFontScaling={false}
                 />
             </View>
           </KeyboardAvoidingView>
@@ -377,7 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   bottomButton: {
-    width: 80,
+    width: 90,
   },
   blankView: {
     width: 50,

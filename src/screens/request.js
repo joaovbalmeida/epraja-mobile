@@ -120,6 +120,7 @@ class RequestScreen extends React.Component {
             containerViewStyle={styles.backButton}
             fontSize={14}
             onPress={() => this.props.updateModal(false)}
+            allowFontScaling={false}
             />
         </View>
       </View>

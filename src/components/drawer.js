@@ -26,6 +26,7 @@ export default class DrawerContainer extends React.Component {
           onPress={() => navigation.navigate('drawerStack')}
           buttonStyle={styles.button}
           color="black"
+          allowFontScaling={false}
         />
         <Text
           onPress={() => navigation.navigate('faqStack')}

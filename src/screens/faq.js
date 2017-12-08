@@ -40,71 +40,98 @@ export default class FAQScreen extends React.Component {
                     <Text style={styles.closeButton}>&#10799;</Text>
                   </TouchableHighlight>
                 </View>
-                <Text style={styles.title}>
+                <Text
+                  style={styles.title}
+                  allowFontScaling={false}
+                  >
                   FALE CONOSCO
                 </Text>
                 <View style={styles.blankView} />
               </View>
               <View style={styles.underTop}>
                 <View>
-                  <Text style={{ marginBottom: 15 }}>
+                  <Text
+                    style={{ marginBottom: 15 }}
+                    allowFontScaling={false}
+                  >
                     AJUDA AO CLIENTE
                   </Text>
-                  <Text style={styles.subtitles}>
+                  <Text
+                    style={styles.subtitles}
+                    allowFontScaling={false}
+                  >
                     PEDIDO:
                   </Text>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderReview.title, faqTexts.orderReview.text)}
                   >
-                    <Text>COMO AVALIAR UM PEDIDO?</Text>
+                    <Text allowFontScaling={false}>COMO AVALIAR UM PEDIDO?</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderLate.title, faqTexts.orderLate.text)}
                   >
-                    <Text>ESTÁ ATRASADO?</Text>
+                    <Text allowFontScaling={false}>ESTÁ ATRASADO?</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderMissing.title, faqTexts.orderMissing.text)}
                   >
-                    <Text>O PEDIDO CHEGOU ERRADO OU ESTÁ FALTANDO ITENS?</Text>
+                    <Text allowFontScaling={false}>O PEDIDO CHEGOU ERRADO OU ESTÁ FALTANDO ITENS?</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.cancellation.title, faqTexts.cancellation.text)}
                   >
-                    <Text>CANCELAMENTO</Text>
+                    <Text allowFontScaling={false}>CANCELAMENTO</Text>
                   </TouchableHighlight>
                 </View>
                 <View>
-                  <Text style={styles.subtitles}>
+                  <Text
+                    style={styles.subtitles}
+                    allowFontScaling={false}
+                  >
                     SOBRE O TAPSTER:
                   </Text>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.tapsterJobs.title, faqTexts.tapsterJobs.text)}
                   >
-                    <Text>QUERO TRABALHAR NO TAPSTER</Text>
+                    <Text allowFontScaling={false}>QUERO TRABALHAR NO TAPSTER</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                     style={styles.touchableText}
                     onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.howWorks.title, faqTexts.howWorks.text)}
                   >
-                    <Text>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
+                    <Text allowFontScaling={false}>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
                   </TouchableHighlight>
                 </View>
                 <View style={{paddingBottom: 20}}>
-                  <Text style={{ marginBottom: 10 }}>MINHA DÚVIDA NÃO ESTÁ AQUI</Text>
-                  <Text style={{ marginBottom: 2 }}>ENVIAR SOLICITAÇÃO</Text>
+                  <Text
+                    style={{ marginBottom: 10 }}
+                    allowFontScaling={false}
+                  >
+                    MINHA DÚVIDA NÃO ESTÁ AQUI
+                  </Text>
+                  <Text
+                    style={{ marginBottom: 2 }}
+                    allowFontScaling={false}
+                  >
+                    ENVIAR SOLICITAÇÃO
+                  </Text>
                   <TextInput
                     style={styles.textInput}
                     multiline={true}
                     returnKeyType="done"
                   />
                   <TouchableHighlight style={styles.sendBottom}>
-                    <Text style={styles.sendButton}>ENVIAR</Text>
+                    <Text
+                      style={styles.sendButton}
+                      allowFontScaling={false}
+                    >
+                      ENVIAR
+                    </Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -126,7 +153,10 @@ export default class FAQScreen extends React.Component {
                   <Text style={styles.closeButton}>&#10799;</Text>
                 </TouchableHighlight>
               </View>
-              <Text style={styles.title}>
+              <Text
+                style={styles.title}
+                allowFontScaling={false}
+              >
                 {this.state.modalTitle}
               </Text>
               <View style={styles.blankView} />
@@ -138,7 +168,12 @@ export default class FAQScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.setModalVisible(!this.state.modalVisible)}
               >
-                <Text style={styles.bottomButton}>SAIR</Text>
+                <Text
+                  style={styles.bottomButton}
+                  allowFontScaling={false}
+                >
+                  SAIR
+                </Text>
               </TouchableHighlight>
             </View>
           </View>
