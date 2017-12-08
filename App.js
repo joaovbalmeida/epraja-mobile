@@ -37,7 +37,6 @@ if (state.sessionReducer.tableNumber !== 0) {
 } else {
   route.push(<MainNav />)
 }
-console.log(state);
 const App = () => {
   return (
     <Provider store={store}>

@@ -51,13 +51,19 @@ getKey() {
   return this.keyCount++;
 }
 
+resetNavigation() {
+  this.setModalVisible(false);
+  this.props.updateModal(false);
+  this.props.resetState();
+}
+
 endSession() {
   Alert.alert(
     'OBRIGADO',
     'Volte sempre.',
     [
       {text: 'Ok', onPress: () => {
-        this.props.resetState();
+        this.resetNavigation();
       }},
     ],
     { cancelable: false }
