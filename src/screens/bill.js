@@ -19,7 +19,9 @@ constructor(props) {
     foodItems: [],
     beverageItems: [],
     modalVisible: false,
-    checkbox: [false, false, false, false]
+    checkbox: [false, false, false, false],
+    checkboxLabels: ['Insatisfeito', 'Pode melhorar', 'Satisfeito', 'Muito satisfeito'],
+    textInput: '',
   };
   this.keyCount = 0;
   this.getKey = this.getKey.bind(this);
@@ -58,16 +60,36 @@ resetNavigation() {
 }
 
 endSession() {
-  Alert.alert(
-    'OBRIGADO',
-    'Volte sempre.',
-    [
-      {text: 'Ok', onPress: () => {
-        this.resetNavigation();
-      }},
-    ],
-    { cancelable: false }
-  )
+  const survey = {};
+  survey.business = this.props.businessID;
+  survey.detail = this.state.textInput;
+  survey.surveyRate = this.props.rates.find((item) => {
+    return item.name === this.state.checkboxLabels[this.state.checkbox.indexOf(true)]
+  }).id;
+  api.surveys.create(survey)
+    .then((json) => {
+    Alert.alert(
+      'OBRIGADO',
+      'Volte sempre.',
+      [
+        {text: 'Ok', onPress: () => {
+          this.resetNavigation();
+        }},
+      ],
+      { cancelable: false }
+    );
+  }, (error) => {
+    Alert.alert(
+      'ERRO',
+      'Não foi possivel enviar a pesquisa.',
+      [
+        {text: 'Ok', onPress: () => {
+          this.resetNavigation();
+        }},
+      ],
+      { cancelable: false }
+    );
+  })
 }
 
 closeBill() {
@@ -253,6 +275,7 @@ render() {
                 style={styles.textInput}
                 multiline={true}
                 returnKeyType="done"
+                onChangeText={text => this.setState({ textInput: text })}
                 />
               <Button
                 buttonStyle={styles.bottomButton}
@@ -409,7 +432,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => (
   {
+    businessID: state.sessionReducer.businessID,
     itemStatuses: state.sessionReducer.itemStatuses,
+    rates: state.sessionReducer.rates,
     billStatuses: state.sessionReducer.billStatuses,
     categories: state.sessionReducer.menuCategories,
     items: state.sessionReducer.menuItems,

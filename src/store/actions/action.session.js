@@ -41,6 +41,13 @@ export const updateItemStatuses = itemStatuses => (
   }
 );
 
+export const updateSurveyRates = rates => (
+  {
+    type: 'UPDATE_SURVEY_RATES',
+    rates,
+  }
+)
+
 export const updateBillStatuses = billStatuses => (
   {
     type: 'UPDATE_BILL_STATUSES',
@@ -134,6 +141,25 @@ export const fetchItemStatuses = () => (
         dispatch(updateItemStatuses(statuses));
         return response;
       }, error => error)
+      .catch(error => error);
+  }
+);
+
+export const fetchSurveyRates = () => (
+  (dispatch) => {
+    const rates = [];
+
+    api.surveyRates.find()
+      .then((response) => {
+      response.data.forEach((item) => {
+        const newRate = {};
+        newRate.id = item._id;
+        newRate.name = item.name;
+        rates.push(newRate);
+      });
+      dispatch(updateSurveyRates(rates));
+      return response;
+    }, error => error)
       .catch(error => error);
   }
 );

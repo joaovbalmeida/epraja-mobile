@@ -4,6 +4,7 @@ const initialState = {
   bill: '',
   menuCategories: [],
   itemStatuses: [],
+  rates: [],
   billStatuses: [],
   businessID: '',
   menuItems: [],
@@ -39,6 +40,11 @@ const sessionReducer = (state = initialState, action) => {
         ...state,
         itemStatuses: action.itemStatuses,
       };
+    case 'UPDATE_SURVEY_RATES':
+      return {
+        ...state,
+        rates: action.rates,
+      }
     case 'UPDATE_BILL_STATUSES':
       return {
         ...state,
