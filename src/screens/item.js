@@ -113,7 +113,13 @@ export class ItemScreen extends React.Component {
 }
 
 ItemScreen.propTypes = {
-  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({

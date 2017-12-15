@@ -44,7 +44,8 @@ class CheckinScreen extends React.Component {
         this.setState({
           data: json.data || [],
         });
-      });
+      })
+      .catch(error => console.log(error));
   }
 
   renderItem(item, navigate) {

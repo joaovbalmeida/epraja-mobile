@@ -96,7 +96,13 @@ class LoginScreen extends React.Component {
 }
 
 LoginScreen.propTypes = {
-  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
   fetchMenuCategories: PropTypes.func.isRequired,
   updateBusinessID: PropTypes.func.isRequired,
   updateSession: PropTypes.func.isRequired,

@@ -174,7 +174,13 @@ class MenuScreen extends React.Component {
 }
 
 MenuScreen.propTypes = {
-  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
+  navigation: PropTypes.shape({
+    dispatch: PropTypes.func,
+    goBack: PropTypes.func,
+    navigate: PropTypes.func,
+    setParams: PropTypes.func,
+    state: PropTypes.object,
+  }).isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchMenuItems: PropTypes.func.isRequired,
