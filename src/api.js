@@ -6,7 +6,7 @@ import auth from 'feathers-authentication-client';
 import hooks from 'feathers-hooks';
 import { AsyncStorage } from 'react-native';
 
-const socket = io('http://10.0.1.3:3030/', {
+const socket = io('http://api.tapster.mhalmeida.com/', {
   transports: ['websocket'],
   forceNew: true,
 });
@@ -20,11 +20,11 @@ const feathersClient = feathers()
     storage: AsyncStorage,
   }));
 
-//feathersClient.authenticate({
-  //strategy: 'local',
-  //email: 'teste@teste.com',
-  //password: '123456'
-//}).catch(error => console.error('Error authenticating!', error));
+feathersClient.authenticate({
+  strategy: 'local',
+  email: 'teste@teste.com',
+  password: '123456',
+}).catch(error => error);
 
 export default {
   auth: feathersClient.authenticate,

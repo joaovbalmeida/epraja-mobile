@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
-import { updateTableNumber, updateBusinessID, fetchMenuCategories, fetchItemStatuses, fetchBillStatuses, updateSession, fetchSurveyRates } from '../store/actions/action.session';
+import api from '../api';
+import { updateTableNumber, updateBusinessID, fetchMenuCategories, updateSession, updateBill } from '../store/actions/action.session';
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -18,21 +19,42 @@ class LoginScreen extends React.Component {
     };
   }
 
-  navigateToMenu(tableNumber) {
-    this.props.updateSession(1);
-    this.props.fetchMenuCategories(this.props.navigation.state.params.id);
-    this.props.updateBusinessID(this.props.navigation.state.params.id);
-    this.props.fetchSurveyRates();
-    this.props.fetchItemStatuses();
-    this.props.fetchBillStatuses();
-    this.props.updateNumber(tableNumber);
-    this.props.navigation.dispatch(NavigationActions.reset({
-      index: 0,
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'menuStack'})
-      ]
-    }));
+  componentDidUpdate() {
+    if (this.props.sessionActive) {
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'menuStack' }),
+        ],
+      }));
+    }
+  }
+
+  createBill(tableNumber) {
+    const bill = {};
+    bill.table = this.state.number;
+    bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
+    bill.business = this.props.navigation.state.params.id;
+    api.bills.create(bill)
+      .then((json) => {
+        this.props.fetchMenuCategories(this.props.navigation.state.params.id);
+        this.props.updateBusinessID(this.props.navigation.state.params.id);
+        this.props.updateNumber(tableNumber);
+        this.props.updateBill(json._id);
+        this.props.updateSession(true);
+      }, (error) => {
+        console.log(error);
+        Alert.alert(
+          'Mesa Ocupada',
+          'Já existe uma conta aberta para está mesa.',
+          [
+            { text: 'Ok' },
+          ],
+          { cancelable: false }
+        );
+      })
+      .catch(error => error);
   }
 
   render() {
@@ -56,15 +78,15 @@ class LoginScreen extends React.Component {
                   style={styles.textInput}
                   keyboardType="numeric"
                   onChangeText={tableNumber => this.setState({ number: Number(tableNumber) })}
-                  />
+                />
               </View>
               <Button
                 title="Entrar"
-                onPress={() => this.navigateToMenu(this.state.number)}
+                onPress={() => this.createBill(this.state.number)}
                 containerViewStyle={styles.button}
                 textStyle={styles.buttonText}
                 color="black"
-                />
+              />
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
         </ImageBackground>
@@ -74,18 +96,14 @@ class LoginScreen extends React.Component {
 }
 
 LoginScreen.propTypes = {
-  navigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-    goBack: PropTypes.func,
-    navigate: PropTypes.func,
-    setParams: PropTypes.func,
-    state: PropTypes.object,
-  }).isRequired,
+  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchMenuCategories: PropTypes.func.isRequired,
-  fetchItemStatuses: PropTypes.func.isRequired,
-  fetchBillStatuses: PropTypes.func.isRequired,
   updateBusinessID: PropTypes.func.isRequired,
+  updateSession: PropTypes.func.isRequired,
   updateNumber: PropTypes.func.isRequired,
+  updateBill: PropTypes.func.isRequired,
+  sessionActive: PropTypes.bool.isRequired,
+  billStatuses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -119,7 +137,6 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: 'white',
     height: 60,
-    width: '100%',
     width: '50%',
     paddingHorizontal: 10,
     borderStyle: 'solid',
@@ -134,20 +151,25 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-  }
+  },
 });
+
+const mapStateToProps = state => (
+  {
+    billStatuses: state.sessionReducer.billStatuses,
+    sessionActive: state.sessionReducer.sessionActive,
+  }
+);
 
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
     updateNumber: number => dispatch(updateTableNumber(number)),
+    updateBill: bill => dispatch(updateBill(bill)),
     updateBusinessID: id => dispatch(updateBusinessID(id)),
     fetchMenuCategories: id => dispatch(fetchMenuCategories(id)),
-    fetchItemStatuses: () => dispatch(fetchItemStatuses()),
-    fetchBillStatuses: () => dispatch(fetchBillStatuses()),
     updateSession: active => dispatch(updateSession(active)),
-    fetchSurveyRates: () => dispatch(fetchSurveyRates())
   }
 );
 
-export default connect(null, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

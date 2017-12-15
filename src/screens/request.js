@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, SectionList, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { updateModal } from '../store/actions/action.session';
 import OrderItem from '../components/orderitem';
 import api from '../api';
@@ -26,35 +27,21 @@ class RequestScreen extends React.Component {
     this.fetchItems();
   }
 
-  getKey(){
-    return this.keyCount++;
+  getKey() {
+    return this.keyCount += 1;
   }
 
   mountData(json) {
     let price = 0;
-    const billItems = json.menuItems.filter((billItem) => {
-      return billItem.itemStatus.match(this.props.itemStatuses.find((item) => {
-        return item.name === 'Encaminhado';
-      }).id);
-    });
+    const billItems = json.menuItems.filter(billItem => billItem.itemStatus.match(this.props.itemStatuses.find(item => item.name === 'Encaminhado').id));
     const newItems = billItems.map((arrayItem) => {
       const newItem = arrayItem;
-      newItem.itemData = this.props.items.find((item) => {
-        return item._id === arrayItem.menuItem;
-      });
+      newItem.itemData = this.props.items.find(item => item._id === arrayItem.menuItem);
       price += newItem.quantity * newItem.itemData.price;
       return newItem;
     });
-    const foodItems = newItems.filter((foodItem) => {
-      return foodItem.itemData.menuCategory.match(this.props.categories.find((item) => {
-        return item.name === 'Comidas';
-      }).id);
-    });
-    const beverageItems = newItems.filter((beverageItem) => {
-      return beverageItem.itemData.menuCategory.match(this.props.categories.find((item) => {
-        return item.name === 'Bebidas';
-      }).id);
-    });
+    const foodItems = newItems.filter(foodItem => foodItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Comidas').id));
+    const beverageItems = newItems.filter(beverageItem => beverageItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Bebidas').id));
     this.setState({
       totalPrice: price,
       foodItems: foodItems || [],
@@ -64,14 +51,14 @@ class RequestScreen extends React.Component {
 
   fetchItems() {
     api.bills.get(this.props.bill)
-      .then(json => this.mountData(json), error => console.log(error))
+      .then(json => this.mountData(json))
       .catch(error => error);
   }
 
   renderItem(item) {
     return (
       <OrderItem
-        countdown={'15:00'}
+        countdown="15:00"
         qty={item.quantity}
         name={item.itemData.name}
         price={item.itemData.price}
@@ -87,7 +74,7 @@ class RequestScreen extends React.Component {
             VOCÊ AINDA NAO TEM NENHUM PEDIDO ENVIADO
           </Text>
         </View>
-      )
+      );
     }
     return (
       <View style={styles.container}>
@@ -97,13 +84,13 @@ class RequestScreen extends React.Component {
           </Text>
         </View>
         <SectionList
-          keyExtractor={item => this.getKey()}
+          keyExtractor={() => this.getKey()}
           style={styles.sectionList}
           renderItem={({ item }) => this.renderItem(item)}
-          renderSectionHeader={({section}) => <Text>{section.title}</Text>}
+          renderSectionHeader={({ section }) => <Text>{section.title}</Text>}
           sections={[
-            {data: this.state.foodItems, title: 'Comidas'},
-            {data: this.state.beverageItems, title: 'Bebidas'},
+            { data: this.state.foodItems, title: 'Comidas' },
+            { data: this.state.beverageItems, title: 'Bebidas' },
           ]}
         />
         <View style={styles.firstSection}>
@@ -121,12 +108,20 @@ class RequestScreen extends React.Component {
             fontSize={14}
             onPress={() => this.props.updateModal(false)}
             allowFontScaling={false}
-            />
+          />
         </View>
       </View>
     );
   }
 }
+
+RequestScreen.propTypes = {
+  itemStatuses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  bill: PropTypes.string.isRequired,
+  updateModal: PropTypes.func.isRequired,
+};
 
 const sectionStyle = {
   flexDirection: 'row',

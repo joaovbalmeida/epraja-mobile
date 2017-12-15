@@ -43,7 +43,7 @@ export default class FAQScreen extends React.Component {
                 <Text
                   style={styles.title}
                   allowFontScaling={false}
-                  >
+                >
                   FALE CONOSCO
                 </Text>
                 <View style={styles.blankView} />
@@ -107,7 +107,7 @@ export default class FAQScreen extends React.Component {
                     <Text allowFontScaling={false}>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
                   </TouchableHighlight>
                 </View>
-                <View style={{paddingBottom: 20}}>
+                <View style={{ paddingBottom: 20 }}>
                   <Text
                     style={{ marginBottom: 10 }}
                     allowFontScaling={false}
@@ -122,7 +122,7 @@ export default class FAQScreen extends React.Component {
                   </Text>
                   <TextInput
                     style={styles.textInput}
-                    multiline={true}
+                    multiline
                     returnKeyType="done"
                   />
                   <TouchableHighlight style={styles.sendBottom}>

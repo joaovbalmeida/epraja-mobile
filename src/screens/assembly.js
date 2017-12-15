@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeFromCart, updateCart, updateModal, resetCart, updateBill } from '../store/actions/action.session';
+import { removeFromCart, updateCart, updateModal, resetCart, updateBill, updateSession } from '../store/actions/action.session';
 import api from '../api';
 
 class AssemblyScreen extends React.Component {
@@ -13,8 +13,10 @@ class AssemblyScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    var price = 0;
-    this.props.cart.forEach(item => price += (item.qty * item.price))
+    let price = 0;
+    this.props.cart.forEach((item) => {
+      price += (item.qty * item.price);
+    });
     this.state = {
       totalPrice: price,
       emptyMessage: 'VOCÊ AINDA NÃO TEM NENHUM PEDIDO EM SEU CARRINHO',
@@ -42,16 +44,21 @@ class AssemblyScreen extends React.Component {
       'Atenção',
       'Deseja remover este item do seu pedido?',
       [
-        {text: 'Remover', onPress: () => {
-          this.props.removeFromCart(id);
-          this.setState({
-            totalPrice: this.state.totalPrice - (price * qty),
-          });
-        }},
-        {text: 'Cancelar', style: 'cancel'},
+        {
+          text: 'Remover',
+          onPress: () => {
+            this.props.removeFromCart(id);
+            this.setState({
+              totalPrice: this.state.totalPrice - (price * qty),
+            });
+          },
+        },
+        {
+          text: 'Cancelar', style: 'cancel',
+        },
       ],
       { cancelable: false }
-    )
+    );
   }
 
   cartSentAlert() {
@@ -59,45 +66,33 @@ class AssemblyScreen extends React.Component {
       'Pedido Enviado',
       'Aguarde que você ja será servido.',
       [
-        {text: 'Ok', onPress: () => this.props.updateModal(false)},
+        {
+          text: 'Ok',
+          onPress: () => this.props.updateModal(false),
+        },
       ],
       { cancelable: false }
-    )
+    );
   }
 
   sendOrder() {
-    const newCart = this.props.cart.map(item => {
+    const newCart = this.props.cart.map((item) => {
       const newItem = {};
       newItem.menuItem = item.id;
       newItem.quantity = item.qty;
-      newItem.itemStatus = this.props.itemStatuses.filter(item => item.name.match('Pendente'))[0].id;
+      newItem.itemStatus = this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id;
       return newItem;
     });
-    if (this.props.bill === '') {
-      const bill = {};
-      bill.table = this.props.tableNumber;
-      bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
-      bill.business = this.props.businessID;
-      bill.menuItems = newCart;
-      api.bills.create(bill)
-        .then((json) => {
-        this.props.updateBill(json._id);
-        this.props.resetCart();
-        this.cartSentAlert();
+    api.bills.get(this.props.bill)
+      .then((json) => {
+        const mergedCart = [...newCart, ...json.menuItems];
+        api.bills.patch(this.props.bill, { menuItems: mergedCart })
+          .then(() => {
+            this.props.resetCart();
+            this.cartSentAlert();
+          }, error => error);
       }, error => error)
-        .catch(error => error);
-    } else {
-      api.bills.get(this.props.bill)
-        .then((json) => {
-          const mergedCart = [ ...newCart, ...json.menuItems ]
-          api.bills.patch(this.props.bill, { menuItems: mergedCart })
-            .then((json) => {
-              this.props.resetCart();
-              this.cartSentAlert();
-            }, error => error);
-        }, error => error)
-        .catch(error => error);
-    }
+      .catch(error => error);
   }
 
   renderSeparator() {
@@ -125,7 +120,7 @@ class AssemblyScreen extends React.Component {
             title="+"
             buttonStyle={styles.stepper}
             onPress={() => this.counterAdd(item.id, item.qty, item.price)}
-            />
+          />
           <Text
             style={styles.qty}
             allowFontScaling={false}
@@ -136,7 +131,7 @@ class AssemblyScreen extends React.Component {
             title="-"
             buttonStyle={styles.stepper}
             onPress={() => this.counterDecrease(item.id, item.qty, item.price)}
-            />
+          />
         </View>
         <Text
           style={styles.price}
@@ -151,12 +146,12 @@ class AssemblyScreen extends React.Component {
   render() {
     if (this.props.cart.length < 1) {
       return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>
-          {this.state.emptyMessage}
-        </Text>
-      </View>
-      )
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            {this.state.emptyMessage}
+          </Text>
+        </View>
+      );
     }
     return (
       <View style={styles.container}>
@@ -202,11 +197,12 @@ class AssemblyScreen extends React.Component {
 
 AssemblyScreen.propTypes = {
   cart: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tableNumber: PropTypes.number.isRequired,
   itemStatuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   removeFromCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   updateModal: PropTypes.func.isRequired,
+  bill: PropTypes.string.isRequired,
+  resetCart: PropTypes.func.isRequired,
 };
 
 const sectionStyle = {
@@ -301,7 +297,7 @@ const mapStateToProps = state => (
     billStatuses: state.sessionReducer.billStatuses,
     tableNumber: state.sessionReducer.tableNumber,
     businessID: state.sessionReducer.businessID,
-    bill: state.sessionReducer.bill
+    bill: state.sessionReducer.bill,
   }
 );
 
@@ -310,8 +306,9 @@ const mapDispatchToProps = dispatch => (
     dispatch,
     removeFromCart: id => dispatch(removeFromCart(id)),
     updateCart: (id, qty) => dispatch(updateCart(id, qty)),
-    updateBill: (bill) => dispatch(updateBill(bill)),
+    updateBill: bill => dispatch(updateBill(bill)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+    updateSession: session => dispatch(updateSession(session)),
     resetCart: () => dispatch(resetCart()),
   }
 );

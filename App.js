@@ -31,20 +31,18 @@ console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in', 'Warnin
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);
 const route = [];
-const state = store.getState()
-if (state.sessionReducer.tableNumber !== 0) {
+const state = store.getState();
+if (state.sessionReducer.tableNumber) {
   route.push(<BypassCheckinNav />);
 } else {
-  route.push(<MainNav />)
+  route.push(<MainNav />);
 }
-const App = () => {
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        {route}
-      </PersistGate>
-    </Provider>
-  );
-};
+const App = () => (
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      {route}
+    </PersistGate>
+  </Provider>
+);
 
 export default App;

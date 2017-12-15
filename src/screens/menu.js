@@ -25,20 +25,20 @@ class MenuScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ data: nextProps.items });
+  }
+
   componentDidUpdate() {
-    if ( this.props.sessionActive === 0 ) {
+    if (!this.props.sessionActive) {
       this.props.navigation.dispatch(NavigationActions.reset({
         index: 0,
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'checkinStack'})
-        ]
+          NavigationActions.navigate({ routeName: 'checkinStack' }),
+        ],
       }));
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ data: nextProps.items })
   }
 
   setModalVisible() {
@@ -92,17 +92,16 @@ class MenuScreen extends React.Component {
             price: item.price,
             image: item.picture,
             id: item._id,
-            price: item.price,
             menuCategory: item.menuCategory,
           })
         )}
-        >
+      >
         <MenuItem
           name={item.name}
           description={item.description}
           price={`${item.price}`}
           image={`${item.picture}`}
-          />
+        />
       </TouchableOpacity>
     );
   }
@@ -129,7 +128,7 @@ class MenuScreen extends React.Component {
             style={styles.cart}
             onPress={() => this.setModalVisible()}
           >
-            <Text style={{textAlign: 'right', paddingRight: 10, fontSize: 18,}}>
+            <Text style={{ textAlign: 'right', paddingRight: 10, fontSize: 18 }}>
               PEDIDOS
             </Text>
           </TouchableHighlight>
@@ -167,7 +166,7 @@ class MenuScreen extends React.Component {
           visible={this.props.modalVisible}
           onRequestClose={() => null}
         >
-          <OrderStack/>
+          <OrderStack />
         </Modal>
       </MenuContext>
     );
@@ -175,17 +174,14 @@ class MenuScreen extends React.Component {
 }
 
 MenuScreen.propTypes = {
-  navigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-    goBack: PropTypes.func,
-    navigate: PropTypes.func,
-    setParams: PropTypes.func,
-    state: PropTypes.object,
-  }).isRequired,
+  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchMenuItems: PropTypes.func.isRequired,
+  updateModal: PropTypes.func.isRequired,
   businessID: PropTypes.string.isRequired,
+  sessionActive: PropTypes.bool.isRequired,
+  modalVisible: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

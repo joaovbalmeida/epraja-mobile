@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image, KeyboardAvoidingView, Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addToCart } from '../store/actions/action.session';
 
 export class ItemScreen extends React.Component {
@@ -14,7 +15,7 @@ export class ItemScreen extends React.Component {
     super(props);
     this.state = {
       itemQty: 1,
-    }
+    };
   }
 
   counterAdd() {
@@ -24,7 +25,7 @@ export class ItemScreen extends React.Component {
   }
 
   counterDecrease() {
-    if(this.state.itemQty > 1) {
+    if (this.state.itemQty > 1) {
       this.setState({
         itemQty: this.state.itemQty - 1,
       });
@@ -55,7 +56,7 @@ export class ItemScreen extends React.Component {
               style={styles.image}
               resizeMode="cover"
               source={{ uri: this.props.navigation.state.params.image }}
-              />
+            />
             <View style={styles.firstSection}>
               <Text
                 style={styles.description}
@@ -80,7 +81,7 @@ export class ItemScreen extends React.Component {
                 buttonStyle={styles.stepper}
                 onPress={() => this.counterAdd()}
               />
-              <View style={{width: 30}}>
+              <View style={{ width: 30 }}>
                 <Text style={styles.qty}>
                   {this.state.itemQty}
                 </Text>
@@ -93,7 +94,7 @@ export class ItemScreen extends React.Component {
             </View>
             <TextInput
               style={styles.textInput}
-              multiline={true}
+              multiline
               placeholder="Deixe sua observação em relação a detalhes de seu pedido que tentaremos atende-lo"
             />
             <View style={styles.thirdSection}>
@@ -102,7 +103,7 @@ export class ItemScreen extends React.Component {
                 buttonStyle={styles.button}
                 onPress={() => this.addItemToCart()}
                 allowFontScaling={false}
-                />
+              />
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
@@ -110,6 +111,10 @@ export class ItemScreen extends React.Component {
     );
   }
 }
+
+ItemScreen.propTypes = {
+  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

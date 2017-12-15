@@ -57,7 +57,7 @@ const BusinessItem = ({
           title="CHECK-IN"
           fontSize={10}
           buttonStyle={styles.checkin}
-          onPress={() => navigate('loginScreen', { id: id })}
+          onPress={() => navigate('loginScreen', { id })}
           allowFontScaling={false}
         />
       </View>
@@ -70,6 +70,8 @@ BusinessItem.propTypes = {
   description: PropTypes.string,
   price: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
+  navigate: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 BusinessItem.defaultProps = {

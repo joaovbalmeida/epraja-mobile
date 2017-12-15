@@ -1,5 +1,5 @@
 const initialState = {
-  sessionActive: 0,
+  sessionActive: false,
   tableNumber: 0,
   bill: '',
   menuCategories: [],
@@ -44,7 +44,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         rates: action.rates,
-      }
+      };
     case 'UPDATE_BILL_STATUSES':
       return {
         ...state,

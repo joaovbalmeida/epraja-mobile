@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, FlatList, View, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
+import { resetCart, fetchSurveyRates, fetchItemStatuses, fetchBillStatuses } from '../store/actions/action.session';
 import BusinessItem from '../components/businessitem';
 import api from '../api';
 
@@ -11,7 +12,6 @@ class CheckinScreen extends React.Component {
     title: 'Check-in',
   };
 
-
   constructor(props) {
     super(props);
     if (this.props.sessionActive) {
@@ -19,17 +19,22 @@ class CheckinScreen extends React.Component {
         index: 0,
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'menuStack'})
-        ]
+          NavigationActions.navigate({ routeName: 'menuStack' }),
+        ],
       }));
     }
     this.state = {
       data: [],
     };
-
   }
 
   componentDidMount() {
+    if (!this.props.sessionActive) {
+      this.props.resetCart();
+    }
+    this.props.fetchSurveyRates();
+    this.props.fetchItemStatuses();
+    this.props.fetchBillStatuses();
     this.makeRemoteRequest();
   }
 
@@ -39,7 +44,7 @@ class CheckinScreen extends React.Component {
         this.setState({
           data: json.data || [],
         });
-      }, error => console.log(error));
+      });
   }
 
   renderItem(item, navigate) {
@@ -75,7 +80,7 @@ class CheckinScreen extends React.Component {
           renderItem={({ item }) => this.renderItem(item, navigate)}
           keyExtractor={item => item._id}
           ItemSeparatorComponent={this.renderSeparator}
-          />
+        />
         <View style={styles.advertise}>
           <Text>PROPAGANDA</Text>
         </View>
@@ -92,6 +97,11 @@ CheckinScreen.propTypes = {
     setParams: PropTypes.func,
     state: PropTypes.object,
   }).isRequired,
+  sessionActive: PropTypes.bool.isRequired,
+  resetCart: PropTypes.func.isRequired,
+  fetchSurveyRates: PropTypes.func.isRequired,
+  fetchItemStatuses: PropTypes.func.isRequired,
+  fetchBillStatuses: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -100,7 +110,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   flatlist: {
-    flex:1,
+    flex: 1,
   },
   advertise: {
     height: 45,
@@ -120,4 +130,14 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps)(CheckinScreen);
+const mapDispatchToProps = dispatch => (
+  {
+    dispatch,
+    resetCart: () => dispatch(resetCart()),
+    fetchSurveyRates: () => dispatch(fetchSurveyRates()),
+    fetchItemStatuses: () => dispatch(fetchItemStatuses()),
+    fetchBillStatuses: () => dispatch(fetchBillStatuses()),
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckinScreen);

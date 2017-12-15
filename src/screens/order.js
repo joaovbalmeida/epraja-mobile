@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
-import { NavigationActions } from 'react-navigation'
+import { PropTypes } from 'prop-types';
 import { updateModal } from '../store/actions/action.session';
 
 class OrderScreen extends React.Component {
@@ -16,7 +16,7 @@ class OrderScreen extends React.Component {
         <View style={styles.top}>
           <TouchableHighlight
             onPress={() => this.props.updateModal(false)}
-            >
+          >
             <Text style={styles.closeButton}>&#10799;</Text>
           </TouchableHighlight>
           <View>
@@ -27,20 +27,25 @@ class OrderScreen extends React.Component {
           <Button
             title="MONTAGEM DO SEU PEDIDO"
             onPress={() => this.props.navigation.navigate('assemblyScreen')}
-            />
+          />
           <Button
             title="PEDIDOS PENDENTES"
             onPress={() => this.props.navigation.navigate('requestScreen')}
-            />
+          />
           <Button
             title="CONTA"
             onPress={() => this.props.navigation.navigate('billScreen')}
-            />
+          />
         </View>
       </View>
     );
   }
 }
+
+OrderScreen.propTypes = {
+  updateModal: PropTypes.func.isRequired,
+  navigation: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const styles = StyleSheet.create({
   modal: {
