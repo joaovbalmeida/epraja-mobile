@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { PropTypes } from 'prop-types';
@@ -13,27 +13,51 @@ class OrderScreen extends React.Component {
   render() {
     return (
       <View style={styles.modal}>
-        <View style={styles.top}>
-          <TouchableHighlight
+        <View style={styles.leftSection}>
+          <TouchableOpacity
             onPress={() => this.props.updateModal(false)}
-          >
-            <Text style={styles.closeButton}>&#10799;</Text>
-          </TouchableHighlight>
-          <View>
-            <Text style={styles.closeButton}>&#128651;</Text>
-          </View>
+            style={styles.backButton}
+            >
+            <View style={styles.backButtonView}>
+              <Image
+                source={require('../utils/arrow.png')}
+                width={27}
+                height={41}
+                />
+              <Text style={styles.closeButton}>voltar</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.title}>
+          É NO CARRINHO
+        </Text>
+        <View style={styles.rightSection}>
+          <Image
+            source={require('../utils/cart.png')}
+            width={30}
+            height={31}
+          />
         </View>
         <View style={styles.bottom}>
           <Button
             title="MONTAGEM DO SEU PEDIDO"
+            fontFamily="daxline-regular"
+            fontSize={13}
+            buttonStyle={styles.button}
             onPress={() => this.props.navigation.navigate('assemblyScreen')}
           />
           <Button
             title="PEDIDOS PENDENTES"
+            fontFamily="daxline-regular"
+            fontSize={13}
+            buttonStyle={styles.button}
             onPress={() => this.props.navigation.navigate('requestScreen')}
           />
           <Button
             title="CONTA"
+            fontFamily="daxline-regular"
+            fontSize={13}
+            buttonStyle={styles.button}
             onPress={() => this.props.navigation.navigate('billScreen')}
           />
         </View>
@@ -56,8 +80,11 @@ OrderScreen.propTypes = {
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    marginTop: 30,
-    paddingBottom: 50,
+    paddingTop: 30,
+    paddingBottom: '60%',
+    backgroundColor: '#EDEAE2',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   top: {
     flexDirection: 'row',
@@ -67,16 +94,43 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
   },
+  leftSection: {
+    width: '100%',
+    paddingHorizontal: 15,
+  },
+  rightSection: {
+    width: '100%',
+    alignItems: 'flex-end',
+    paddingHorizontal: 30,
+    marginTop: 10,
+  },
   bottom: {
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    height: '50%',
-    marginHorizontal: 30,
+    height: '70%',
+    width: '100%',
+    paddingHorizontal: 30,
     paddingVertical: 20,
   },
   closeButton: {
-    width: 30,
-    fontSize: 30,
+    fontFamily: 'daxline-regular',
+    color: '#231F1F',
+  },
+  backButton: {
+    width: 100,
+  },
+  backButtonView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  title: {
+    fontFamily: 'daxline-medium',
+    color: '#7EAAAE',
+  },
+  button: {
+    backgroundColor: '#7EAAAE',
+    height: 32,
   },
 });
 

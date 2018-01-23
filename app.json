@@ -3,7 +3,7 @@
     "sdkVersion": "22.0.0",
     "splash": {
       "image": "./src/utils/splash.png",
-      "backgroundColor": "#FFFFFF",
+      "backgroundColor": "#2D327F",
       "resizeMode": "cover",
     }
   }

@@ -165,6 +165,7 @@ class MenuScreen extends React.Component {
           transparent={false}
           visible={this.props.modalVisible}
           onRequestClose={() => null}
+          style={{ backgroundColor: '#EDEAE2' }}
         >
           <OrderStack />
         </Modal>
@@ -193,6 +194,7 @@ MenuScreen.propTypes = {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+    backgroundColor: '#EDEAE2',
   },
   searchBar: {
     flexDirection: 'row',
