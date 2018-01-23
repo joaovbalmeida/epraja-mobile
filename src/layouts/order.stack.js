@@ -12,9 +12,9 @@ const OrderStack = StackNavigator({
 }, {
   headerMode: 'screen',
   navigationOptions: () => ({
-    headerStyle: { backgroundColor: '#4C3E54' },
+    headerStyle: { backgroundColor: '#EDEAE2' },
     gesturesEnabled: true,
-    headerTintColor: 'white',
+    headerTintColor: 'black',
   }),
 });
 

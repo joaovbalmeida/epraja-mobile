@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { NavigationActions } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
+import { Svg } from 'expo';
 import api from '../api';
 import { updateTableNumber, updateBusinessID, fetchMenuCategories, updateSession, updateBill } from '../store/actions/action.session';
 
@@ -60,36 +62,59 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.image}
-        >
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-              behavior="padding"
-              style={styles.content}
-              keyboardVerticalOffset={150}
-            >
-              <View style={styles.view}>
-                <Text style={{ marginLeft: 30 }}>
-                  Nº DA MESA
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.content}>
+              <View style={styles.logo}>
+                <Svg
+                  height="100"
+                  width="200"
+                  >
+                  <Svg.Image
+                    x="25%"
+                    width="50%"
+                    height="50%"
+                    opacity="1"
+                    href={require('../utils/logo.png')}
+                    />
+                </Svg>
+              </View>
+              <View style={styles.midSection}>
+                <Text style={{ fontFamily: 'daxline-regular' }}>
+                  Sentou, qual o número da sua mesa?
                 </Text>
+                <Text style={{ fontFamily: 'daxline-regular' }}>
+                  Não sentou, pede o número de entrada ao garçom.
+                </Text>
+              </View>
+              <View style={styles.bottomSection}>
+                <View style={{ width: '50%', alignItems: 'flex-start' }}>
+                  <Text style={{ fontFamily: 'daxline-medium' }}>
+                    número da mesa
+                  </Text>
+                </View>
                 <TextInput
                   placeholder=""
                   style={styles.textInput}
                   keyboardType="numeric"
+                  underlineColorAndroid="white"
                   onChangeText={tableNumber => this.setState({ number: Number(tableNumber) })}
-                />
+                  />
+                <TouchableOpacity
+                  onPress={() => this.createBill(this.state.number)}
+                  style={styles.button}
+                  >
+                  <Text style={styles.buttonText}>
+                    é pra entrar
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <Button
-                title="Entrar"
-                onPress={() => this.createBill(this.state.number)}
-                containerViewStyle={styles.button}
-                textStyle={styles.buttonText}
-                color="black"
+              <View style={{ height: '20%' }}>
+              </View>
+              <KeyboardSpacer
+                topSpacing={-150}
               />
-            </KeyboardAvoidingView>
-          </TouchableWithoutFeedback>
-        </ImageBackground>
+            </View>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -117,46 +142,60 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     width: '100%',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'lightblue',
+    backgroundColor: '#EDEAE2',
   },
   content: {
     flex: 1,
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginBottom: 25,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginVertical: 25,
   },
-  view: {
-    flexDirection: 'row',
+  logo: {
+    width: '100%',
+    height: '20%',
+    paddingTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 30,
+  },
+  midSection: {
+    height: 50,
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderColor: 'grey',
-    borderWidth: 2,
-    height: 80,
+    marginHorizontal: 15,
+  },
+  bottomSection: {
+    alignItems: 'flex-end',
+    height: 100,
     width: '100%',
+    marginRight: 30,
   },
   textInput: {
     backgroundColor: 'white',
     height: 60,
     width: '50%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     borderStyle: 'solid',
-    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#423736',
     color: 'black',
-    textAlign: 'right',
+    fontFamily: 'daxline-regular',
+    fontSize: 20,
+    textAlign: 'left',
   },
   button: {
-    backgroundColor: 'white',
-    height: 46,
-    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#423736',
+    height: 30,
+    marginTop: 10,
+    width: 100,
   },
   buttonText: {
-    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'daxline-regular'
   },
 });
 

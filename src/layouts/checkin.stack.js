@@ -11,9 +11,9 @@ const CheckinStack = StackNavigator({
 }, {
   headerMode: 'float',
   navigationOptions: ({ navigation }) => ({
-    headerStyle: (Platform.OS === 'android' ? { backgroundColor: '#4C3E54', paddingTop: Constants.statusBarHeight, height: Constants.statusBarHeight + 56 } : { backgroundColor: '#4C3E54' }),
+    headerStyle: (Platform.OS === 'android' ? { backgroundColor: '#EDEAE2', paddingTop: Constants.statusBarHeight, height: Constants.statusBarHeight + 56 } : { backgroundColor: '#EDEAE2' }),
     gesturesEnabled: false,
-    headerTintColor: 'white',
+    headerTintColor: 'black',
     headerRight: (
       <Text
         onPress={() => {
