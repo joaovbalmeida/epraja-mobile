@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Platform } from 'react-native';
+import { TouchableOpacity, Platform, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import MenuDrawer from './menu.drawer';
@@ -15,7 +15,7 @@ const MenuStack = StackNavigator({
     gesturesEnabled: false,
     headerTintColor: 'black',
     headerRight: (
-      <Text
+      <TouchableOpacity
         onPress={() => {
           if (navigation.state.index === 0) {
             navigation.navigate('DrawerOpen');
@@ -23,13 +23,13 @@ const MenuStack = StackNavigator({
             navigation.navigate('DrawerClose');
           }
         }}
-        style={{
-          fontSize: 16,
-          marginRight: 10,
-        }}
-      >
-        Menu
-      </Text>
+        style={{ paddingRight: 20 }}
+        >
+        <Image
+          source={require('../utils/gear.png')}
+          style={{width: 36, height: 36}}
+        />
+      </TouchableOpacity>
     ),
   }),
 });

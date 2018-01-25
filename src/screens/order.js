@@ -11,6 +11,20 @@ class OrderScreen extends React.Component {
   };
 
   render() {
+    const cart = [];
+    if(this.props.cart.length === 0){
+      cart.push(<Image
+                  source={require('../utils/emptyCart.png')}
+                  width={30}
+                  height={31}
+                  />)
+    } else {
+      cart.push(<Image
+                  source={require('../utils/cart.png')}
+                  width={30}
+                  height={31}
+                  />)
+    }
     return (
       <View style={styles.modal}>
         <View style={styles.leftSection}>
@@ -28,15 +42,11 @@ class OrderScreen extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.title}>
-          É NO CARRINHO
-        </Text>
+          <Text style={styles.title}>
+            É NO CARRINHO
+          </Text>
         <View style={styles.rightSection}>
-          <Image
-            source={require('../utils/cart.png')}
-            width={30}
-            height={31}
-          />
+          {cart[0]}
         </View>
         <View style={styles.bottom}>
           <Button
@@ -96,7 +106,7 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     width: '100%',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   rightSection: {
     width: '100%',
@@ -134,6 +144,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => (
+  {
+    cart: state.sessionReducer.cart,
+  }
+);
+
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
@@ -141,4 +157,4 @@ const mapDispatchToProps = dispatch => (
   }
 );
 
-export default connect(null, mapDispatchToProps)(OrderScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);

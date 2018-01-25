@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Text, Alert } from 'react-native';
+import { View, FlatList, StyleSheet, Text, Alert, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,9 +7,21 @@ import { removeFromCart, updateCart, updateModal, resetCart, updateBill, updateS
 import api from '../api';
 
 class AssemblyScreen extends React.Component {
-  static navigationOptions = {
-    title: 'MONTAGEM DO PEDIDO',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft:
+      <TouchableOpacity onPress={ () => { navigation.goBack() }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+          <Image
+            source={require('../utils/arrow.png')}
+            width={27}
+            height={41}
+          />
+          <Text style={{ fontFamily: 'daxline-regular', color: '#231F1F' }}>
+            voltar
+          </Text>
+        </View>
+      </TouchableOpacity>
+  });
 
   constructor(props) {
     super(props);
@@ -147,8 +159,21 @@ class AssemblyScreen extends React.Component {
     if (this.props.cart.length < 1) {
       return (
         <View style={styles.emptyContainer}>
+          <Text style={styles.title}>
+            MONTAGEM DO SEU PEDIDO
+          </Text>
+          <View style={styles.cart}>
+            <Image
+              source={require('../utils/emptyCart.png')}
+              width={31}
+              height={31}
+            />
+          </View>
+          <Text style={styles.emptySubtitle}>
+            Ops!
+          </Text>
           <Text style={styles.emptyText}>
-            {this.state.emptyMessage}
+            Seu carrinho ainda está vazio.
           </Text>
         </View>
       );
@@ -217,6 +242,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 10,
+    backgroundColor: '#EDEAE2',
   },
   firstSection: {
     height: '10%',
@@ -233,16 +259,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   emptyContainer: {
-    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     height: '100%',
+    backgroundColor: '#EDEAE2',
+  },
+  emptySubtitle: {
+    fontFamily: 'daxline-medium',
+    marginTop: '30%',
+    fontSize: 30,
+    textAlign: 'center',
+    color: '#7EAAAE',
   },
   emptyText: {
-    fontSize: 20,
-    fontWeight: '400',
-    margin: 20,
+    fontFamily: 'daxline-regular',
+    marginHorizontal: 10,
     textAlign: 'center',
+    color: '#7EAAAE',
+  },
+  title: {
+    fontFamily: 'daxline-medium',
+    color: '#7EAAAE',
+    marginTop: 20,
+    fontSize: 15,
+  },
+  cart: {
+    marginTop: 15,
+    width: '100%',
+    alignItems: 'flex-end',
+    paddingHorizontal: 30,
+  },
+  rightSection: {
+      width: '100%',
+      alignItems: 'flex-end',
+      paddingHorizontal: 30,
+      marginTop: 10,
   },
   flatlist: {
     width: '100%',

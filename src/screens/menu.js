@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight, Modal } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight, Modal, Image } from 'react-native';
 import { connect } from 'react-redux';
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import PropTypes from 'prop-types';
@@ -10,14 +10,22 @@ import { fetchMenuItems, updateModal, resetState } from '../store/actions/action
 import OrderStack from '../layouts/order.stack';
 
 class MenuScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Menu',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle:
+    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+      <Image
+        source={require('../utils/logo.png')}
+        style={{width: 97, height: 30}}
+      />
+    </View>,
+    headerLeft: <View style={{ width: '10%',}}></View>
+  });
 
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.items,
+      category: 'é pra tudo',
     };
   }
 
@@ -49,10 +57,12 @@ class MenuScreen extends React.Component {
     if (id === 0) {
       this.setState({
         data: this.props.items,
+        category: 'é pra tudo',
       });
     } else {
       this.setState({
         data: this.props.items.filter(item => item.menuCategory.match(id)),
+        category: this.props.categories.filter(item => item.id.match(id))[0].name,
       });
     }
   }
@@ -117,29 +127,47 @@ class MenuScreen extends React.Component {
     return (
       <MenuContext style={styles.view}>
         <View style={styles.searchBar}>
+          <View style={styles.searchIconView}>
+            <Image
+              source={require('../utils/search.png')}
+            />
+          </View>
           <SearchBar
             lightTheme
             onChangeText={text => this.filterItems(text.toLowerCase())}
             onClearText={() => this.searchBarCleared()}
             containerStyle={styles.searchContainer}
-            placeholder="Buscar"
+            inputStyle={styles.searchInput}
+            placeholder="procura que acha"
+            placeholderTextColor="#231F1F"
+            selectionColor="#231F1F"
+            noIcon={true}
           />
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.cart}
             onPress={() => this.setModalVisible()}
           >
-            <Text style={{ textAlign: 'right', paddingRight: 10, fontSize: 18 }}>
-              PEDIDOS
-            </Text>
-          </TouchableHighlight>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 38 }}>
+              <Text style={{ textAlign: 'center', fontFamily: 'daxline-medium', fontSize: 14, color: '#EEE7E0' }}>
+                é pra pedir
+              </Text>
+              <Image
+                source={require('../utils/cart2.png')}
+                style={{ marginLeft: 10 }}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.container}>
-          <View style={styles.dropdownTitle}>
-            <Text>CATEGORIAS</Text>
+          <View style={{ width: 65 }}></View>
+          <View>
+            <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>{this.state.category}</Text>
           </View>
           <Menu onSelect={value => this.filterCategories(value)}>
-            <MenuTrigger>
-              <Text style={{ fontSize: 18 }}>ABRIR</Text>
+            <MenuTrigger style={styles.trigger}>
+              <Image
+                source={require('../utils/dropdown.png')}
+                />
             </MenuTrigger>
             <MenuOptions>
               <MenuOption value={0}>
@@ -157,9 +185,6 @@ class MenuScreen extends React.Component {
           ItemSeparatorComponent={this.renderSeparator}
           onEndReachedThreshold={50}
         />
-        <View style={styles.advertise}>
-          <Text>PROPAGANDA</Text>
-        </View>
         <Modal
           animationType="slide"
           transparent={false}
@@ -201,30 +226,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    backgroundColor: '#919A98',
+  },
+  searchIconView: {
+    flex: 1.2,
+    height: 38,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: '#BEC2BD',
   },
   searchContainer: {
-    flex: 1,
+    flex: 3.8,
+    height: 38,
+    backgroundColor: '#BEC2BD',
+  },
+  searchInput: {
+    height: 42,
+    margin: -3,
+    backgroundColor: '#BEC2BD',
+    color: '#231F1F',
+    textAlign: 'center',
+    fontFamily: 'daxline-medium'
   },
   cart: {
-    flex: 1,
+    flex: 5,
     width: '50%',
-    justifyContent: 'flex-end',
+    height: 38,
+    backgroundColor: '#919A98',
   },
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: 40,
-    padding: 10,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#AFB09E',
   },
-  dropdownTitle: {
-    flex: 1,
+  trigger: {
+    marginRight: 25,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    height: 38,
+    width: 40,
   },
   flatlist: {
     flex: 1,
-  },
-  advertise: {
-    height: 45,
-    backgroundColor: 'gray',
   },
   separator: {
     height: 1,
