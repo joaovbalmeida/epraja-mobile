@@ -18,21 +18,21 @@ const MenuItem = ({
     </View>
     <View style={styles.bottomPanel}>
       <View style={styles.firstSection}>
-        <Text>
+        <Text style={styles.firstSectionText}>
           {name}
         </Text>
-        <Text
-          style={{ fontSize: 12 }}
-          allowFontScaling={false}
-          ellipsizeMode="tail"
-          numberOfLines={2}
-        >
-          {description}
+        <Text style={styles.firstSectionText}>
+          {price}
         </Text>
       </View>
       <View style={styles.secondSection}>
-        <Text>
-          {price}
+        <Text
+          style={{ fontFamily: 'daxline-regular', fontSize: 13, color: '#231F1F', lineHeight: 17 }}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          numberOfLines={4}
+        >
+          {description}
         </Text>
       </View>
     </View>
@@ -58,8 +58,9 @@ const styles = StyleSheet.create({
   },
   topPanel: {
     flex: 1,
-    height: 180,
+    height: 200,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   image: {
     flex: 1,
@@ -67,17 +68,25 @@ const styles = StyleSheet.create({
     width: undefined,
   },
   bottomPanel: {
-    flexDirection: 'row',
-    height: 70,
-    backgroundColor: 'lightblue',
+    height: 100,
+    backgroundColor: '#EDEAE2',
   },
   firstSection: {
-    flex: 4.5,
-    margin: 5,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  firstSectionText: {
+    fontFamily: 'daxline-medium',
+    fontSize: 14,
+    color: '#231F1F',
   },
   secondSection: {
-    flex: 1,
-    margin: 5,
+    flex: 2.4,
+    paddingHorizontal: 20,
+    paddingBottom: 5,
   },
 });
 

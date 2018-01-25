@@ -87,10 +87,6 @@ class MenuScreen extends React.Component {
     });
   }
 
-  renderSeparator() {
-    return <View style={styles.separator} />;
-  }
-
   renderItem(item, navigate) {
     return (
       <TouchableOpacity
@@ -182,7 +178,6 @@ class MenuScreen extends React.Component {
           data={this.state.data}
           renderItem={({ item }) => this.renderItem(item, navigate)}
           keyExtractor={item => item._id}
-          ItemSeparatorComponent={this.renderSeparator}
           onEndReachedThreshold={50}
         />
         <Modal
@@ -270,11 +265,6 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     flex: 1,
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: '#CED0CE',
   },
 });
 
