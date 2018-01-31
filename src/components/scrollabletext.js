@@ -22,11 +22,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    padding: 15,
+    fontSize: 13,
+    fontFamily: 'daxline-regular',
+    lineHeight: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     margin: 5,
-    textAlign: 'center',
+    textAlign: 'left',
+    color: '#696950',
   },
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Modal, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Modal, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import ScrollableText from './scrollabletext';
@@ -48,28 +48,23 @@ export default class DrawerContainer extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.top}>
-              <View style={styles.blankView}>
-                <TouchableHighlight
-                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
+              <TouchableOpacity
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}
                 >
-                  <Text style={styles.closeButton}>&#10799;</Text>
-                </TouchableHighlight>
-              </View>
-              <Text style={styles.modalTitle}>
-                TERMOS DE USO
-              </Text>
-              <View style={styles.blankView} />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={require('../utils/x.png')}
+                    />
+                  <Text style={styles.closeButton}>fechar</Text>
+                </View>
+                </TouchableOpacity>
             </View>
+            <Text style={styles.modalTitle}>
+              TERMOS DE USO
+            </Text>
             <ScrollableText
               text={faqTexts.termsOfUse.text}
             />
-            <View style={styles.bottom}>
-              <TouchableHighlight
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}
-              >
-                <Text style={styles.bottomButton}>SAIR</Text>
-              </TouchableHighlight>
-            </View>
           </View>
         </Modal>
       </View>
@@ -113,36 +108,32 @@ const styles = StyleSheet.create({
     width: 50,
   },
   modal: {
-    marginTop: 30,
+    paddingTop: 15,
     paddingBottom: 50,
     height: '100%',
     width: '100%',
+    backgroundColor: '#EDEAE2',
   },
   top: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     height: 40,
     width: '100%',
     marginTop: 10,
-  },
-  bottom: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    height: 30,
-    marginRight: 20,
+    marginLeft: 10,
   },
   modalTitle: {
-    fontSize: 20,
-    color: 'red',
+    marginTop: 10,
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#7EAAAE',
+    fontFamily: 'daxline-medium',
   },
   closeButton: {
-    width: 30,
-    fontSize: 30,
-  },
-  bottomButton: {
-    width: 50,
-    fontSize: 16,
+    fontSize: 13,
+    fontFamily: 'daxline-regular',
+    color: '#423736',
   },
   blankView: {
     width: 50,

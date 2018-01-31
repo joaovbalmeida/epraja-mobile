@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableHighlight, StyleSheet, KeyboardAvoidingView, TextInput, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, Keyboard, TouchableWithoutFeedback, Modal, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import ScrollableText from '../components/scrollabletext';
 import faqTexts from '../utils/faqtexts';
 
@@ -25,118 +26,168 @@ export default class FAQScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, paddingTop: 20, }}>
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior="padding"
-          >
-            <View style={styles.container}>
-              <View style={styles.top}>
-                <View style={styles.blankView}>
-                  <TouchableHighlight
-                    onPress={() => this.props.navigation.dispatch(NavigationActions.back())}
-                  >
-                    <Text style={styles.closeButton}>&#10799;</Text>
-                  </TouchableHighlight>
-                </View>
-                <Text
-                  style={styles.title}
-                  allowFontScaling={false}
+          <View style={styles.container}>
+            <View style={styles.top}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.dispatch(NavigationActions.back())}
                 >
-                  FALE CONOSCO
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={require('../utils/x.png')}
+                    />
+                  <Text style={styles.closeButton}>fechar</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <Text
+              style={styles.title}
+              allowFontScaling={false}
+              >
+              FALE CONOSCO
+            </Text>
+            <View style={styles.underTop}>
+              <View>
+                <Text
+                  style={styles.subtitles}
+                  allowFontScaling={false}
+                  >
+                  &#65517; PEDIDO
                 </Text>
-                <View style={styles.blankView} />
-              </View>
-              <View style={styles.underTop}>
-                <View>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderReview.title, faqTexts.orderReview.text)}
+                  >
                   <Text
-                    style={{ marginBottom: 15 }}
                     allowFontScaling={false}
-                  >
-                    AJUDA AO CLIENTE
-                  </Text>
-                  <Text
-                    style={styles.subtitles}
-                    allowFontScaling={false}
-                  >
-                    PEDIDO:
-                  </Text>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderReview.title, faqTexts.orderReview.text)}
-                  >
-                    <Text allowFontScaling={false}>COMO AVALIAR UM PEDIDO?</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderLate.title, faqTexts.orderLate.text)}
-                  >
-                    <Text allowFontScaling={false}>ESTÁ ATRASADO?</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderMissing.title, faqTexts.orderMissing.text)}
-                  >
-                    <Text allowFontScaling={false}>O PEDIDO CHEGOU ERRADO OU ESTÁ FALTANDO ITENS?</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.cancellation.title, faqTexts.cancellation.text)}
-                  >
-                    <Text allowFontScaling={false}>CANCELAMENTO</Text>
-                  </TouchableHighlight>
-                </View>
-                <View>
-                  <Text
-                    style={styles.subtitles}
-                    allowFontScaling={false}
-                  >
-                    SOBRE O TAPSTER:
-                  </Text>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.tapsterJobs.title, faqTexts.tapsterJobs.text)}
-                  >
-                    <Text allowFontScaling={false}>QUERO TRABALHAR NO TAPSTER</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    style={styles.touchableText}
-                    onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.howWorks.title, faqTexts.howWorks.text)}
-                  >
-                    <Text allowFontScaling={false}>O QUE É? COMO FUNCIONA O TAPSTER?</Text>
-                  </TouchableHighlight>
-                </View>
-                <View style={{ paddingBottom: 20 }}>
-                  <Text
-                    style={{ marginBottom: 10 }}
-                    allowFontScaling={false}
-                  >
-                    MINHA DÚVIDA NÃO ESTÁ AQUI
-                  </Text>
-                  <Text
-                    style={{ marginBottom: 2 }}
-                    allowFontScaling={false}
-                  >
-                    ENVIAR SOLICITAÇÃO
-                  </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    multiline
-                    returnKeyType="done"
-                  />
-                  <TouchableHighlight style={styles.sendBottom}>
-                    <Text
-                      style={styles.sendButton}
-                      allowFontScaling={false}
+                    style={styles.text}
                     >
-                      ENVIAR
-                    </Text>
-                  </TouchableHighlight>
+                    &#9679; Como avaliar um pedido?
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderLate.title, faqTexts.orderLate.text)}
+                  >
+                  <Text
+                    allowFontScaling={false}
+                    style={styles.text}
+                    >
+                    &#9679; Está atrasado?
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.orderMissing.title, faqTexts.orderMissing.text)}
+                  >
+                  <Text
+                    allowFontScaling={false}
+                    style={styles.text}
+                    >
+                    &#9679; O pedido chegou errado ou está faltando itens?
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.cancellation.title, faqTexts.cancellation.text)}
+                  >
+                  <Text
+                    allowFontScaling={false}
+                    style={styles.text}
+                    >
+                    &#9679; Cancelamento
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text
+                    style={styles.subtitles}
+                    allowFontScaling={false}
+                    >
+                    &#65517; SOBRE A
+                  </Text>
+                  <Text
+                    style={{ paddingLeft: 6, color: '#7EAAAE', fontFamily: 'daxline-extra-bold', fontSize: 20 }}
+                    allowFontScaling={false}
+                    >
+                    é pra já
+                  </Text>
                 </View>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.tapsterJobs.title, faqTexts.tapsterJobs.text)}
+                  >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text
+                      allowFontScaling={false}
+                      style={styles.text}
+                      >
+                      &#9679; Quero trabalhar na
+                    </Text>
+                    <Text
+                      style={{ paddingLeft: 6, color: '#696950', fontFamily: 'daxline-extra-bold', fontSize: 17 }}
+                      allowFontScaling={false}
+                      >
+                      é pra já
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.touchableText}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible, faqTexts.howWorks.title, faqTexts.howWorks.text)}
+                  >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text
+                      allowFontScaling={false}
+                      style={styles.text}
+                      >
+                      &#9679; O que é? E como funciona a
+                    </Text>
+                    <Text
+                      style={{ paddingLeft: 6, color: '#696950', fontFamily: 'daxline-extra-bold', fontSize: 17 }}
+                      allowFontScaling={false}
+                      >
+                      é pra já
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={{ paddingBottom: 20 }}>
+                <Text
+                  style={styles.subtitles}
+                  allowFontScaling={false}
+                  >
+                  &#65517; TEM MAIS DÚVIDAS?
+                </Text>
+                <Text
+                  style={styles.text}
+                  allowFontScaling={false}
+                  >
+                  &#9679; Escreve ai embaixo que a gente tenta esclarecer:
+                </Text>
+                <TextInput
+                  style={styles.textInput}
+                  multiline
+                  returnKeyType="done"
+                  allowFontScaling={false}
+                  numberOfLines={4}
+                  />
+                <TouchableOpacity style={styles.sendBottom}>
+                  <Text
+                    style={styles.sendButton}
+                    allowFontScaling={false}
+                    >
+                    ENVIAR
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </KeyboardAvoidingView>
+            <KeyboardSpacer
+              topSpacing={150}
+              />
+          </View>
         </TouchableWithoutFeedback>
         <Modal
           animationType="slide"
@@ -146,36 +197,26 @@ export default class FAQScreen extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.top}>
-              <View style={styles.blankView}>
-                <TouchableHighlight
-                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
+              <TouchableOpacity
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}
                 >
-                  <Text style={styles.closeButton}>&#10799;</Text>
-                </TouchableHighlight>
-              </View>
-              <Text
-                style={styles.title}
-                allowFontScaling={false}
-              >
-                {this.state.modalTitle}
-              </Text>
-              <View style={styles.blankView} />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={require('../utils/x.png')}
+                    />
+                  <Text style={styles.closeButton}>fechar</Text>
+                </View>
+              </TouchableOpacity>
             </View>
+            <Text
+              style={styles.title}
+              allowFontScaling={false}
+              >
+              {this.state.modalTitle}
+            </Text>
             <ScrollableText
               text={this.state.modalText}
             />
-            <View style={styles.bottom}>
-              <TouchableHighlight
-                onPress={() => this.setModalVisible(!this.state.modalVisible)}
-              >
-                <Text
-                  style={styles.bottomButton}
-                  allowFontScaling={false}
-                >
-                  SAIR
-                </Text>
-              </TouchableHighlight>
-            </View>
           </View>
         </Modal>
       </View>
@@ -196,77 +237,87 @@ FAQScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 20,
-    height: '100%',
-  },
-  top: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: '10%',
-  },
-  underTop: {
-    justifyContent: 'space-between',
-    marginHorizontal: 10,
-    paddingTop: 10,
-    height: '90%',
-  },
-  bottom: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    height: 30,
-    marginRight: 20,
-    marginBottom: 10,
-  },
-  modal: {
-    marginTop: 30,
+    paddingTop: 15,
     paddingBottom: 50,
     height: '100%',
     width: '100%',
+    backgroundColor: '#EDEAE2',
+  },
+  top: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    height: 40,
+    width: '100%',
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  underTop: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginHorizontal: 15,
+    paddingTop: 10,
+    height: '90%',
+  },
+  modal: {
+    paddingTop: 15,
+    paddingBottom: 50,
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#EDEAE2',
   },
   touchableText: {
-    margin: 5,
     paddingVertical: 3,
   },
   subtitles: {
-    paddingVertical: 5,
+    paddingTop: 10,
+    marginBottom: 8,
+    paddingLeft: 20,
+    color: '#7EAAAE',
+    fontFamily: 'daxline-medium',
+    fontSize: 16,
   },
   title: {
-    fontSize: 18,
-    width: '60%',
+    marginTop: 10,
+    paddingHorizontal: 30,
+    width: '100%',
     textAlign: 'center',
-    color: 'red',
+    fontSize: 18,
+    color: '#7EAAAE',
+    fontFamily: 'daxline-medium',
+  },
+  text: {
+    fontFamily: 'daxline-medium',
+    paddingLeft: 30,
+    marginVertical: 1,
+    fontSize: 13,
+    color: '#696950',
   },
   closeButton: {
-    width: 30,
-    fontSize: 30,
-    paddingLeft: 10,
+    fontSize: 13,
+    fontFamily: 'daxline-regular',
+    color: '#423736',
   },
   sendButton: {
-    paddingTop: 10,
+    marginTop: 8,
+    color: '#7EAAAE',
+    fontFamily: 'daxline-medium',
+    fontSize: 16,
   },
   sendBottom: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    height: 30,
-    marginRight: 20,
   },
   textInput: {
     fontSize: 14,
-    height: 60,
-    borderColor: 'black',
+    height: 80,
+    marginTop: 5,
+    borderColor: '#7EAAAE',
     borderWidth: 1,
-    borderStyle: 'solid',
-    borderRadius: 1,
+    backgroundColor: 'white',
     color: 'black',
-  },
-  bottomButton: {
-    width: 50,
-    fontSize: 16,
-  },
-  blankView: {
-    width: 50,
+    fontFamily: 'daxline-regular',
+    fontSize: 15,
+    textAlign: 'left',
+    lineHeight: 15,
   },
 });
