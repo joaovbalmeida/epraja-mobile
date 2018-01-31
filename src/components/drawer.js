@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal, TouchableOpacity, Image } from 'react-native';
-import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import ScrollableText from './scrollabletext';
 import faqTexts from '../utils/faqtexts';
@@ -21,25 +20,39 @@ export default class DrawerContainer extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <Button
-          title="EN"
-          onPress={() => navigation.navigate('drawerStack')}
-          buttonStyle={styles.button}
-          color="black"
-          allowFontScaling={false}
-        />
-        <Text
+        <View style={{ width: '100%', alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'daxline-medium', color: '#7EAAAE', fontSize: 18 }}>
+            CONFIGURAÇÕES
+          </Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingVertical: '20%' }}>
+          <Text style={{ fontFamily: 'daxline-medium', color: '#423736', fontSize: 16 }}>
+            Trocar Idioma
+          </Text>
+          <TouchableOpacity
+            style={styles.button}
+            >
+            <Text style={{ fontFamily: 'daxline-regular', color: '#423736', fontSize: 16 }}>
+              E N
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
           onPress={() => navigation.navigate('faqStack')}
           style={styles.drawerItem}
         >
-          FALE CONOSCO
-        </Text>
-        <Text
+          <Text style={styles.buttonText}>
+            FALE CONOSCO
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => this.setModalVisible(true)}
           style={styles.drawerItem}
         >
-          TERMOS DE USO
-        </Text>
+          <Text style={styles.buttonText}>
+            TERMOS DE USO
+          </Text>
+        </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={false}
@@ -85,27 +98,35 @@ DrawerContainer.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
-    paddingTop: 40,
+    backgroundColor: '#EDEAE2',
+    paddingTop: 25,
     paddingHorizontal: 20,
+    alignItems: 'flex-end',
   },
   drawerItem: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#E73536',
+    backgroundColor: '#7EAAAE',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 15,
-    margin: 5,
-    borderRadius: 2,
-    borderColor: '#E73536',
-    borderWidth: 1,
-    textAlign: 'center',
+    marginVertical: 10,
+    height: 30,
+    width: 130,
+  },
+  buttonText: {
+    fontFamily: 'daxline-medium',
+    color: 'white',
+    fontSize: 14,
+    textAlign: 'center'
   },
   button: {
-    backgroundColor: 'white',
-    marginBottom: 20,
-    marginLeft: 5,
-    height: 30,
-    width: 50,
+    borderRadius: 2,
+    borderColor: '#423736',
+    borderWidth: 1,
+    height: 35,
+    width: 35,
+    marginLeft: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modal: {
     paddingTop: 15,
