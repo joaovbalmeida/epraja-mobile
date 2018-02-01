@@ -5,7 +5,8 @@ import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-n
 import PropTypes from 'prop-types';
 import { SearchBar } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-import MenuItem from '../components/menuitem';
+import FoodItem from '../components/fooditem';
+import DrinkItem from '../components/drinkitem';
 import { fetchMenuItems, updateModal, resetState } from '../store/actions/action.session';
 import OrderStack from '../layouts/order.stack';
 
@@ -88,28 +89,53 @@ class MenuScreen extends React.Component {
   }
 
   renderItem(item, navigate) {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => (
-          navigate('itemScreen', {
-            name: item.name,
-            description: item.description,
-            price: item.price,
-            image: item.picture,
-            id: item._id,
-            menuCategory: item.menuCategory,
-          })
-        )}
-      >
-        <MenuItem
-          name={item.name}
-          description={item.description}
-          price={`${item.price}`}
-          image={`${item.picture}`}
-        />
-      </TouchableOpacity>
-    );
+    if(item.menuCategory === '5a29f5f71c2237001330ddaa'){
+      return (
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => (
+            navigate('itemScreen', {
+              name: item.name,
+              description: item.description,
+              price: item.price,
+              image: item.picture,
+              id: item._id,
+              menuCategory: item.menuCategory,
+            })
+          )}
+          >
+          <DrinkItem
+            name={item.name}
+            description={item.description}
+            price={`${item.price}`}
+            image={`${item.picture}`}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => (
+            navigate('itemScreen', {
+              name: item.name,
+              description: item.description,
+              price: item.price,
+              image: item.picture,
+              id: item._id,
+              menuCategory: item.menuCategory,
+            })
+          )}
+          >
+          <FoodItem
+            name={item.name}
+            description={item.description}
+            price={`${item.price}`}
+            image={`${item.picture}`}
+          />
+        </TouchableOpacity>
+      );
+    }
   }
 
   render() {
@@ -119,7 +145,6 @@ class MenuScreen extends React.Component {
         <Text>{item.name}</Text>
       </MenuOption>
     ));
-
     return (
       <MenuContext style={styles.view}>
         <View style={styles.searchBar}>

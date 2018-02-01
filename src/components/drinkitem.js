@@ -2,21 +2,21 @@ import React from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-const MenuItem = ({
+const DrinkItem = ({
   name,
   description,
   price,
   image,
 }) => (
   <View style={styles.container}>
-    <View style={styles.topPanel}>
+    <View style={styles.leftPanel}>
       <Image
         style={styles.image}
         resizeMode="contain"
         source={{ uri: image }}
-      />
+        />
     </View>
-    <View style={styles.bottomPanel}>
+    <View style={styles.rightPanel}>
       <View style={styles.firstSection}>
         <Text style={styles.firstSectionText}>
           {name}
@@ -31,7 +31,7 @@ const MenuItem = ({
           allowFontScaling={false}
           ellipsizeMode="tail"
           numberOfLines={4}
-        >
+          >
           {description}
         </Text>
       </View>
@@ -39,44 +39,49 @@ const MenuItem = ({
   </View>
 );
 
-MenuItem.propTypes = {
+DrinkItem.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   price: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
 };
 
-MenuItem.defaultProps = {
+DrinkItem.defaultProps = {
   description: '',
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 0,
-    height: 250,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 130,
     width: '100%',
   },
-  topPanel: {
-    flex: 1,
-    height: 200,
+  leftPanel: {
+    flex: 1.4,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    alignItems: 'center',
+    backgroundColor: '#EDEAE2',
+    marginLeft: 10,
   },
-  image: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
-  },
-  bottomPanel: {
+  rightPanel: {
+    flex: 3,
     height: 100,
+    marginRight: 10,
     backgroundColor: '#EDEAE2',
   },
+  image: {
+    height: 100,
+    width: 100,
+    backgroundColor: 'white',
+  },
   firstSection: {
-    flex: 1,
+    height: '30%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   firstSectionText: {
     fontFamily: 'daxline-medium',
@@ -84,10 +89,10 @@ const styles = StyleSheet.create({
     color: '#231F1F',
   },
   secondSection: {
-    flex: 2.4,
-    paddingHorizontal: 20,
+    height: '70%',
+    paddingHorizontal: 10,
     paddingBottom: 5,
   },
 });
 
-export default MenuItem;
+export default DrinkItem;
