@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'daxline-medium',
     color: 'white',
-    fontSize: 14,
+    fontSize: 13,
     textAlign: 'center'
   },
   button: {
