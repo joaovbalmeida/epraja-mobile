@@ -75,8 +75,8 @@ class AssemblyScreen extends React.Component {
 
   cartSentAlert() {
     Alert.alert(
-      'Pedido Enviado',
-      'Aguarde que você ja será servido.',
+      'Pedido Enviado com sucesso',
+      'é para já que será servido',
       [
         {
           text: 'Ok',
@@ -114,11 +114,14 @@ class AssemblyScreen extends React.Component {
   renderItem(item) {
     return (
       <View style={styles.listContainer}>
-        <Button
-          title="X"
-          buttonStyle={styles.stepper}
-          onPress={() => this.removeItem(item.id, item.qty, item.price)}
-        />
+        <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', height: 80 }}>
+          <TouchableOpacity
+            onPress={() => this.removeItem(item.id, item.qty, item.price)}
+            style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderColor: '#7EAAAE', borderWidth: 1, marginLeft: 2 }}
+            >
+            <Text style={{ textAlign: 'center', fontFamily: 'daxline-extra-bold', fontSize: 20, color: '#7EAAAE' }}>X</Text>
+          </TouchableOpacity>
+        </View>
         <Text
           style={styles.name}
           allowFontScaling={false}
@@ -128,22 +131,28 @@ class AssemblyScreen extends React.Component {
           {item.name}
         </Text>
         <View style={styles.middleSection}>
-          <Button
-            title="+"
-            buttonStyle={styles.stepper}
+          <TouchableOpacity
+            style={styles.stepper}
             onPress={() => this.counterAdd(item.id, item.qty, item.price)}
-          />
+            >
+            <Text style={{ fontSize: 28 }}>
+              +
+            </Text>
+          </TouchableOpacity>
           <Text
             style={styles.qty}
             allowFontScaling={false}
           >
             {item.qty}
           </Text>
-          <Button
-            title="-"
-            buttonStyle={styles.stepper}
+          <TouchableOpacity
+            style={styles.stepper}
             onPress={() => this.counterDecrease(item.id, item.qty, item.price)}
-          />
+            >
+            <Text style={{ fontSize: 32, paddingBottom: 12, }}>
+              -
+            </Text>
+          </TouchableOpacity>
         </View>
         <Text
           style={styles.price}
@@ -180,8 +189,18 @@ class AssemblyScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>
+          MONTAGEM DO SEU PEDIDO
+        </Text>
+        <View style={styles.cart}>
+          <Image
+            source={require('../utils/cart.png')}
+            width={31}
+            height={31}
+            />
+        </View>
         <Text style={styles.firstText}>
-          CONFIRA SUA LISTA DE PEDIDOS ANTES DE ENVIÁ-LA
+          Antes de enviar seu pedido, é pra conferir se está tudo certinho.
         </Text>
         <FlatList
           style={styles.flatlist}
@@ -192,28 +211,33 @@ class AssemblyScreen extends React.Component {
           onEndReachedThreshold={50}
         />
         <View style={styles.firstSection}>
-          <Text>
+          <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>
             TOTAL PARCIAL
           </Text>
-          <Text>
+          <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>
             {this.state.totalPrice}
           </Text>
         </View>
         <View style={styles.secondSection}>
-          <Button
-            title="INCLUIR MAIS ITENS"
-            containerViewStyle={styles.backButton}
-            fontSize={13}
-            onPress={() => this.props.updateModal(false)}
-            allowFontScaling={false}
-          />
-          <Button
-            title="ENVIAR"
-            containerViewStyle={styles.sendButton}
+          <TouchableOpacity onPress={() => this.props.updateModal(false)}>
+            <View style={styles.backButton}>
+              <Image
+                source={require('../utils/arrowFilled.png')}
+                width={17}
+                height={25}
+                />
+              <Text style={{ fontFamily: 'daxline-medium', color: 'white', fontSize: 15 }}>
+                aqui é para pedir mais
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => this.sendOrder()}
-            fontSize={13}
-            allowFontScaling={false}
-          />
+            style={styles.sendButton}>
+            <Text style={{ fontFamily: 'daxline-medium' }}>
+              ENVIAR
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -232,7 +256,6 @@ AssemblyScreen.propTypes = {
 
 const sectionStyle = {
   flexDirection: 'row',
-  justifyContent: 'space-between',
   alignItems: 'center',
   width: '100%',
 };
@@ -241,22 +264,25 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 10,
     backgroundColor: '#EDEAE2',
+    height: '100%',
   },
   firstSection: {
-    height: '10%',
+    height: 40,
     paddingHorizontal: 5,
+    backgroundColor: '#95C3A6',
+    marginVertical: 10,
+    justifyContent: 'space-around',
     ...sectionStyle,
   },
   secondSection: {
-    height: '20%',
+    height: 60,
+    justifyContent: 'space-between',
     ...sectionStyle,
   },
   separator: {
-    height: 5,
+    height: 10,
     width: '100%',
-    backgroundColor: '#FFFFFF',
   },
   emptyContainer: {
     alignItems: 'center',
@@ -280,11 +306,11 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'daxline-medium',
     color: '#7EAAAE',
-    marginTop: 20,
+    marginTop: 12,
     fontSize: 15,
   },
   cart: {
-    marginTop: 15,
+    marginTop: 10,
     width: '100%',
     alignItems: 'flex-end',
     paddingHorizontal: 30,
@@ -297,48 +323,71 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     width: '100%',
-    height: '60%',
+    height: '40%',
+    backgroundColor: '#EDEAE2',
   },
   firstText: {
     height: '10%',
-    paddingTop: 5,
+    paddingTop: 10,
+    paddingHorizontal: 30,
+    fontFamily: 'daxline-regular',
+    lineHeight: 17,
   },
   listContainer: {
     flex: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 100,
+    height: 80,
     width: '100%',
-    borderColor: '#000000',
-    borderWidth: 1,
+    backgroundColor: 'white',
   },
   name: {
+    fontFamily: 'daxline-medium',
     paddingLeft: 10,
+    width: '50%'
   },
   middleSection: {
     height: 100,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   price: {
     paddingRight: 10,
+    width: '15%',
+    fontFamily: 'daxline-medium',
+    textAlign: 'center',
   },
   sendButton: {
-    height: 30,
-    width: 80,
+    height: 35,
+    width: 100,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7EAAAE',
+    marginRight: 10,
   },
   backButton: {
-    height: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 35,
     width: 200,
+    backgroundColor: '#B0B19F',
   },
   stepper: {
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   qty: {
     fontSize: 18,
-  },
+    textAlign: 'center',
+    fontWeight: '400',
+  }
 });
 
 const mapStateToProps = state => (

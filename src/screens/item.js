@@ -126,7 +126,7 @@ export class ItemScreen extends React.Component {
               numberOfLines={10}
             />
             <View style={styles.bottom}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.addItemToCart()}>
                 <View style={styles.button}>
                   <Text style={{ fontFamily: 'daxline-medium' }}>
                     vai pro carrinho
