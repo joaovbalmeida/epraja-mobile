@@ -40,7 +40,7 @@ if (state.sessionReducer.tableNumber) {
 }
 
 class App extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     Font.loadAsync({
       'daxline-regular': require('./src/utils/DaxlineProRegular.ttf'),
       'daxline-medium': require('./src/utils/DaxlineProMedium.ttf'),
