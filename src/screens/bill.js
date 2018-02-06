@@ -4,7 +4,6 @@ import { Button, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetState, updateModal } from '../store/actions/action.session';
-import OrderItem from '../components/orderitem';
 import api from '../api';
 
 class BillScreen extends React.Component {
@@ -107,11 +106,18 @@ class BillScreen extends React.Component {
   mountData(json) {
     let price = 0;
     const billItems = json.menuItems.filter(billItem => billItem.itemStatus.match(this.props.itemStatuses.find(item => item.name === 'Entregue').id));
-    const newItems = billItems.map((arrayItem) => {
+    const newItems = [];
+    billItems.forEach((arrayItem) => {
       const newItem = arrayItem;
       newItem.itemData = this.props.items.find(item => item._id === arrayItem.menuItem);
+      if (newItem.quantity > 1){
+        for (i = 0; i < newItem.quantity; i++) {
+          newItems.push(newItem);
+        }
+      } else {
+        newItems.push(newItem);
+      }
       price += newItem.quantity * newItem.itemData.price;
-      return newItem;
     });
     const foodItems = newItems.filter(foodItem => foodItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Comidas').id));
     const beverageItems = newItems.filter(beverageItem => beverageItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Bebidas').id));
@@ -128,15 +134,66 @@ class BillScreen extends React.Component {
       .catch(error => error);
   }
 
-  renderItem(item) {
-    return (
-      <OrderItem
-        countdown="15:00"
-        qty={item.quantity}
-        name={item.itemData.name}
-        price={item.itemData.price}
-      />
-    );
+  renderSectionHead(section) {
+    if (section.title === 'Comidas'){
+      return (
+        <View>
+          <View style={{ height: 15 }}></View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
+              {section.title}
+            </Text>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
+              Hora que você pediu: 14:20
+            </Text>
+          </View>
+        </View>
+      )
+    } else {
+      return (
+        <View>
+          <View style={{ height: 20 }}></View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
+              {section.title}
+            </Text>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
+              Hora que você pediu: 14:20
+            </Text>
+          </View>
+        </View>
+      )
+    }
+  }
+
+  renderItem(item, section) {
+    if (section.title === 'Comidas'){
+      return (
+        <View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',backgroundColor: 'white' }}>
+            <Text style={{ fontFamily: 'daxline-medium', paddingLeft: 30 }}>
+              {item.itemData.name}
+            </Text>
+            <Text style={{ fontFamily: 'daxline-medium', paddingRight: 30 }}>
+              {item.itemData.price}
+            </Text>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',backgroundColor: '#B9C8C5' }}>
+            <Text style={{ fontFamily: 'daxline-medium', paddingLeft: 30 }}>
+              {item.itemData.name}
+            </Text>
+            <Text style={{ fontFamily: 'daxline-medium', paddingRight: 30 }}>
+              {item.itemData.price}
+            </Text>
+          </View>
+        </View>
+      );
+    }
   }
 
   render() {
@@ -165,44 +222,57 @@ class BillScreen extends React.Component {
     return (
       <View>
         <View style={styles.container}>
-          <View style={styles.firstText}>
-            <Text>
-              PEDIDOS JÁ ENTREGUES
-            </Text>
+          <Text style={styles.title}>
+            CONTA
+          </Text>
+          <View style={styles.cart}>
+            <Image
+              source={require('../utils/cart.png')}
+              width={31}
+              height={31}
+              />
           </View>
+          <Text style={styles.firstText}>
+            PEDIDOS JÁ ENTREGUES
+          </Text>
           <SectionList
             keyExtractor={() => this.getKey()}
             style={styles.sectionList}
-            renderItem={({ item }) => this.renderItem(item)}
-            renderSectionHeader={({ section }) => <Text>{section.title}</Text>}
+            renderItem={({ item, index, section }) => this.renderItem(item, section)}
+            renderSectionHeader={({ section }) => this.renderSectionHead(section)}
             sections={[
               { data: this.state.foodItems, title: 'Comidas' },
               { data: this.state.beverageItems, title: 'Bebidas' },
             ]}
           />
           <View style={styles.firstSection}>
-            <Text>
+            <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>
               TOTAL PARCIAL
             </Text>
-            <Text>
+            <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>
               {this.state.totalPrice}
             </Text>
           </View>
           <View style={styles.secondSection}>
-            <Button
-              title="INCLUIR NOVOS ITENS"
-              containerViewStyle={styles.backButton}
-              fontSize={12}
-              onPress={() => this.props.updateModal(false)}
-              allowFontScaling={false}
-            />
-            <Button
-              title="FECHAR CONTA"
-              containerViewStyle={styles.sendButton}
+            <TouchableOpacity onPress={() => this.props.updateModal(false)}>
+              <View style={styles.backButton}>
+                <Image
+                  source={require('../utils/arrowFilled.png')}
+                  width={17}
+                  height={25}
+                  />
+                <Text style={{ fontFamily: 'daxline-medium', color: 'white', fontSize: 15 }}>
+                  aqui é para pedir mais
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={() => this.closeBill()}
-              fontSize={12}
-              allowFontScaling={false}
-            />
+              style={styles.sendButton}>
+              <Text style={{ fontFamily: 'daxline-medium' }}>
+                FECHAR CONTA
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <Modal
@@ -306,7 +376,6 @@ BillScreen.propTypes = {
 
 const sectionStyle = {
   flexDirection: 'row',
-  justifyContent: 'space-between',
   alignItems: 'center',
   width: '100%',
 };
@@ -315,15 +384,20 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 10,
+    backgroundColor: '#EDEAE2',
+    height: '100%'
   },
   firstSection: {
-    height: '10%',
+    height: 40,
     paddingHorizontal: 5,
+    backgroundColor: '#95C3A6',
+    marginVertical: 10,
+    justifyContent: 'space-around',
     ...sectionStyle,
   },
   secondSection: {
-    height: '20%',
+    height: 60,
+    justifyContent: 'space-between',
     ...sectionStyle,
   },
   separator: {
@@ -368,9 +442,13 @@ const styles = StyleSheet.create({
   },
   firstText: {
     height: '10%',
-    paddingTop: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
+    paddingTop: 10,
+    paddingHorizontal: 30,
+    fontFamily: 'daxline-regular',
+    textAlign: 'left',
+    lineHeight: 18,
+    fontSize: 17,
   },
   listContainer: {
     flex: 0,
@@ -393,12 +471,23 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   sendButton: {
-    height: 30,
+    height: 35,
     width: 120,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7EAAAE',
+    marginRight: 10,
   },
   backButton: {
-    height: 30,
-    width: 170,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 35,
+    width: 200,
+    backgroundColor: '#B0B19F',
   },
   stepper: {
     height: 40,
