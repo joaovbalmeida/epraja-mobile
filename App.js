@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import { persistCombineReducers, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import { Font } from 'expo';
+import Expo, { Font } from 'expo';
 import MainNav, { BypassCheckinNav } from './src/layouts/main';
 import sessionReducer from './src/store/reducers/reducer.session';
 
@@ -40,16 +40,25 @@ if (state.sessionReducer.tableNumber) {
 }
 
 class App extends React.Component {
-  componentWillMount() {
-    Font.loadAsync({
+
+  state={
+    isReady: false
+  }
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
       'daxline-regular': require('./src/utils/DaxlineProRegular.ttf'),
       'daxline-medium': require('./src/utils/DaxlineProMedium.ttf'),
       'daxline-light': require('./src/utils/DaxlineProLight.ttf'),
       'daxline-extra-bold': require('./src/utils/DaxlineProExtraBold.ttf'),
     });
+    this.setState({isReady:true})
   }
 
   render() {
+    if (!this.state.isReady) {
+      return <Expo.AppLoading />;
+    }
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>

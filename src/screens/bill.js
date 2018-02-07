@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, SectionList, StyleSheet, Modal, TouchableHighlight, TextInput, Alert, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, TouchableOpacity, Image } from 'react-native';
-import { Button, CheckBox } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { resetState, updateModal } from '../store/actions/action.session';
 import api from '../api';
 
@@ -30,8 +31,8 @@ class BillScreen extends React.Component {
       foodItems: [],
       beverageItems: [],
       modalVisible: false,
-      checkbox: [false, false, false, false],
-      checkboxLabels: ['Insatisfeito', 'Pode melhorar', 'Satisfeito', 'Muito satisfeito'],
+      checkbox: [false, false, false],
+      checkboxLabels: ['Muito satisfeito', 'Satisfeito', 'Pode melhorar'],
       textInput: '',
     };
     this.keyCount = 0;
@@ -52,7 +53,7 @@ class BillScreen extends React.Component {
 
   manageCheckBox(number) {
     const newCheckbox = this.state.checkbox;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 3; i++) {
       if (i === number) {
         newCheckbox[i] = true;
       } else {
@@ -78,8 +79,8 @@ class BillScreen extends React.Component {
     api.surveys.create(survey)
       .then(() => {
         Alert.alert(
-          'OBRIGADO',
-          'Volte sempre.',
+          'Obrigada!',
+          'é para já que a gente se vê de novo.',
           [
             { text: 'Ok', onPress: () => this.resetNavigation() },
           ],
@@ -282,79 +283,85 @@ class BillScreen extends React.Component {
           onRequestClose={() => null}
         >
           <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
-            <KeyboardAvoidingView
-              style={styles.modal}
-              behavior="position"
-              keyboardVerticalOffset={-600}
-            >
-              <View style={styles.top}>
-                <View style={styles.blankView}>
-                  <TouchableHighlight
-                    onPress={() => this.setModalVisible(!this.state.modalVisible)}
-                  >
-                    <Text style={styles.closeButton}>&#10799;</Text>
-                  </TouchableHighlight>
-                </View>
-                <Text style={styles.modalTitle}>
-                  CONTA FECHADA
-                </Text>
-                <View style={styles.blankView} />
-              </View>
-              <View style={styles.center}>
-                <Text style={{ fontSize: 16 }}>
-                  AGUARDE SUA CONTA NA MESA PARA QUE SEJA FEITO O PAGAMENTO
-                </Text>
-                <View style={{ alignItems: 'flex-end', width: '100%' }}>
-                  <Text>
-                    TOTAL DE: R$ {this.state.totalPrice}
+            <View style={styles.modal}>
+              <TouchableOpacity
+                onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                style={{ marginTop: 20 }}
+                >
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                  <Image
+                    source={require('../utils/arrow.png')}
+                    width={27}
+                    height={41}
+                    />
+                  <Text style={{ fontFamily: 'daxline-regular', color: '#231F1F' }}>
+                    voltar
                   </Text>
                 </View>
-                <Text>
-                  Dê sua opinião para nosso app:
+              </TouchableOpacity>
+              <Text style={styles.modalTitle}>
+                CONTA FECHADA
+              </Text>
+              <Text style={styles.modalSubtitle}>
+                é para já que sua conta vai chegar na sua mesa.
+              </Text>
+              <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: 30, backgroundColor: '#95C3A6', marginVertical: 8 }}>
+                <Text style={{ fontFamily: 'daxline-medium', fontSize: 17 }}>
+                  TOTAL DE: R$ {this.state.totalPrice}
                 </Text>
+              </View>
+              <Text style={{ fontFamily: 'daxline-medium', color: '#7EAAAE', fontSize: 17, width: '100%', paddingHorizontal: 30 }}>
+                O que achou do é para ja?
+              </Text>
+              <Text style={{ fontFamily: 'daxline-medium', color: '#7EAAAE', width: '100%', paddingHorizontal: 30, marginBottom: 5 }}>
+                É para dar sua opinião. A gente quer cuidar cada vez melhor do seu pedido:
+              </Text>
+              <View style={{ width: '100%', justifyContent: 'center', paddingHorizontal: 30, backgroundColor: '#B9C8C5' }}>
                 <CheckBox
-                  title="Insatisfeito"
+                  title="Muito Satisfeito"
                   checked={this.state.checkbox[0]}
                   containerStyle={styles.checkbox}
+                  fontFamily="daxline-regular"
+                  uncheckedColor="black"
                   onPress={() => this.manageCheckBox(0)}
-                />
-                <CheckBox
-                  title="Pode melhorar"
-                  checked={this.state.checkbox[1]}
-                  containerStyle={styles.checkbox}
-                  onPress={() => this.manageCheckBox(1)}
-                />
+                  />
                 <CheckBox
                   title="Satisfeito"
+                  checked={this.state.checkbox[1]}
+                  containerStyle={styles.checkbox}
+                  fontFamily="daxline-regular"
+                  uncheckedColor="black"
+                  onPress={() => this.manageCheckBox(1)}
+                  />
+                <CheckBox
+                  title="Pode melhorar"
                   checked={this.state.checkbox[2]}
                   containerStyle={styles.checkbox}
+                  fontFamily="daxline-regular"
+                  uncheckedColor="black"
                   onPress={() => this.manageCheckBox(2)}
-                />
-                <CheckBox
-                  title="Muito satisfeito"
-                  checked={this.state.checkbox[3]}
-                  containerStyle={styles.checkbox}
-                  onPress={() => this.manageCheckBox(3)}
-                />
+                  />
               </View>
-              <View style={styles.bottom}>
-                <Text>
-                  OBS:
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  multiline
-                  returnKeyType="done"
-                  onChangeText={text => this.setState({ textInput: text })}
+              <TextInput
+                style={styles.textInput}
+                multiline
+                returnKeyType="done"
+                onChangeText={text => this.setState({ textInput: text })}
+                placeholder="Pode deixar suas considerações por aqui também."
+                allowFontScaling={false}
+                numberOfLines={10}
                 />
-                <Button
-                  buttonStyle={styles.bottomButton}
+              <KeyboardSpacer/>
+              <View style={{ width: '100%', justifyContent: 'center', alignItems: 'flex-end' }}>
+                <TouchableOpacity
                   onPress={() => this.endSession()}
-                  title="ENVIAR"
-                  allowFontScaling={false}
-                />
+                  style={styles.bottomButton}>
+                  <Text style={{ fontFamily: 'daxline-medium' }}>
+                    ENVIAR
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </KeyboardAvoidingView>
+            </View>
           </TouchableWithoutFeedback>
         </Modal>
       </View>
@@ -497,32 +504,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   modal: {
+    flex: 1,
     height: '100%',
     width: '100%',
-  },
-  top: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: '15%',
-    width: '100%',
-  },
-  center: {
-    height: '65%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 30,
-  },
-  bottom: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: '15%',
-    paddingTop: 30,
-    marginHorizontal: 10,
+    backgroundColor: '#EDEAE2',
   },
   modalTitle: {
-    fontSize: 20,
-    color: 'red',
+    fontSize: 18,
+    fontFamily: 'daxline-medium',
+    color: '#7EAAAE',
+    width: '100%',
+    textAlign: 'center',
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    fontFamily: 'daxline-regular',
+    color: '#7EAAAE',
+    marginTop: 5,
+    width: '100%',
+    paddingHorizontal: 30,
+    textAlign: 'left',
   },
   closeButton: {
     width: 30,
@@ -530,23 +531,40 @@ const styles = StyleSheet.create({
   },
   bottomButton: {
     width: 90,
+    height: 35,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7EAAAE',
+    marginRight: 20,
   },
   blankView: {
     width: 50,
   },
   checkbox: {
+    flex: 0,
     width: 200,
+    backgroundColor: '#B9C8C5',
+    borderWidth: 0,
   },
   textInput: {
-    fontSize: 14,
     height: 60,
-    width: '50%',
+    width: '80%',
     borderColor: 'black',
     borderWidth: 1,
     borderStyle: 'solid',
     borderRadius: 1,
     color: 'black',
     backgroundColor: 'white',
+    marginVertical: 8,
+    marginHorizontal: '10%',
+    paddingHorizontal: 15,
+    fontFamily: 'daxline-regular',
+    fontSize: 15,
+    textAlign: 'left',
+    lineHeight: 17,
   },
 });
 
