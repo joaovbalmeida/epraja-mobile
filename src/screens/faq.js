@@ -185,7 +185,7 @@ export default class FAQScreen extends React.Component {
               </View>
             </View>
             <KeyboardSpacer
-              topSpacing={150}
+              topSpacing={300}
               />
           </View>
         </TouchableWithoutFeedback>
@@ -196,7 +196,7 @@ export default class FAQScreen extends React.Component {
           onRequestClose={() => null}
         >
           <View style={styles.modal}>
-            <View style={styles.top}>
+            <View style={styles.modalTop}>
               <TouchableOpacity
                 onPress={() => this.setModalVisible(!this.state.modalVisible)}
                 >
@@ -209,7 +209,7 @@ export default class FAQScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <Text
-              style={styles.title}
+              style={styles.modalTitle}
               allowFontScaling={false}
               >
               {this.state.modalTitle}
@@ -234,6 +234,25 @@ FAQScreen.propTypes = {
   }).isRequired,
 };
 
+const top = {
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  height: 40,
+  width: '100%',
+  marginTop: 10,
+  marginLeft: 10,
+};
+
+const title = {
+  marginTop: 10,
+  paddingHorizontal: 30,
+  width: '100%',
+  textAlign: 'center',
+  fontSize: 18,
+  color: '#7EAAAE',
+  fontFamily: 'daxline-medium',
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -244,15 +263,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEAE2',
   },
   top: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    height: 40,
-    width: '100%',
-    marginTop: 10,
-    marginLeft: 10,
+    flex: 1,
+    ...top,
+  },
+  modalTop: {
+    ...top,
   },
   underTop: {
-    flex: 1,
+    flex: 10,
     justifyContent: 'space-between',
     marginHorizontal: 15,
     paddingTop: 10,
@@ -277,13 +295,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    marginTop: 10,
-    paddingHorizontal: 30,
-    width: '100%',
-    textAlign: 'center',
-    fontSize: 18,
-    color: '#7EAAAE',
-    fontFamily: 'daxline-medium',
+    flex: 1,
+    ...title,
+  },
+  modalTitle: {
+    ...title,
   },
   text: {
     fontFamily: 'daxline-medium',

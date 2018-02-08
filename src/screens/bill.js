@@ -305,8 +305,8 @@ class BillScreen extends React.Component {
               <Text style={styles.modalSubtitle}>
                 é para já que sua conta vai chegar na sua mesa.
               </Text>
-              <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: 30, backgroundColor: '#95C3A6', marginVertical: 8 }}>
-                <Text style={{ fontFamily: 'daxline-medium', fontSize: 17 }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%', height: 30, backgroundColor: '#95C3A6', marginVertical: 8 }}>
+                <Text style={{ fontFamily: 'daxline-medium', fontSize: 17, backgroundColor: 'transparent' }}>
                   TOTAL DE: R$ {this.state.totalPrice}
                 </Text>
               </View>
@@ -316,7 +316,7 @@ class BillScreen extends React.Component {
               <Text style={{ fontFamily: 'daxline-medium', color: '#7EAAAE', width: '100%', paddingHorizontal: 30, marginBottom: 5 }}>
                 É para dar sua opinião. A gente quer cuidar cada vez melhor do seu pedido:
               </Text>
-              <View style={{ width: '100%', justifyContent: 'center', paddingHorizontal: 30, backgroundColor: '#B9C8C5' }}>
+              <View style={{ flex: 5, width: '100%', justifyContent: 'center', paddingHorizontal: 30, backgroundColor: '#B9C8C5' }}>
                 <CheckBox
                   title="Muito Satisfeito"
                   checked={this.state.checkbox[0]}
@@ -351,7 +351,9 @@ class BillScreen extends React.Component {
                 allowFontScaling={false}
                 numberOfLines={10}
                 />
-              <KeyboardSpacer/>
+              <KeyboardSpacer
+                topSpacing={-50}
+              />
               <View style={{ width: '100%', justifyContent: 'center', alignItems: 'flex-end' }}>
                 <TouchableOpacity
                   onPress={() => this.endSession()}
@@ -505,8 +507,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    height: '100%',
-    width: '100%',
+    justifyContent: 'space-between',
     backgroundColor: '#EDEAE2',
   },
   modalTitle: {
@@ -517,6 +518,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalSubtitle: {
+    flex: 2,
     fontSize: 16,
     fontFamily: 'daxline-regular',
     color: '#7EAAAE',
@@ -539,14 +541,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#7EAAAE',
     marginRight: 20,
+    marginBottom: 20,
   },
   blankView: {
     width: 50,
   },
   checkbox: {
-    flex: 0,
+    flex: 1,
     width: 200,
-    backgroundColor: '#B9C8C5',
+    backgroundColor: 'transparent',
     borderWidth: 0,
   },
   textInput: {
