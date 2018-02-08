@@ -26,7 +26,7 @@ export default class FAQScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, paddingTop: 20, }}>
+      <View style={{ flex: 1, backgroundColor: '#EDEAE2' }}>
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
           <View style={styles.container}>
             <View style={styles.top}>
@@ -237,7 +237,7 @@ FAQScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: 20,
     paddingBottom: 50,
     height: '100%',
     width: '100%',

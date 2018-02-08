@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
     width: 35,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   qty: {
     fontSize: 18,

@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BEC2BD',
     color: '#231F1F',
     textAlign: 'center',
+    fontSize: 13,
     fontFamily: 'daxline-medium'
   },
   cart: {

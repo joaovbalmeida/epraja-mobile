@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, ImageBackground, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Image } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { NavigationActions } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
-import { Svg } from 'expo';
 import api from '../api';
 import { updateTableNumber, updateBusinessID, fetchMenuCategories, updateSession, updateBill } from '../store/actions/action.session';
 
@@ -65,18 +64,11 @@ class LoginScreen extends React.Component {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.content}>
               <View style={styles.logo}>
-                <Svg
-                  height="100"
-                  width="200"
-                  >
-                  <Svg.Image
-                    x="25%"
-                    width="50%"
-                    height="50%"
-                    opacity="1"
-                    href={require('../utils/logo.png')}
-                    />
-                </Svg>
+                <Image
+                  source={require('../utils/logo.png')}
+                  width={194}
+                  height={60}
+                  />
               </View>
               <View style={styles.midSection}>
                 <Text style={{ fontFamily: 'daxline-regular' }}>

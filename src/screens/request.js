@@ -106,7 +106,7 @@ class RequestScreen extends React.Component {
     if (section.title === 'Comidas'){
       return (
         <View>
-          <View style={{ height: 15 }}></View>
+          <View style={{ height: 15, backgroundColor: '#EDEAE2' }}></View>
           <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',backgroundColor: 'white' }}>
             <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
@@ -120,7 +120,7 @@ class RequestScreen extends React.Component {
     } else {
       return (
         <View>
-          <View style={{ height: 20 }}></View>
+          <View style={{ height: 20, backgroundColor: '#EDEAE2' }}></View>
           <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#B9C8C5' }}>
             <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
@@ -160,7 +160,7 @@ class RequestScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          MONTAGEM DO SEU PEDIDO
+          PEDIDOS JÁ ENVIADOS
         </Text>
         <View style={styles.cart}>
           <Image

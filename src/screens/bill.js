@@ -139,8 +139,8 @@ class BillScreen extends React.Component {
     if (section.title === 'Comidas'){
       return (
         <View>
-          <View style={{ height: 15 }}></View>
-          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View style={{ height: 15, backgroundColor: '#EDEAE2' }}></View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#EDEAE2' }}>
             <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
             </Text>
@@ -153,8 +153,8 @@ class BillScreen extends React.Component {
     } else {
       return (
         <View>
-          <View style={{ height: 20 }}></View>
-          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View style={{ height: 20, backgroundColor: '#EDEAE2' }}></View>
+          <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#EDEAE2' }}>
             <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
             </Text>
