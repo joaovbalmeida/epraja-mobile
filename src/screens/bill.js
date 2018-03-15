@@ -111,14 +111,8 @@ class BillScreen extends React.Component {
     billItems.forEach((arrayItem) => {
       const newItem = arrayItem;
       newItem.itemData = this.props.items.find(item => item._id === arrayItem.menuItem);
-      if (newItem.quantity > 1){
-        for (i = 0; i < newItem.quantity; i++) {
-          newItems.push(newItem);
-        }
-      } else {
-        newItems.push(newItem);
-      }
-      price += newItem.quantity * newItem.itemData.price;
+      newItems.push(newItem);
+      price += newItem.itemData.price;
     });
     const foodItems = newItems.filter(foodItem => foodItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Comidas').id));
     const beverageItems = newItems.filter(beverageItem => beverageItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Bebidas').id));
@@ -501,9 +495,6 @@ const styles = StyleSheet.create({
   stepper: {
     height: 40,
     width: 40,
-  },
-  qty: {
-    fontSize: 18,
   },
   modal: {
     flex: 1,

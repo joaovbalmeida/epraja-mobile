@@ -88,13 +88,25 @@ class AssemblyScreen extends React.Component {
   }
 
   sendOrder() {
-    const newCart = this.props.cart.map((item) => {
-      const newItem = {};
-      newItem.menuItem = item.id;
-      newItem.quantity = item.qty;
-      newItem.itemStatus = this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id;
-      return newItem;
-    });
+    const cart = this.props.cart;
+    const newCart = [];
+    for (i = 0; i < cart.length ; i++) {
+      if (cart[i].qty > 1) {
+         for (k = 0; k < cart[i].qty; k++) {
+           const newItem = {
+             menuItem: cart[i].id,
+             itemStatus: this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id,
+           };
+           newCart.push(newItem);
+         }
+      } else {
+        const newItem = {
+          menuItem: cart[i].id,
+          itemStatus: this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id,
+        };
+        newCart.push(newItem);
+      }
+    }
     api.bills.get(this.props.bill)
       .then((json) => {
         const mergedCart = [...newCart, ...json.menuItems];
