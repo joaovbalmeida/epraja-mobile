@@ -69,13 +69,14 @@ export const updateMenuItems = menuItems => (
   }
 );
 
-export const addToCart = (id, qty, name, price) => (
+export const addToCart = (id, qty, name, price, comment) => (
   {
     type: 'ADD_TO_CART',
     id,
     qty,
     name,
     price,
+    comment,
   }
 );
 

@@ -29,6 +29,7 @@ export class ItemScreen extends React.Component {
     super(props);
     this.state = {
       itemQty: 1,
+      comment: '',
     };
   }
 
@@ -52,7 +53,7 @@ export class ItemScreen extends React.Component {
       this.state.itemQty,
       this.props.navigation.state.params.name,
       this.props.navigation.state.params.price,
-      this.props.navigation.state.params.menuCategory,
+      this.state.comment,
     );
     this.props.navigation.goBack();
   }
@@ -124,6 +125,7 @@ export class ItemScreen extends React.Component {
               returnKeyType="done"
               allowFontScaling={false}
               numberOfLines={10}
+              onChangeText={(text) => {this.setState({ comment: text })}}
             />
             <View style={styles.bottom}>
               <TouchableOpacity onPress={() => this.addItemToCart()}>
@@ -236,7 +238,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    addToCart: (id, qty, name, price) => dispatch(addToCart(id, qty, name, price)),
+    addToCart: (id, qty, name, price, comment) => dispatch(addToCart(id, qty, name, price, comment)),
   }
 );
 

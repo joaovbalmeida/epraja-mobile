@@ -84,6 +84,7 @@ const sessionReducer = (state = initialState, action) => {
             qty: action.qty,
             name: item.name,
             price: item.price,
+            comment: item.comment,
           };
         }
         return item;
@@ -115,12 +116,14 @@ const sessionReducer = (state = initialState, action) => {
           qty: action.qty,
           name: action.name,
           price: action.price,
+          comment: action.comment,
         });
         return {
           ...state,
           cart: newCart,
         };
       }
+      console.log(action.comment);
       return {
         ...state,
         cart: [{
@@ -128,6 +131,7 @@ const sessionReducer = (state = initialState, action) => {
           qty: action.qty,
           name: action.name,
           price: action.price,
+          comment: action.comment,
         }],
       };
     case 'RESET_STATE':

@@ -6,7 +6,7 @@ import auth from 'feathers-authentication-client';
 import hooks from 'feathers-hooks';
 import { AsyncStorage } from 'react-native';
 
-const socket = io('http://api.tapster.mhalmeida.com/', {
+const socket = io('http://10.0.1.18:3030/', {
   transports: ['websocket'],
   forceNew: true,
 });

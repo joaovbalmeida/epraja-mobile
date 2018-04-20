@@ -96,6 +96,7 @@ class AssemblyScreen extends React.Component {
            const newItem = {
              menuItem: cart[i].id,
              itemStatus: this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id,
+             comment: cart[i].comment,
            };
            newCart.push(newItem);
          }
@@ -103,6 +104,7 @@ class AssemblyScreen extends React.Component {
         const newItem = {
           menuItem: cart[i].id,
           itemStatus: this.props.itemStatuses.filter(status => status.name.match('Pendente'))[0].id,
+          comment: cart[i].comment,
         };
         newCart.push(newItem);
       }
