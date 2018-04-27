@@ -27,16 +27,16 @@ if (process.env.NODE_ENV === 'development') {
   }));
 }
 
-console.ignoredYellowBox = ['Setting a timer', 'Warning: Each child in', 'Warning: Can only update'];
+console.ignoredYellowBox = ['Warning: Can only update'];
 
 const store = createStore(reducer, compose(applyMiddleware(...middlewares)));
 const persistor = persistStore(store);
 const route = [];
 const state = store.getState();
 if (state.sessionReducer.tableNumber) {
-  route.push(<BypassCheckinNav />);
+  route.push(<BypassCheckinNav key={0} />);
 } else {
-  route.push(<MainNav />);
+  route.push(<MainNav key={1} />);
 }
 
 class App extends React.Component {
@@ -57,7 +57,7 @@ class App extends React.Component {
 
   render() {
     if (!this.state.isReady) {
-      return <Expo.AppLoading />;
+      return <Expo.AppLoading key={2} />;
     }
     return (
       <Provider store={store}>

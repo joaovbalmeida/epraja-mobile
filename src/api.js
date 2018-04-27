@@ -13,9 +13,7 @@ const socket = io('http://10.0.1.18:3030/', {
 
 const feathersClient = feathers()
   .configure(hooks())
-  .configure(socketio(socket, {
-    timeout: 10000,
-  }))
+  .configure(socketio(socket))
   .configure(auth({
     storage: AsyncStorage,
   }));

@@ -29,13 +29,12 @@ class CheckinScreen extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.sessionActive) {
-      this.props.resetCart();
-    }
-    this.props.fetchSurveyRates();
-    this.props.fetchItemStatuses();
-    this.props.fetchBillStatuses();
-    this.makeRemoteRequest();
+    Promise.all([
+      !this.props.sessionActive ? this.props.resetCart() : null,
+      this.props.fetchSurveyRates(),
+      this.props.fetchItemStatuses(),
+      this.props.fetchBillStatuses(),
+    ]).then(() => this.makeRemoteRequest())
   }
 
   makeRemoteRequest() {
