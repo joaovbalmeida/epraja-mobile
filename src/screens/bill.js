@@ -138,9 +138,7 @@ class BillScreen extends React.Component {
             <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
             </Text>
-            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              Hora que você pediu: 14:20
-            </Text>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }} />
           </View>
         </View>
       )
@@ -152,9 +150,7 @@ class BillScreen extends React.Component {
             <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
             </Text>
-            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              Hora que você pediu: 14:20
-            </Text>
+            <Text style={{ color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }} />
           </View>
         </View>
       )

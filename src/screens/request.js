@@ -106,7 +106,7 @@ class RequestScreen extends React.Component {
               {section.title}
             </Text>
             <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              Hora: 14:20
+
             </Text>
           </View>
         </View>
@@ -119,9 +119,7 @@ class RequestScreen extends React.Component {
             <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingLeft: 30 }}>
               {section.title}
             </Text>
-            <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              Hora: 14:20
-            </Text>
+            <Text style={{ width: '30%', color: '#231F1F', fontFamily: 'daxline-medium', paddingRight: 30 }} />
           </View>
         </View>
       )
@@ -193,7 +191,7 @@ class RequestScreen extends React.Component {
                 width={17}
                 height={25}
                 />
-              <Text style={{ fontFamily: 'daxline-medium', color: 'white', fontSize: 15 }}>
+              <Text style={{ fontFamily: 'daxline-medium', color: 'white', fontSize: 14 }}>
                 aqui é para pedir mais
               </Text>
             </View>
