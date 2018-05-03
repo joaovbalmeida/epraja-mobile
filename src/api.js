@@ -6,7 +6,7 @@ import auth from 'feathers-authentication-client';
 import hooks from 'feathers-hooks';
 import { AsyncStorage } from 'react-native';
 
-const socket = io('http://10.0.1.18:3030/', {
+const socket = io('http://api.epraja.mhalmeida.com/', {
   transports: ['websocket'],
   forceNew: true,
 });
@@ -20,7 +20,7 @@ const feathersClient = feathers()
 
 feathersClient.authenticate({
   strategy: 'local',
-  email: 'marcos@gmail.com',
+  email: 'sylvia@epraja.com',
   password: '123456',
 }).catch(error => error);
 

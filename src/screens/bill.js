@@ -34,6 +34,7 @@ class BillScreen extends React.Component {
       checkbox: [false, false, false],
       checkboxLabels: ['Muito satisfeito', 'Satisfeito', 'Pode melhorar'],
       textInput: '',
+      endSession: false,
     };
     this.keyCount = 0;
     this.getKey = this.getKey.bind(this);
@@ -72,17 +73,25 @@ class BillScreen extends React.Component {
   }
 
   endSession() {
+    this.setState({ endSession: true })
     const survey = {};
     survey.business = this.props.businessID;
     survey.detail = this.state.textInput;
-    survey.surveyRate = this.props.rates.find(item => item.name === this.state.checkboxLabels[this.state.checkbox.indexOf(true)]).id;
+    if (this.state.checkbox.indexOf(true) > -1) {
+      survey.surveyRate = this.props.rates.find(item => item.name === this.state.checkboxLabels[this.state.checkbox.indexOf(true)]).id;
+    } else {
+      survey.surveyRate = this.props.rates[0];
+    }
     api.surveys.create(survey)
       .then(() => {
         Alert.alert(
           'Obrigada!',
           'é para já que a gente se vê de novo.',
           [
-            { text: 'Ok', onPress: () => this.resetNavigation() },
+            { text: 'Ok', onPress: () => {
+              this.setState({ endSession: false });
+              this.resetNavigation();
+            }},
           ],
           { cancelable: false }
         );
@@ -91,7 +100,10 @@ class BillScreen extends React.Component {
           'ERRO',
           'Não foi possivel enviar a pesquisa.',
           [
-            { text: 'Ok', onPress: () => this.resetNavigation() },
+            { text: 'Ok', onPress: () => {
+              this.setState({ endSession: false });
+              this.resetNavigation();
+            }},
           ],
           { cancelable: false }
         );
@@ -347,7 +359,8 @@ class BillScreen extends React.Component {
               <View style={{ width: '100%', justifyContent: 'center', alignItems: 'flex-end' }}>
                 <TouchableOpacity
                   onPress={() => this.endSession()}
-                  style={styles.bottomButton}>
+                  style={styles.bottomButton}
+                  disabled={this.state.endSession}>
                   <Text style={{ fontFamily: 'daxline-medium' }}>
                     ENVIAR
                   </Text>
