@@ -75,7 +75,7 @@ export class ItemScreen extends React.Component {
             />
             <View style={{ flex: 1.3, marginHorizontal: 20, marginVertical: 5, justifyContent: 'center', }}>
               <Text style={styles.price}>
-                {this.props.navigation.state.params.price}
+                R$ {this.props.navigation.state.params.price}
               </Text>
             </View>
             <View style={{ flex: 5, marginHorizontal: 20 }}>
@@ -104,7 +104,7 @@ export class ItemScreen extends React.Component {
                   +
                 </Text>
               </TouchableOpacity>
-              <View style={{ width: 45 }}>
+              <View>
                 <Text style={styles.qty}>
                   {this.state.itemQty}
                 </Text>
@@ -113,7 +113,7 @@ export class ItemScreen extends React.Component {
                 style={styles.stepper}
                 onPress={() => this.counterDecrease()}
               >
-                <Text style={{ fontSize: 60, paddingBottom: 4 }}>
+                <Text style={{ fontSize: 40 }}>
                   -
                 </Text>
               </TouchableOpacity>
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     fontWeight: '500',
+    marginTop: 10,
   },
   textInput: {
     height: 60,

@@ -31,7 +31,8 @@ class AssemblyScreen extends React.Component {
     });
     this.state = {
       totalPrice: price,
-      emptyMessage: 'VOCÊ AINDA NÃO TEM NENHUM PEDIDO EM SEU CARRINHO',
+      subTitle: 'Ops!',
+      message: 'Seu carrinho ainda está vazio.',
     };
   }
 
@@ -73,18 +74,11 @@ class AssemblyScreen extends React.Component {
     );
   }
 
-  cartSentAlert() {
-    Alert.alert(
-      'Pedido Enviado com sucesso',
-      'é para já que será servido',
-      [
-        {
-          text: 'Ok',
-          onPress: () => this.props.updateModal(false),
-        },
-      ],
-      { cancelable: false }
-    );
+  cartSentMessage() {
+    this.setState({
+      subTitle: 'Seu pedido foi enviado com sucesso!',
+      message: 'é para já que será servido.',
+    });
   }
 
   sendOrder() {
@@ -115,7 +109,7 @@ class AssemblyScreen extends React.Component {
         api.bills.patch(this.props.bill, { menuItems: mergedCart })
           .then(() => {
             this.props.resetCart();
-            this.cartSentAlert();
+            this.cartSentMessage();
           }, error => error);
       }, error => error)
       .catch(error => error);
@@ -128,10 +122,12 @@ class AssemblyScreen extends React.Component {
   renderItem(item) {
     return (
       <View style={styles.listContainer}>
-        <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', height: 80 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'flex-start', height: 80 }}>
           <TouchableOpacity
-            onPress={() => this.removeItem(item.id, item.qty, item.price)}
-            style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderColor: '#7EAAAE', borderWidth: 1, marginLeft: 2 }}
+            onPress={() => {
+              this.removeItem(item.id, item.qty, item.price);
+            }}
+            style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', marginLeft: 2 }}
             >
             <Text style={{ textAlign: 'center', fontFamily: 'daxline-extra-bold', fontSize: 20, color: '#7EAAAE' }}>X</Text>
           </TouchableOpacity>
@@ -172,7 +168,7 @@ class AssemblyScreen extends React.Component {
           style={styles.price}
           allowFontScaling={false}
         >
-          {item.price}
+          R$ {item.price}
         </Text>
       </View>
     );
@@ -193,10 +189,10 @@ class AssemblyScreen extends React.Component {
             />
           </View>
           <Text style={styles.emptySubtitle}>
-            Ops!
+            {this.state.subTitle}
           </Text>
           <Text style={styles.emptyText}>
-            Seu carrinho ainda está vazio.
+            {this.state.message}
           </Text>
         </View>
       );
@@ -310,6 +306,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     color: '#7EAAAE',
+    paddingHorizontal: 20,
   },
   emptyText: {
     fontFamily: 'daxline-regular',

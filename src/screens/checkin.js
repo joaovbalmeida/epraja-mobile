@@ -54,11 +54,13 @@ class CheckinScreen extends React.Component {
     const deliveryArea = item.deliveryArea || '';
     const description = `${address}\n${type}\n${businessHours}\n${deliveryArea}`;
     description.split('\n').map(i => <div>{i}</div>);
+    const i = new Array(item.price);
+    const price = i.join('$');
     return (
       <BusinessItem
         name={`${item.name}`}
         description={description}
-        price={`${item.price}`}
+        price={`${price}$`}
         image={`${item.picture}`}
         navigate={navigate}
         id={item._id}

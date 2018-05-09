@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#7EAAAE',
-    height: 32,
+    height: 40,
   },
 });
 

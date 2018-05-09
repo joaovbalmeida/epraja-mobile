@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import api from '../api';
-import { updateTableNumber, updateBusinessID, fetchMenuCategories, updateSession, updateBill } from '../store/actions/action.session';
+import { updateTableNumber, updateBusinessID, fetchMenuCategories, updateSession, updateBill, resetCart, fetchSurveyRates, fetchItemStatuses, fetchBillStatuses } from '../store/actions/action.session';
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -17,7 +17,25 @@ class LoginScreen extends React.Component {
     super(props);
     this.state = {
       number: 0,
+      button: false,
+      business: null,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.navigation.state.params === undefined) {
+      api.business.find()
+        .then((json) => {
+          this.setState({
+            business: json.data[0]._id || null,
+          });
+        })
+        .catch((error) => error);
+      !this.props.sessionActive ? this.props.resetCart() : null;
+      this.props.fetchSurveyRates();
+      this.props.fetchItemStatuses();
+      this.props.fetchBillStatuses();
+    }
   }
 
   componentDidUpdate() {
@@ -33,29 +51,49 @@ class LoginScreen extends React.Component {
   }
 
   createBill(tableNumber) {
-    const bill = {};
-    bill.table = this.state.number;
-    bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
-    bill.business = this.props.navigation.state.params.id;
-    api.bills.create(bill)
-      .then((json) => {
-        this.props.fetchMenuCategories(this.props.navigation.state.params.id);
-        this.props.updateBusinessID(this.props.navigation.state.params.id);
-        this.props.updateNumber(tableNumber);
-        this.props.updateBill(json._id);
-        this.props.updateSession(true);
-      }, (error) => {
-        console.log(error);
+    this.setState({ button: true });
+
+    if (this.state.number !== 0) {
+      const bill = {};
+      bill.table = this.state.number;
+      bill.billStatus = this.props.billStatuses.filter(item => item.name.match('Aberta'))[0].id;
+      if (this.props.navigation.state.params !== undefined) {
+        bill.business = this.props.navigation.state.params.id;
+      } else {
+        bill.business = this.state.business;
+      }
+
+      api.bills.create(bill)
+        .then((json) => {
+          this.props.fetchMenuCategories(bill.business);
+          this.props.updateBusinessID(bill.business);
+          this.props.updateNumber(tableNumber);
+          this.props.updateBill(json._id);
+          this.props.updateSession(true);
+          this.setState({ button: false });
+        }, () => {
+          Alert.alert(
+            'Mesa Ocupada',
+            'Já existe uma conta aberta para está mesa.',
+            [
+              { text: 'Ok' },
+            ],
+            { cancelable: false }
+          );
+          this.setState({ button: false });
+        })
+        .catch(() => this.setState({ button: false }));
+      } else {
         Alert.alert(
-          'Mesa Ocupada',
-          'Já existe uma conta aberta para está mesa.',
+          'Mesa Inválida',
+          'Este número de mesa não é valido.',
           [
             { text: 'Ok' },
           ],
           { cancelable: false }
         );
-      })
-      .catch(error => error);
+        this.setState({ button: false });
+      }
   }
 
   render() {
@@ -94,6 +132,7 @@ class LoginScreen extends React.Component {
                 <TouchableOpacity
                   onPress={() => this.createBill(this.state.number)}
                   style={styles.button}
+                  disabled={this.state.button}
                   >
                   <Text style={styles.buttonText}>
                     é pra entrar
@@ -206,6 +245,10 @@ const mapDispatchToProps = dispatch => (
     updateBusinessID: id => dispatch(updateBusinessID(id)),
     fetchMenuCategories: id => dispatch(fetchMenuCategories(id)),
     updateSession: active => dispatch(updateSession(active)),
+    resetCart: () => dispatch(resetCart()),
+    fetchSurveyRates: () => dispatch(fetchSurveyRates()),
+    fetchItemStatuses: () => dispatch(fetchItemStatuses()),
+    fetchBillStatuses: () => dispatch(fetchBillStatuses()),
   }
 );
 

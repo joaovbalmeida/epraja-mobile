@@ -6,7 +6,7 @@ import LoginScreen from './../screens/login';
 import CheckinDrawer from './checkin.drawer';
 
 const CheckinStack = StackNavigator({
-  checkinDrawer: { screen: CheckinDrawer },
+  //checkinDrawer: { screen: CheckinDrawer },
   loginScreen: { screen: LoginScreen },
 }, {
   headerMode: 'float',

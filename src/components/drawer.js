@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#7EAAAE',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 15,
     marginVertical: 10,
     height: 30,
     width: 130,
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
     fontFamily: 'daxline-medium',
     color: 'white',
     fontSize: 13,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
     borderRadius: 2,

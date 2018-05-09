@@ -51,8 +51,8 @@ class RequestScreen extends React.Component {
       newItems.push(newItem);
       price += newItem.itemData.price;
     });
-    const foodItems = newItems.filter(foodItem => foodItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Comidas').id));
-    const beverageItems = newItems.filter(beverageItem => beverageItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'Bebidas').id));
+    const foodItems = newItems.filter(foodItem => foodItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'é para Comer').id));
+    const beverageItems = newItems.filter(beverageItem => beverageItem.itemData.menuCategory.match(this.props.categories.find(item => item.name === 'é para Beber').id));
     this.setState({
       totalPrice: price,
       foodItems: foodItems || [],
@@ -67,7 +67,7 @@ class RequestScreen extends React.Component {
   }
 
   renderItem(item, section) {
-    if (section.title === 'Comidas'){
+    if (section.title === 'Comidas') {
       return (
         <View>
           <View style={{ height: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',backgroundColor: 'white' }}>
@@ -75,7 +75,7 @@ class RequestScreen extends React.Component {
               {item.itemData.name}
             </Text>
             <Text style={{ fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              {item.itemData.price}
+              R$ {item.itemData.price}
             </Text>
           </View>
         </View>
@@ -88,7 +88,7 @@ class RequestScreen extends React.Component {
               {item.itemData.name}
             </Text>
             <Text style={{ fontFamily: 'daxline-medium', paddingRight: 30 }}>
-              {item.itemData.price}
+              R$ {item.itemData.price}
             </Text>
           </View>
         </View>
@@ -180,7 +180,7 @@ class RequestScreen extends React.Component {
             TOTAL PARCIAL
           </Text>
           <Text style={{ fontFamily: 'daxline-medium', fontSize: 16 }}>
-            {this.state.totalPrice}
+            R$ {this.state.totalPrice}
           </Text>
         </View>
         <View style={styles.secondSection}>

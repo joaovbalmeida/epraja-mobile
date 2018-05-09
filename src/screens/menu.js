@@ -26,7 +26,7 @@ class MenuScreen extends React.Component {
     super(props);
     this.state = {
       data: this.props.items,
-      category: 'é pra tudo',
+      category: 'é pra Comer e Beber',
     };
   }
 
@@ -58,7 +58,7 @@ class MenuScreen extends React.Component {
     if (id === 0) {
       this.setState({
         data: this.props.items,
-        category: 'é pra tudo',
+        category: 'é para Comer e Beber',
       });
     } else {
       this.setState({
@@ -89,62 +89,75 @@ class MenuScreen extends React.Component {
   }
 
   renderItem(item, navigate) {
-    if(item.menuCategory === '5a29f5f71c2237001330ddaa'){
-      return (
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => (
-            navigate('itemScreen', {
-              name: item.name,
-              description: item.description,
-              price: item.price,
-              image: item.picture,
-              id: item._id,
-              menuCategory: item.menuCategory,
-            })
-          )}
-          >
-          <DrinkItem
-            name={item.name}
-            description={item.description}
-            price={`${item.price}`}
-            image={`${item.picture}`}
-          />
-        </TouchableOpacity>
-      );
-    } else {
-      return (
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => (
-            navigate('itemScreen', {
-              name: item.name,
-              description: item.description,
-              price: item.price,
-              image: item.picture,
-              id: item._id,
-              menuCategory: item.menuCategory,
-            })
-          )}
-          >
-          <FoodItem
-            name={item.name}
-            description={item.description}
-            price={`${item.price}`}
-            image={`${item.picture}`}
-          />
-        </TouchableOpacity>
-      );
+    const category = this.props.categories.filter(c => c.id === item.menuCategory);
+    if (category.length) {
+      if(category[0].name === 'é para Beber'){
+        return (
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => (
+              navigate('itemScreen', {
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                image: item.picture,
+                id: item._id,
+                menuCategory: item.menuCategory,
+              })
+            )}
+            >
+            <DrinkItem
+              name={item.name}
+              description={item.description}
+              price={`R$ ${item.price}`}
+              image={`${item.picture}`}
+            />
+          </TouchableOpacity>
+        );
+      } else {
+        return (
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => (
+              navigate('itemScreen', {
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                image: item.picture,
+                id: item._id,
+                menuCategory: item.menuCategory,
+              })
+            )}
+            >
+            <FoodItem
+              name={item.name}
+              description={item.description}
+              price={`R$ ${item.price}`}
+              image={`${item.picture}`}
+            />
+          </TouchableOpacity>
+        );
+      }
     }
   }
 
   render() {
     const { navigate } = this.props.navigation;
-    const categories = this.props.categories.map(item => (
-      <MenuOption key={item.id} value={item.id}>
-        <Text>{item.name}</Text>
-      </MenuOption>
-    ));
+    const categories = this.props.categories.map(item => {
+      if (item.name === 'é para Comer') {
+        return (
+          <MenuOption key={item.id} value={item.id}>
+            <Text>Comidas</Text>
+          </MenuOption>
+        );
+      } else if (item.name === 'é para Beber') {
+        return (
+          <MenuOption key={item.id} value={item.id}>
+            <Text>Bebidas</Text>
+          </MenuOption>
+        );
+      }
+    });
     return (
       <MenuContext style={styles.view}>
         <View style={styles.searchBar}>
