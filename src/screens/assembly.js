@@ -36,42 +36,28 @@ class AssemblyScreen extends React.Component {
     };
   }
 
-  counterAdd(id, qty, price) {
-    this.props.updateCart(id, qty + 1);
+  counterAdd(item) {
+    this.props.updateCart(item.id, item.qty + 1, item.comment);
     this.setState({
-      totalPrice: this.state.totalPrice + price,
+      totalPrice: this.state.totalPrice + item.price,
     });
   }
 
-  counterDecrease(id, qty, price) {
-    if (qty > 1) {
-      this.props.updateCart(id, qty - 1);
+  counterDecrease(item) {
+    if (item.qty > 1) {
+      this.props.updateCart(item.id, item.qty - 1, item.comment);
       this.setState({
-        totalPrice: this.state.totalPrice - price,
+        totalPrice: this.state.totalPrice - item.price,
       });
     }
   }
 
-  removeItem(id, qty, price) {
-    Alert.alert(
-      'Atenção',
-      'Deseja remover este item do seu pedido?',
-      [
-        {
-          text: 'Remover',
-          onPress: () => {
-            this.props.removeFromCart(id);
-            this.setState({
-              totalPrice: this.state.totalPrice - (price * qty),
-            });
-          },
-        },
-        {
-          text: 'Cancelar', style: 'cancel',
-        },
-      ],
-      { cancelable: false }
-    );
+  removeItem(item) {
+    console.log()
+    this.props.removeFromCart(item.id, item.comment);
+    this.setState({
+      totalPrice: this.state.totalPrice - (item.price * item.qty),
+    });
   }
 
   cartSentMessage() {
@@ -125,25 +111,35 @@ class AssemblyScreen extends React.Component {
         <View style={{ justifyContent: 'center', alignItems: 'flex-start', height: 80 }}>
           <TouchableOpacity
             onPress={() => {
-              this.removeItem(item.id, item.qty, item.price);
+              this.removeItem(item);
             }}
             style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', marginLeft: 2 }}
-            >
+          >
             <Text style={{ textAlign: 'center', fontFamily: 'daxline-extra-bold', fontSize: 20, color: '#7EAAAE' }}>X</Text>
           </TouchableOpacity>
         </View>
-        <Text
-          style={styles.name}
-          allowFontScaling={false}
-          ellipsizeMode="tail"
-          numberOfLines={2}
-        >
-          {item.name}
-        </Text>
+        <View style={{ flexDirection: 'column', width: '50%', height: '100%', justifyContent: 'center' }}>
+          <Text
+            style={styles.name}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            numberOfLines={2}
+          >
+            {item.name}
+          </Text>
+          <Text
+            style={styles.comment}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            numberOfLines={2}
+          >
+            {item.comment}
+          </Text>
+        </View>
         <View style={styles.middleSection}>
           <TouchableOpacity
             style={styles.stepper}
-            onPress={() => this.counterAdd(item.id, item.qty, item.price)}
+            onPress={() => this.counterAdd(item)}
             >
             <Text style={{ fontSize: 28 }}>
               +
@@ -157,8 +153,8 @@ class AssemblyScreen extends React.Component {
           </Text>
           <TouchableOpacity
             style={styles.stepper}
-            onPress={() => this.counterDecrease(item.id, item.qty, item.price)}
-            >
+            onPress={() => this.counterDecrease(item)}
+          >
             <Text style={{ fontSize: 32, paddingBottom: 12, }}>
               -
             </Text>
@@ -355,8 +351,10 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: 'daxline-medium',
-    paddingLeft: 10,
-    width: '50%'
+  },
+  comment: {
+    fontFamily: 'daxline-medium',
+    fontSize: 12,
   },
   middleSection: {
     height: 100,
@@ -416,8 +414,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     dispatch,
-    removeFromCart: id => dispatch(removeFromCart(id)),
-    updateCart: (id, qty) => dispatch(updateCart(id, qty)),
+    removeFromCart: (id, comment) => dispatch(removeFromCart(id, comment)),
+    updateCart: (id, qty, comment) => dispatch(updateCart(id, qty, comment)),
     updateBill: bill => dispatch(updateBill(bill)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
     updateSession: session => dispatch(updateSession(session)),

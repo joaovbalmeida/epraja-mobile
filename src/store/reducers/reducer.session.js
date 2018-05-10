@@ -66,7 +66,12 @@ const sessionReducer = (state = initialState, action) => {
         modalVisible: action.modalVisible,
       };
     case 'REMOVE_FROM_CART':
-      const cartWithoutItem = state.cart.filter(item => item.id !== action.id);
+      const cartWithoutItem = state.cart.filter((item) => {
+        if (item.id === action.id && item.comment === action.comment) {
+          return false;
+        }
+        return true;
+      });
       return {
         ...state,
         cart: cartWithoutItem,
@@ -78,7 +83,7 @@ const sessionReducer = (state = initialState, action) => {
       };
     case 'UPDATE_CART':
       const updatedCart = state.cart.map((item) => {
-        if (item.id === action.id) {
+        if (item.id === action.id && item.comment === action.comment) {
           return {
             id: item.id,
             qty: action.qty,
@@ -98,7 +103,7 @@ const sessionReducer = (state = initialState, action) => {
         let index = 0;
         const newCart = state.cart;
         const itemRepeated = newCart.some((item, i) => {
-          if (item.id === action.id) {
+          if (item.id === action.id && item.comment === action.comment) {
             index = i;
             return true;
           }
@@ -123,7 +128,6 @@ const sessionReducer = (state = initialState, action) => {
           cart: newCart,
         };
       }
-      console.log(action.comment);
       return {
         ...state,
         cart: [{

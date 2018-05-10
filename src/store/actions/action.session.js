@@ -80,18 +80,20 @@ export const addToCart = (id, qty, name, price, comment) => (
   }
 );
 
-export const updateCart = (id, qty) => (
+export const updateCart = (id, qty, comment) => (
   {
     type: 'UPDATE_CART',
     id,
     qty,
+    comment,
   }
 );
 
-export const removeFromCart = id => (
+export const removeFromCart = (id, comment) => (
   {
     type: 'REMOVE_FROM_CART',
     id,
+    comment,
   }
 );
 
