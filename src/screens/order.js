@@ -3,12 +3,41 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { PropTypes } from 'prop-types';
-import { updateModal } from '../store/actions/action.session';
+import { updateModal, resetState } from '../store/actions/action.session';
+import api from '../api';
 
 class OrderScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      disabled: false,
+    }
+  }
+
+  checkout() {
+    this.setState({ disabled: true })
+    api.bills.find({ query: { _id: this.props.bill } })
+      .then((response) => {
+      if (response.data.length > 0) {
+        if (response.data[0].menuItems.length === 0) {
+          const status = this.props.billStatuses.find(item => item.name === 'Fechada').id;
+          api.bills.patch(this.props.bill, { billStatus: status })
+            .then(() => {
+              this.setState({ disabled: false });
+              this.props.updateModal(false);
+              this.props.resetState();
+            }, (error) => this.setState({ disabled: false }));
+        }
+        this.setState({ disabled: false });
+      }
+      this.setState({ disabled: false });
+    }, () => this.setState({ disabled: false }));
+  }
 
   render() {
     const cart = [];
@@ -71,6 +100,20 @@ class OrderScreen extends React.Component {
             onPress={() => this.props.navigation.navigate('billScreen')}
           />
         </View>
+        {
+          this.props.sessionActive ?
+            <View style={{ alignItems: 'flex-start', width: '100%', paddingHorizontal: 30, paddingTop: 40 }}
+            >
+              <Button
+                title="CHECK OUT"
+                fontFamily="daxline-regular"
+                fontSize={13}
+                buttonStyle={styles.checkout}
+                disabled={this.state.disabled}
+                onPress={() => this.checkout()}
+              />
+            </View> : null
+        }
       </View>
     );
   }
@@ -142,11 +185,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#7EAAAE',
     height: 40,
   },
+  checkout: {
+    backgroundColor: '#7EAAAE',
+    height: 40,
+  },
 });
 
 const mapStateToProps = state => (
   {
     cart: state.sessionReducer.cart,
+    sessionActive: state.sessionReducer.sessionActive,
+    billStatuses: state.sessionReducer.billStatuses,
+    bill: state.sessionReducer.bill,
   }
 );
 
@@ -154,6 +204,7 @@ const mapDispatchToProps = dispatch => (
   {
     dispatch,
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+    resetState: () => dispatch(resetState()),
   }
 );
 
