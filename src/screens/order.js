@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { PropTypes } from 'prop-types';
-import { updateModal, resetState } from '../store/actions/action.session';
+import { updateModal, resetState, updateBillUsed } from '../store/actions/action.session';
 import api from '../api';
 
 class OrderScreen extends React.Component {
@@ -25,12 +25,13 @@ class OrderScreen extends React.Component {
       .then((response) => {
       if (response.data.length > 0) {
         if (response.data[0].menuItems.length === 0) {
-          const status = this.props.billStatuses.find(item => item.name === 'Fechada').id;
+          const status = this.props.billStatuses.find(item => item.name === 'Encerrada').id;
           api.bills.patch(this.props.bill, { billStatus: status })
             .then(() => {
               this.setState({ disabled: false });
               this.props.updateModal(false);
               this.props.resetState();
+              this.props.updateBillUsed(false);
             }, (error) => this.setState({ disabled: false }));
         }
         this.setState({ disabled: false });
@@ -71,9 +72,9 @@ class OrderScreen extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
-          <Text style={styles.title}>
-            É NO CARRINHO
-          </Text>
+        <Text style={styles.title}>
+          É NO CARRINHO
+        </Text>
         <View style={styles.rightSection}>
           {cart[0]}
         </View>
@@ -101,7 +102,7 @@ class OrderScreen extends React.Component {
           />
         </View>
         {
-          this.props.sessionActive ?
+          !this.props.billUsed ?
             <View style={{ alignItems: 'flex-start', width: '100%', paddingHorizontal: 30, paddingTop: 40 }}
             >
               <Button
@@ -121,6 +122,7 @@ class OrderScreen extends React.Component {
 
 OrderScreen.propTypes = {
   updateModal: PropTypes.func.isRequired,
+  updateBillUsed: PropTypes.func.isRequired,
   navigation: PropTypes.shape({
     dispatch: PropTypes.func,
     goBack: PropTypes.func,
@@ -158,10 +160,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   bottom: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: '70%',
     width: '100%',
+    height: '100%',
     paddingHorizontal: 30,
     paddingVertical: 20,
   },
@@ -194,9 +196,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => (
   {
     cart: state.sessionReducer.cart,
-    sessionActive: state.sessionReducer.sessionActive,
     billStatuses: state.sessionReducer.billStatuses,
     bill: state.sessionReducer.bill,
+    billUsed: state.sessionReducer.billUsed,
   }
 );
 
@@ -204,6 +206,7 @@ const mapDispatchToProps = dispatch => (
   {
     dispatch,
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
+    updateBillUsed: used => dispatch(updateBillUsed(used)),
     resetState: () => dispatch(resetState()),
   }
 );

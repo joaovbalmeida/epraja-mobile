@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text, Alert, TouchableOpacity, Image } from
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeFromCart, updateCart, updateModal, resetCart, updateBill, updateSession } from '../store/actions/action.session';
+import { removeFromCart, updateCart, updateModal, resetCart, updateBill, updateSession, updateBillUsed } from '../store/actions/action.session';
 import api from '../api';
 
 class AssemblyScreen extends React.Component {
@@ -94,6 +94,7 @@ class AssemblyScreen extends React.Component {
         const mergedCart = [...newCart, ...json.menuItems];
         api.bills.patch(this.props.bill, { menuItems: mergedCart })
           .then(() => {
+            this.props.updateBillUsed(true);
             this.props.resetCart();
             this.cartSentMessage();
           }, error => error);
@@ -256,6 +257,7 @@ AssemblyScreen.propTypes = {
   removeFromCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   updateModal: PropTypes.func.isRequired,
+  updateBillUsed: PropTypes.func.isRequired,
   bill: PropTypes.string.isRequired,
   resetCart: PropTypes.func.isRequired,
 };
@@ -417,6 +419,7 @@ const mapDispatchToProps = dispatch => (
     removeFromCart: (id, comment) => dispatch(removeFromCart(id, comment)),
     updateCart: (id, qty, comment) => dispatch(updateCart(id, qty, comment)),
     updateBill: bill => dispatch(updateBill(bill)),
+    updateBillUsed: used => dispatch(updateBillUsed(used)),
     updateModal: modalVisible => dispatch(updateModal(modalVisible)),
     updateSession: session => dispatch(updateSession(session)),
     resetCart: () => dispatch(resetCart()),

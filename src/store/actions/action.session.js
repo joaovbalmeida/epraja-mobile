@@ -27,6 +27,13 @@ export const updateBill = bill => (
   }
 );
 
+export const updateBillUsed = used => (
+  {
+    type: 'UPDATE_BILL_USED',
+    used,
+  }
+);
+
 export const updateMenuCategories = menuCategories => (
   {
     type: 'UPDATE_MENU_CATEGORIES',

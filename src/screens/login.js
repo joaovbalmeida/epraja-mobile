@@ -17,37 +17,38 @@ class LoginScreen extends React.Component {
     super(props);
     this.state = {
       number: 0,
-      button: false,
+      button: true,
       business: null,
     };
   }
 
   componentDidMount() {
-    if (this.props.navigation.state.params === undefined) {
+    Promise.all([
       api.business.find()
-        .then((json) => {
-          this.setState({
-            business: json.data[0]._id || null,
-          });
+      .then((json) => {
+        this.setState({
+          business: json.data[0]._id || null,
+        });
+      }),
+      !this.props.sessionActive ? this.props.resetCart() : null,
+      this.props.fetchSurveyRates(),
+      this.props.fetchItemStatuses(),
+      this.props.fetchBillStatuses(),
+    ]).then(() => {
+      if (this.props.sessionActive) {
+        this.props.navigation.dispatch(NavigationActions.reset({
+          index: 0,
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: 'menuStack' }),
+          ],
+        }));
+      } else {
+        this.setState({
+          button: false
         })
-        .catch((error) => error);
-      !this.props.sessionActive ? this.props.resetCart() : null;
-      this.props.fetchSurveyRates();
-      this.props.fetchItemStatuses();
-      this.props.fetchBillStatuses();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.sessionActive) {
-      this.props.navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: 'menuStack' }),
-        ],
-      }));
-    }
+      }
+    })
   }
 
   createBill(tableNumber) {
@@ -65,12 +66,21 @@ class LoginScreen extends React.Component {
 
       api.bills.create(bill)
         .then((json) => {
-          this.props.fetchMenuCategories(bill.business);
-          this.props.updateBusinessID(bill.business);
-          this.props.updateNumber(tableNumber);
-          this.props.updateBill(json._id);
-          this.props.updateSession(true);
-          this.setState({ button: false });
+          Promise.all([
+            this.props.fetchMenuCategories(bill.business),
+            this.props.updateBusinessID(bill.business),
+            this.props.updateNumber(tableNumber),
+            this.props.updateBill(json._id),
+            this.props.updateSession(true),
+          ]).then(() => {
+            this.props.navigation.dispatch(NavigationActions.reset({
+            index: 0,
+            key: null,
+            actions: [
+              NavigationActions.navigate({ routeName: 'menuStack' }),
+            ],
+        }));
+          })
         }, () => {
           Alert.alert(
             'Mesa Ocupada',
@@ -97,6 +107,9 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+    if (this.props.sessionActive) {
+      return <View style={styles.container} />
+    }
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

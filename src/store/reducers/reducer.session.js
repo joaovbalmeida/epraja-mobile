@@ -2,6 +2,7 @@ const initialState = {
   sessionActive: false,
   tableNumber: 0,
   bill: '',
+  billUsed: false,
   menuCategories: [],
   itemStatuses: [],
   rates: [],
@@ -29,6 +30,11 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         bill: action.bill,
+      };
+    case 'UPDATE_BILL_USED':
+      return {
+        ...state,
+        billUsed: action.used,
       };
     case 'UPDATE_MENU_CATEGORIES':
       return {
