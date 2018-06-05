@@ -18,6 +18,12 @@ const feathersClient = feathers()
     storage: AsyncStorage,
   }));
 
+feathersClient.authenticate({
+  strategy: 'local',
+  email: 'sylvia@epraja.com',
+  password: '123456',
+}).catch(error => console.log(error));
+
 export default {
   auth: feathersClient.authenticate,
   business: feathersClient.service('businesses'),

@@ -24,12 +24,6 @@ class LoginScreen extends React.Component {
 
   componentDidMount() {
     Promise.all([
-      api.business.find()
-      .then((json) => {
-        this.setState({
-          business: json.data[0]._id || null,
-        });
-      }),
       !this.props.sessionActive ? this.props.resetCart() : null,
       this.props.fetchSurveyRates(),
       this.props.fetchItemStatuses(),
@@ -74,13 +68,13 @@ class LoginScreen extends React.Component {
             this.props.updateSession(true),
           ]).then(() => {
             this.props.navigation.dispatch(NavigationActions.reset({
-            index: 0,
-            key: null,
-            actions: [
-              NavigationActions.navigate({ routeName: 'menuStack' }),
-            ],
-        }));
-          })
+              index: 0,
+              key: null,
+              actions: [
+                NavigationActions.navigate({ routeName: 'menuStack' }),
+              ],
+            }));
+          }, () => this.setState({ button: false }))
         }, () => {
           Alert.alert(
             'Mesa Ocupada',
@@ -143,7 +137,25 @@ class LoginScreen extends React.Component {
                   onChangeText={tableNumber => this.setState({ number: Number(tableNumber) })}
                   />
                 <TouchableOpacity
-                  onPress={() => this.createBill(this.state.number)}
+                  onPress={() => {
+                    api.business.find()
+                      .then((json) => {
+                        this.setState({
+                          business: json.data[0]._id || null,
+                        });
+                        this.createBill(this.state.number);
+                      }, (error) => {
+                        Alert.alert(
+                          'Erro de Conexão',
+                          error.toString(),
+                          [
+                            { text: 'Ok' },
+                          ],
+                          { cancelable: false }
+                        );
+                        this.setState({ button: false });
+                      });
+                  }}
                   style={styles.button}
                   disabled={this.state.button}
                   >
