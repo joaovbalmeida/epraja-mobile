@@ -30,6 +30,7 @@ class BillScreen extends React.Component {
       totalPrice: 0,
       foodItems: [],
       beverageItems: [],
+      remainingOrders: true,
       modalVisible: false,
       checkbox: [false, false, false],
       checkboxLabels: ['Muito satisfeito', 'Satisfeito', 'Pode melhorar'],
@@ -61,6 +62,12 @@ class BillScreen extends React.Component {
     this.setState({
       checkbox: newCheckbox,
     });
+  }
+
+  getItemStatusesName(id) {
+    const result = this.props.itemStatuses.filter(i => i.id === id);
+
+    return result.length ? result[0].name : {};
   }
 
   endSession() {
@@ -99,7 +106,13 @@ class BillScreen extends React.Component {
 
   mountData(json) {
     let price = 0;
-    const billItems = json.menuItems.filter(billItem => billItem.itemStatus.match(this.props.itemStatuses.find(item => item.name === 'Entregue').id));
+    const billItems = json.menuItems.filter(billItem => {
+      return (
+        !billItem.canceled
+        &&
+        this.getItemStatusesName(billItem.itemStatus) === 'Entregue'
+      );
+    });
     const newItems = [];
     billItems.forEach((arrayItem) => {
       const newItem = arrayItem;
@@ -118,7 +131,17 @@ class BillScreen extends React.Component {
 
   fetchItems() {
     api.bills.get(this.props.bill)
-      .then(json => this.mountData(json))
+      .then((json) => {
+        let remainingOrders = false;
+        json.menuItems.forEach(i => {
+          if (!i.canceled && this.getItemStatusesName(i.itemStatus) !== 'Entregue') {
+            remainingOrders = true;
+          }
+        });
+        console.log(remainingOrders);
+        this.setState({ remainingOrders });
+        this.mountData(json);
+      })
       .catch(error => error);
   }
 
@@ -250,13 +273,16 @@ class BillScreen extends React.Component {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.closeBill()}
-              style={styles.sendButton}>
-              <Text style={{ fontFamily: 'daxline-medium' }}>
-                FECHAR CONTA
-              </Text>
-            </TouchableOpacity>
+            {
+              this.state.remainingOrders ? null :
+              <TouchableOpacity
+                onPress={() => this.closeBill()}
+                style={styles.sendButton}>
+                <Text style={{ fontFamily: 'daxline-medium' }}>
+                  FECHAR CONTA
+                </Text>
+              </TouchableOpacity>
+            }
           </View>
         </View>
         <Modal

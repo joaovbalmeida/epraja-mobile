@@ -41,9 +41,23 @@ class RequestScreen extends React.Component {
     return this.keyCount += 1;
   }
 
+  getItemStatusesName(id) {
+    const result = this.props.itemStatuses.filter(i => i.id === id);
+
+    return result.length ? result[0].name : {};
+  }
+
   mountData(json) {
     let price = 0;
-    const billItems = json.menuItems.filter(billItem => billItem.itemStatus.match(this.props.itemStatuses.find(item => item.name === 'Encaminhado').id));
+    const billItems = json.menuItems.filter(billItem => {
+      return (
+        !billItem.canceled
+        &&
+        (this.getItemStatusesName(billItem.itemStatus) === 'Encaminhado'
+        ||
+        this.getItemStatusesName(billItem.itemStatus) === 'Pendente')
+      );
+    });
     const newItems = [];
     billItems.forEach((arrayItem) => {
       const newItem = arrayItem;
