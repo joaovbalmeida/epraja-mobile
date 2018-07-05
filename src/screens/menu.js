@@ -9,6 +9,7 @@ import FoodItem from '../components/fooditem';
 import DrinkItem from '../components/drinkitem';
 import { fetchMenuItems, updateModal, resetState } from '../store/actions/action.session';
 import OrderStack from '../layouts/order.stack';
+import api from '../api';
 
 class MenuScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -27,6 +28,8 @@ class MenuScreen extends React.Component {
     this.state = {
       data: this.props.items,
       category: 'é pra Comer e Beber',
+      refreshing: false,
+      refetched: 0,
     };
   }
 
@@ -213,10 +216,23 @@ class MenuScreen extends React.Component {
         </View>
         <FlatList
           style={styles.flatlist}
-          data={this.state.data}
+          data={[...this.state.data]}
           renderItem={({ item }) => this.renderItem(item, navigate)}
           keyExtractor={item => item._id}
-          onEndReachedThreshold={50}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (this.state.data.length > 99) {
+              this.setState({ refreshing: true , refetched: this.state.refetched+1 });
+              api.menuItems.find({ query: { skip: this.state.refetched * 100 } })
+                .then((json) => {
+                  this.setState({
+                    data: [...this.state.data, ...json.data],
+                    refreshing: false,
+                  })
+                }, () => this.setState({ refreshing: false }));
+            }
+          }}
+          refreshing={this.state.refreshing}
         />
         <Modal
           animationType="slide"
