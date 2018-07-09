@@ -138,7 +138,6 @@ class BillScreen extends React.Component {
             remainingOrders = true;
           }
         });
-        console.log(remainingOrders);
         this.setState({ remainingOrders });
         this.mountData(json);
       })
@@ -476,14 +475,14 @@ const styles = StyleSheet.create({
     height: '60%',
   },
   firstText: {
-    height: '10%',
+    height: 40,
     width: '100%',
-    paddingTop: 10,
+    paddingTop: 5,
     paddingHorizontal: 30,
     fontFamily: 'daxline-regular',
     textAlign: 'left',
-    lineHeight: 18,
-    fontSize: 17,
+    lineHeight: 16,
+    fontSize: 15,
   },
   listContainer: {
     flex: 0,

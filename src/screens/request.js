@@ -291,12 +291,12 @@ const styles = StyleSheet.create({
     height: '45%',
   },
   firstText: {
-    height: '10%',
+    height: 50,
     paddingTop: 10,
     paddingHorizontal: 30,
     fontFamily: 'daxline-regular',
-    lineHeight: 18,
-    fontSize: 17,
+    lineHeight: 16,
+    fontSize: 15,
   },
   name: {
     paddingLeft: 10,
